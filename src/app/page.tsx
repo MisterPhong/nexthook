@@ -1,15 +1,12 @@
 'use client'
+import { CssBaseline, TextField, Button, Stack, Card, Typography, Checkbox, FormControlLabel } from "@mui/material";
 
-import Grid from "@mui/material/Grid";
-import { CssBaseline, TextField, Button, Stack, Card, Typography, Checkbox, FormControlLabel, ThemeProvider } from "@mui/material";
-import Image from "next/image";
-import { createTheme } from "@mui/material/styles";
-import { useForm, SubmitHandler } from "react-hook-form";
-import axios from "axios"
+import { useForm } from "react-hook-form";
+
 import { httpClient } from "./_components/services/httpClient";
 
 export default function Home() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: {  } } = useForm();
 
   return (
     <>
