@@ -5,7 +5,7 @@ const NETWORK_CONNECTION_MESSAGE = 'Cannot connect to server, Please try again.'
 const NOT_CONNECT_NETWORK = 'NOT_CONNECT_NETWORK'
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//
 
-const apiUrl = 'https://9b51-49-228-179-200.ngrok-free.app/api/'
+const apiUrl:any  = process.env.NEXT_PUBLIC_API_URL
 
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(async (config: any) => {
