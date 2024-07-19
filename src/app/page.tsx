@@ -10,7 +10,7 @@ export default function WithNavbar() {
   return (
     <>
       <CssBaseline />
-     
+      hello world
       <Container>
         {/* Your content goes here */}
       </Container>
