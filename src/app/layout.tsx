@@ -3,6 +3,7 @@ import "./globals.css";
 import theme from "./_components/theme/theme";
 import { ThemeProvider } from "@mui/material";
 import QueryProvider from "./_components/utility/QueryProvider";
+import StoreProvider from "./_components/utility/StoreProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,11 +20,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main>
-          <QueryProvider>
-            <ThemeProvider theme={theme}>
-              {children}
-            </ThemeProvider>
-          </QueryProvider>
+          <StoreProvider>
+            <QueryProvider>
+              <ThemeProvider theme={theme}>
+                {children}
+              </ThemeProvider>
+            </QueryProvider>
+          </StoreProvider>
         </main>
       </body>
     </html>
