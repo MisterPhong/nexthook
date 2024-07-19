@@ -10,9 +10,6 @@ type Props = {
 }
 
 export default function CoinInfo({ }: Props) {
-    console.log('hello world')
-    const predictReducer = useSelector(predictSelector)
-    console.log(predictReducer.load)
     return (
         <Box>
             {symbol.map((item) => (
@@ -34,7 +31,6 @@ export default function CoinInfo({ }: Props) {
 
 function CoinPrice({ symbol }: { symbol: string }) {
     const { data, load } = useCoins(symbol)
-    const predictReducer = useSelector(predictSelector)
 
     return (
         <Box className={`${!load ? "mt-5":"mt-[-1px]"}`}>

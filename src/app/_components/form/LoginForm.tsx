@@ -1,32 +1,47 @@
-import { Stack, Typography, TextField, FormControlLabel, Checkbox, Button } from '@mui/material'
-import { register } from 'module'
+'use client'
+import { Stack, Typography, TextField, FormControlLabel, Checkbox } from '@mui/material'
 import React from 'react'
-import theme from '../theme/theme'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
+import { handleSignin } from '@/app/_actions/login-action'
+import { Login } from '@/app/common/types/login.type'
+import { redirect } from 'next/navigation'
+import { CustomButton } from '../share/CustomButton'
+import { useAppDispatch } from '@/app/common/store/store'
+import { setEmail } from '@/app/common/store/slices/emailSlice'
 
 type Props = {}
 
 export default function LoginForm({ }: Props) {
+    const dispatch = useAppDispatch()
     const {
         register,
         handleSubmit,
-        formState: { errors }
-    } = useForm()
+        formState: { errors },
+    } = useForm<Login>({
+        defaultValues: {
+            username: 'user1211',
+            password: 'test1234'
+        }
+    })
 
-    const action: () => void = handleSubmit(async (data) => {
-        // const response = await handleSignin(data)
-        // setStatus(response.statusCode)
-        // redirect('/signin/otp')
+    const action: () => void = handleSubmit(async (data: Login) => {
+        const { email } = await handleSignin({
+            username: data.username,
+            password: data.password,
+        })
+        if (email) {
+            console.log(email)
+            dispatch(setEmail(email))
+            redirect('/otp')
+        }
     })
 
     return (
         <Stack
             spacing={3}
             component={'form'}
-            // onSubmit={handleSubmit(onSubmit)}
             action={action}
-
         >
             <Typography variant="h3" className="text-center">LOGIN</Typography>
             <TextField
@@ -55,14 +70,14 @@ export default function LoginForm({ }: Props) {
                 }}
                 {...register('password', { required: true })}
             />
-            {loginError && (
+            {/* {loginError && (
                 <Typography variant="body2" color="error">
                     Incorrect username or password.
                 </Typography>
-            )}
+            )} */}
             <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
 
-            <Button
+            {/* <Button
                 variant="contained"
                 sx={{
                     backgroundColor: theme.palette.primary.main,
@@ -75,7 +90,9 @@ export default function LoginForm({ }: Props) {
                 type="submit"
             >
                 LOGIN
-            </Button>
+            </Button> */}
+            <CustomButton label='Login' />
+
             <Link href="/signUp">Create Account</Link>
         </Stack>
     )

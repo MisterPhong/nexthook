@@ -1,43 +1,43 @@
 'use client'
-import React from 'react';
-import { MuiOtpInput } from 'mui-one-time-password-input';
-import { Typography } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
+import { emailSelector } from '@/app/common/store/slices/emailSlice'
+import { useState } from 'react'
+import { useSendOtp } from '@/app/common/hooks/useSendOpt'
+// import { useMutation } from '@tanstack/react-query'
 
-const Page = () => {
-  const [otp, setOtp] = React.useState('');
-  const [isOtpComplete, setIsOtpComplete] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
-  const [isError, setIsError] = React.useState(false); // State to track error status
-  const router = useRouter(); // Use useRouter for navigation
+export default function Otp() {
+  const [otp, setOtp] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter() // Use useRouter for navigation
+  const emailReducer = useSelector(emailSelector)
+  const mockOtpValue = '1234' // Mock OTP value
+  const { mutate, isLoading, isSuccess, error } = useSendOtp()
 
-  const mockOtpValue = '1234'; // Mock OTP value
-
-  const handleChange = (newValue: any) => {
-    setOtp(newValue);
-    setErrorMessage(''); // Clear any previous error messages
-    setIsOtpComplete(false); // Reset OTP completion status
-    setIsError(false); // Reset error status
+  const handleChange = (newValue: string) => {
+    setOtp(newValue)
 
     if (newValue.length === 4) {
       if (newValue === mockOtpValue) {
-        console.log('Submitting OTP:', newValue);
-        setIsOtpComplete(true);
-        router.push('/form_api'); // ยิงไปฟอร์มapi ถ้าถูก
-      } else {
-        setErrorMessage('Incorrect OTP. Please try again.');
-        setIsError(true); // อยู่นี่ ถ้าผิด
+        console.log('Submitting OTP:', newValue)
       }
     }
-  };
+  }
+
+  if (emailReducer.load) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <h1>Loading...</h1>
+      </div>
+    )
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <MuiOtpInput value={otp} onChange={handleChange} TextFieldsProps={{ error: isError }} /> {/* Apply error prop */}
-      {errorMessage && <Typography color="error" style={{ marginTop: '20px' }}>{errorMessage}</Typography>}
-      {isOtpComplete && <Typography color="primary" style={{ marginTop: '20px' }}>OTP Verified Successfully!</Typography>}
+      <h1>{emailReducer.email!.slice(0, 2) + '******' + emailReducer.email!.slice(emailReducer.email!.indexOf('@'))}</h1>
+      <MuiOtpInput value={otp} onChange={handleChange} TextFieldsProps={{ error: isError }} /> Apply error prop
+      {/* {errorMessage && <Typography color="error" style={{ marginTop: '20px' }}>{errorMessage}</Typography>} */}
+      {/* {isOtpComplete && <Typography color="primary" style={{ marginTop: '20px' }}>OTP Verified Successfully!</Typography>} */}
     </div>
-  );
-};
-
-export default Page;
+  )
+}
