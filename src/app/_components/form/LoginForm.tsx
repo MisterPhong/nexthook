@@ -26,16 +26,17 @@ export default function LoginForm({ }: Props) {
     const dipatch = useAppDispatch()
     const { mutate, isLoading, isSuccess, error } = useMutation<Email, ErrorResponse, Login>(
         async ({ username, password }) => await login(username, password),
- {
-        onError: (error) => {
-            console.error("Error occurred:", error)
-        },
-        onSuccess: (data) => {
-            console.log("Login Success:", data.email)
-            dipatch(setEmail(data.email))
-            router.push('/otp')
+        {
+            onError: (error) => {
+                console.error("Error occurred:", error)
+            },
+            onSuccess: (data) => {
+                console.log("Login Success:", data.email)
+                dipatch(setEmail(data.email))
+                router.push('/otp')
+            }
         }
-    })
+    )
 
     const {
         register,
