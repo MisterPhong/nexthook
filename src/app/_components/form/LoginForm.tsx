@@ -1,19 +1,42 @@
 'use client'
-import { Stack, Typography, TextField, FormControlLabel, Checkbox } from '@mui/material'
+import { Stack, Typography, TextField, FormControlLabel, Checkbox, Button } from '@mui/material'
 import React from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { handleSignin } from '@/app/_actions/login-action'
 import { Login } from '@/app/common/types/login.type'
-import { redirect } from 'next/navigation'
-import { CustomButton } from '../share/CustomButton'
+import theme from '../theme/theme'
+import { redirect, useRouter } from "next/navigation"
+import { server } from '@/app/common/constant/server'
+import { Email } from '@/app/common/types/auth.type'
+import { useMutation } from 'react-query'
+import { ErrorResponse } from 'react-router-dom'
+import { httpClient } from '../services/httpClient'
 import { useAppDispatch } from '@/app/common/store/store'
 import { setEmail } from '@/app/common/store/slices/emailSlice'
 
 type Props = {}
 
+async function login(username: string, password: string): Promise<Email> {
+    const response = await httpClient.post(server.login, { username, password })
+    return response.data
+}
+
 export default function LoginForm({ }: Props) {
-    const dispatch = useAppDispatch()
+    const router = useRouter()
+    const dipatch = useAppDispatch()
+    const { mutate, isLoading, isSuccess, error } = useMutation<Email, ErrorResponse, Login>(
+        async ({ username, password }) => await login(username, password),
+ {
+        onError: (error) => {
+            console.error("Error occurred:", error)
+        },
+        onSuccess: (data) => {
+            console.log("Login Success:", data.email)
+            dipatch(setEmail(data.email))
+            router.push('/otp')
+        }
+    })
+
     const {
         register,
         handleSubmit,
@@ -25,23 +48,16 @@ export default function LoginForm({ }: Props) {
         }
     })
 
-    const action: () => void = handleSubmit(async (data: Login) => {
-        const { email } = await handleSignin({
-            username: data.username,
-            password: data.password,
-        })
-        if (email) {
-            console.log(email)
-            dispatch(setEmail(email))
-            redirect('/otp')
-        }
-    })
-
     return (
         <Stack
             spacing={3}
             component={'form'}
-            action={action}
+            onSubmit={handleSubmit((data) => {
+                mutate(data)
+                if (isSuccess) {
+                    redirect('/otp')
+                }
+            })}
         >
             <Typography variant="h3" className="text-center">LOGIN</Typography>
             <TextField
@@ -77,7 +93,8 @@ export default function LoginForm({ }: Props) {
             )} */}
             <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
 
-            {/* <Button
+            <Button
+                disabled={isLoading}
                 variant="contained"
                 sx={{
                     backgroundColor: theme.palette.primary.main,
@@ -90,8 +107,7 @@ export default function LoginForm({ }: Props) {
                 type="submit"
             >
                 LOGIN
-            </Button> */}
-            <CustomButton label='Login' />
+            </Button>
 
             <Link href="/signUp">Create Account</Link>
         </Stack>
