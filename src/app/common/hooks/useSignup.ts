@@ -24,16 +24,13 @@ async function signup(payload: Signup): Promise<Email> {
 }
 
 export function useSignup() {
-    const dipatch = useAppDispatch()
+    const dispatch = useAppDispatch()
 
     return useMutation<Email, ErrorResponse, Signup>(
         async (payload) => await signup(payload),
         {
-            onError: (err) => {
-                // console.log(err)
-            },
             onSuccess: (data) => {
-                dipatch(setEmail(data.email))
+                dispatch(setEmail(data.email))
             }
         }
     )

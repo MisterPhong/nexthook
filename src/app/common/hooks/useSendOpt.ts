@@ -4,6 +4,8 @@ import { useMutation } from 'react-query'
 import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import { Otp } from '../types/otp.type'
 import axios from 'axios'
+import { useAppDispatch } from '../store/store'
+import { setStatus } from '../store/slices/authSlice'
 
 async function postOtp(otp: number): Promise<Otp> {
     try {
@@ -22,15 +24,12 @@ async function postOtp(otp: number): Promise<Otp> {
 }
 
 export function useSendOtp() {
+    const dispatch = useAppDispatch()
+
     return useMutation<Otp, ErrorResponse, number>(
         async (payload) => await postOtp(payload), {
-    //     onError: (error: ErrorResponse) => {
-    //         // จัดการข้อผิดพลาดที่นี่
-    //         console.error('Error occurred:', error)
-    //     },
-    //     onSuccess: (data: Otp) => {
-    //         // จัดการผลลัพธ์ที่ได้จากการร้องขอที่สำเร็จที่นี่
-    //         console.log('Success:', data)
-    //     }
+        onSuccess: () => {
+            dispatch(setStatus(true))
+        }
     })
 }

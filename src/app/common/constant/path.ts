@@ -2,5 +2,6 @@ export const routers = {
     root: '/',
     predict: 'app/predict',
     otp: '/otp',
-    login: '/login'
+    login: '/login',
+    signup: '/signup',
 }

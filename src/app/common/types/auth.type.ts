@@ -5,7 +5,7 @@ export const AuthSchema = z.object({
     "message": z.string(),
     "statusCode": z.number(),
 })
-export type Auth = z.infer<typeof AuthSchema>
+export type OK = z.infer<typeof AuthSchema>
 
 export const EmailSchema = z.object({
     "email": z.string(),

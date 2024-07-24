@@ -1,29 +1,29 @@
-import { Box, Button } from '@mui/material'
+'use client'
+
+import { Box, Button, ButtonPropsVariantOverrides } from '@mui/material'
 import { useFormStatus } from 'react-dom'
-import theme from '../theme/theme'
+import Link from 'next/link'
+import { routers } from '@/app/common/constant/path'
+import { OverridableStringUnion } from '@mui/types';
 
 type Props = {
-  label: string
+  label: string,
+  variant?: OverridableStringUnion<"text" | "contained" | "outlined", ButtonPropsVariantOverrides> | undefined
 }
 
-export function CustomButton({ label }: Props) {
+export function CustomButton({
+  label,
+  variant,
+}: Props) {
   const { pending } = useFormStatus()
 
   return (
     <Button
-      variant='contained'
-      type='submit'
-      disabled={pending}
-      sx={{
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.primary.contrastText,
-        borderRadius: '10px',
-        '&:hover': {
-          backgroundColor: theme.palette.primary.dark,
-        },
-      }}
+      variant={variant}
+      LinkComponent={Link}
+      href={routers.login}
     >
-      {pending ? <Box className="spinner"></Box> : label}
+      {label}
     </Button>
   )
 }
