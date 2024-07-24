@@ -1,8 +1,7 @@
 import { useMutation } from 'react-query'
 import { ErrorResponse } from 'react-router-dom'
 import { setEmail } from '../store/slices/emailSlice'
-import { Email } from '../types/auth.type'
-import { Login } from '../types/login.type'
+import { Email, Login } from '../types/auth.type'
 import { httpClient } from '@/app/_components/services/httpClient'
 import { server } from '../constant/server'
 import { useAppDispatch } from '../store/store'
@@ -21,6 +20,6 @@ export function useLogin() {
             onSuccess: (data) => {
                 dipatch(setEmail(data.email))
             }
-        }
+        },
     )
 }

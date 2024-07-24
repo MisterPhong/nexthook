@@ -11,25 +11,37 @@ import {
 import React from 'react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
-import { Login } from '@/app/common/types/login.type'
 import theme from '../theme/theme'
-import { useRouter } from 'next/navigation'
 import { useLogin } from '@/app/common/hooks/useLogin'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Login, LoginSchema } from '@/app/common/types/auth.type'
+import { useRouter } from 'next/navigation'
 
 type Props = {}
 
+// Initial Values
+const initialValue: Login = {
+    username: 'user1211',
+    password: 'test1234'
+}
+
 export default function LoginForm({ }: Props) {
-    const { mutate, isLoading, isSuccess, isError, error } = useLogin()
+    const router = useRouter()
+    const {
+        mutate,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useLogin()
 
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<Login>({
-        defaultValues: {
-            username: 'user1211',
-            password: 'test1234'
-        }
+        defaultValues: initialValue,
+        resolver: zodResolver(LoginSchema)
     })
 
     return (
@@ -39,7 +51,7 @@ export default function LoginForm({ }: Props) {
             onSubmit={handleSubmit((data) => {
                 mutate(data, {
                     onSuccess: () => {
-                        // router.push('/otp')
+                        router.push('/otp')
                     }
                 })
             })}
@@ -49,8 +61,9 @@ export default function LoginForm({ }: Props) {
                 id='text1'
                 label='Username'
                 variant='outlined'
+                type=''
                 error={isError}
-                helperText={errors.username && 'Username is required' }
+                helperText={errors.username && 'Username is required'}
                 sx={{
                     '& .MuiInputBase-root': {
                         borderRadius: '10px 10px 10px 10px',
@@ -94,7 +107,7 @@ export default function LoginForm({ }: Props) {
                 LOGIN
             </Button>
 
-            <Link href='/signUp'>Create Account</Link>
+            <Link href='/signup'>Create Account</Link>
         </Stack>
     )
 }

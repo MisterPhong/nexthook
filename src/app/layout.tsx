@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import theme from "./_components/theme/theme";
 import { ThemeProvider } from "@mui/material";
-import QueryProvider from "./_components/utility/QueryProvider";
-import StoreProvider from "./_components/utility/StoreProvider";
+import QueryProvider from "./_components/utilities/QueryProvider";
+import StoreProvider from "./_components/utilities/StoreProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",

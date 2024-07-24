@@ -1,5 +1,6 @@
 'use client'
 
+import { useSendOtp } from '@/app/common/hooks/useSendOpt'
 import { emailSelector } from '@/app/common/store/slices/emailSlice'
 import { Box } from '@mui/material'
 import { MuiOtpInput } from 'mui-one-time-password-input'
@@ -11,12 +12,18 @@ type Props = {}
 export default function OtpForm({ }: Props) {
     const [otp, setOtp] = useState('')
     const emailReducer = useSelector(emailSelector)
-    // const { mutate, isLoading, isSuccess, isError, error } = useSendOtp()
-    
+    const {
+        mutate,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useSendOtp()
+
     const handleChange = async (newValue: string) => {
         setOtp(newValue)
         if (newValue.length === 4) {
-
+            mutate(+otp)
         }
     }
 
@@ -30,11 +37,11 @@ export default function OtpForm({ }: Props) {
 
     return (
         <Box>
-            <h1>{emailReducer.email!.slice(0, 2) + '******' + emailReducer.email!.slice(emailReducer.email!.indexOf('@'))}</h1>
+            <h1 className='flex justify-center'>{emailReducer.email!.slice(0, 2) + '******' + emailReducer.email!.slice(emailReducer.email!.indexOf('@'))}</h1>
             <MuiOtpInput
                 value={otp}
                 onChange={handleChange}
-                TextFieldsProps={{ error: true }}
+                TextFieldsProps={{ error: isError }}
             />
         </Box>
     )
