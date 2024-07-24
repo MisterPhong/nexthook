@@ -17,6 +17,7 @@ import { Signup, SignupSchema } from '@/app/common/types/auth.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 import AlertLabel from '../share/AlertLabel'
 import { useRouter } from 'next/navigation'
+import { routers } from '@/app/common/constant/path'
 
 type Props = {}
 
@@ -54,7 +55,7 @@ export default function SignupForm({ }: Props) {
                     email: data.email
                 }, {
                     onSuccess: () => {
-                        router.push('/otp')
+                        router.push(routers.otp)
                     }
                 })
             })}

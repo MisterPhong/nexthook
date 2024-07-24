@@ -16,6 +16,7 @@ import { useLogin } from '@/app/common/hooks/useLogin'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Login, LoginSchema } from '@/app/common/types/auth.type'
 import { useRouter } from 'next/navigation'
+import { routers } from '@/app/common/constant/path'
 
 type Props = {}
 
@@ -51,7 +52,7 @@ export default function LoginForm({ }: Props) {
             onSubmit={handleSubmit((data) => {
                 mutate(data, {
                     onSuccess: () => {
-                        router.push('/otp')
+                        router.push(routers.otp)
                     }
                 })
             })}

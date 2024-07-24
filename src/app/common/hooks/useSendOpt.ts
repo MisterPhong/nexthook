@@ -7,7 +7,7 @@ import axios from 'axios'
 
 async function postOtp(otp: number): Promise<Otp> {
     try {
-        const response = await httpClient.post<Otp>(server.otp, { otp })
+        const response = await httpClient.post<Otp>(server.otp, { otp: otp })
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -24,13 +24,13 @@ async function postOtp(otp: number): Promise<Otp> {
 export function useSendOtp() {
     return useMutation<Otp, ErrorResponse, number>(
         async (payload) => await postOtp(payload), {
-        onError: (error: ErrorResponse) => {
-            // จัดการข้อผิดพลาดที่นี่
-            console.error('Error occurred:', error)
-        },
-        onSuccess: (data: Otp) => {
-            // จัดการผลลัพธ์ที่ได้จากการร้องขอที่สำเร็จที่นี่
-            console.log('Success:', data)
-        }
+    //     onError: (error: ErrorResponse) => {
+    //         // จัดการข้อผิดพลาดที่นี่
+    //         console.error('Error occurred:', error)
+    //     },
+    //     onSuccess: (data: Otp) => {
+    //         // จัดการผลลัพธ์ที่ได้จากการร้องขอที่สำเร็จที่นี่
+    //         console.log('Success:', data)
+    //     }
     })
 }
