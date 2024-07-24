@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
-import CoinInfo from '@/app/_components/share/CoinInfo'
+import CoinInfo from '@/app/_components/modules/CoinInfo'
 import { cookieKey } from '@/app/common/constant/cookie'
 import { cookies } from 'next/headers'
 

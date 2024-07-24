@@ -3,7 +3,17 @@
 import { routers } from '@/app/common/constant/path'
 import { useLogout } from '@/app/common/hooks/useLogout'
 import { authSelector } from '@/app/common/store/slices/authSlice'
-import { Avatar, Box, Button, IconButton, Menu, MenuItem, Skeleton, Tooltip, Typography } from '@mui/material'
+import {
+    Avatar,
+    Box,
+    Button,
+    IconButton,
+    Menu,
+    MenuItem,
+    Skeleton,
+    Tooltip,
+    Typography
+} from '@mui/material'
 import Link from 'next/link'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -39,7 +49,7 @@ export function ButtonLogin({ }: Props) {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title='Open settings'>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                                <Avatar />
                             </IconButton>
                         </Tooltip>
                         <Menu

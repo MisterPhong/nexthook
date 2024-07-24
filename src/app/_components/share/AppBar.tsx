@@ -6,7 +6,7 @@ import {
   Stack,
   Box
 } from '@mui/material'
-import { ButtonLogin } from './ButtonLogin'
+import { ButtonLogin } from '../modules/ButtonLogin'
 
 type Props = {}
 
