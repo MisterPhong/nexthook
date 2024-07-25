@@ -7,6 +7,9 @@ import { cookieKey } from './app/common/constant/cookie'
 export function middleware(request: NextRequest) {
     const url = request.nextUrl.clone()
 
+    // const requestHeader = new Headers(request.headers)
+    // requestHeader.set('')
+
     // Check if the user is visiting the root path
     if (url.pathname === routers.root) {
         url.pathname = routers.predict
@@ -15,9 +18,17 @@ export function middleware(request: NextRequest) {
 
     // Check if the user is visiting the /otp path
     if (url.pathname === routers.otp) {
-        const userId = request.cookies.get(cookieKey.userId)
+        const userId = request.cookies.get(cookieKey.userId)?.value
         if (!userId) {
             url.pathname = routers.login // Redirect to login page or any other page
+            return NextResponse.redirect(url)
+        }
+    }
+
+    if (url.pathname === routers.login || url.pathname === routers.signup) {
+        const accessToken = request.cookies.get(cookieKey.accessToken)?.value
+        if (accessToken) {
+            url.pathname = routers.predict // Redirect to login page or any other page
             return NextResponse.redirect(url)
         }
     }

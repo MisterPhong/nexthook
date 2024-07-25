@@ -2,21 +2,12 @@
 
 import { symbol } from '@/app/common/constant/symbols'
 import { useCoins } from '@/app/common/hooks/useCoins'
-import { setStatus } from '@/app/common/store/slices/authSlice'
-import { useAppDispatch } from '@/app/common/store/store'
 import { Box, Skeleton, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import React from 'react'
 
-type Props = {
-    accessToken: string | undefined
-}
+type Props = {}
 
-export default function CoinInfo({ accessToken }: Props) {
-    const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        dispatch(setStatus(accessToken ? true : false))
-    }, [accessToken])
+export default function CoinInfo({ }: Props) {
 
     return (
         <Box>

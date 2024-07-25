@@ -1,11 +1,10 @@
-import { httpClient } from '@/app/_components/services/httpClient'
+import { httpClient } from '@/app/common/services/httpClient'
 import { server } from '../constant/server'
 import { useMutation } from 'react-query'
 import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import { Otp } from '../types/otp.type'
 import axios from 'axios'
 import { useAppDispatch } from '../store/store'
-import { setStatus } from '../store/slices/authSlice'
 
 async function postOtp(otp: number): Promise<Otp> {
     try {
@@ -29,7 +28,6 @@ export function useSendOtp() {
     return useMutation<Otp, ErrorResponse, number>(
         async (payload) => await postOtp(payload), {
         onSuccess: () => {
-            dispatch(setStatus(true))
-        }
+        },
     })
 }

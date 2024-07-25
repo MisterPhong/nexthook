@@ -1,6 +1,6 @@
 import { useMutation } from 'react-query'
 import { Email, Signup } from '../types/auth.type'
-import { httpClient } from '@/app/_components/services/httpClient'
+import { httpClient } from '@/app/common/services/httpClient'
 import { server } from '../constant/server'
 import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import axios from 'axios'

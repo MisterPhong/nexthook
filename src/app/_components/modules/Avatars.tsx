@@ -2,7 +2,8 @@
 
 import { routers } from '@/app/common/constant/path'
 import { useLogout } from '@/app/common/hooks/useLogout'
-import { authSelector } from '@/app/common/store/slices/authSlice'
+import { useProfile } from '@/app/common/hooks/useProfile'
+import { profileSelector } from '@/app/common/store/slices/profileSlice'
 import {
     Avatar,
     Box,
@@ -22,10 +23,11 @@ type Props = {}
 
 const settings = ['Profile', 'Account', 'Logout']
 
-export function ButtonLogin({ }: Props) {
+export function Avatars({ }: Props) {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
-    const authReducer = useSelector(authSelector)
     const { mutate } = useLogout()
+    const { isLoading } = useProfile()
+    const profileReducer = useSelector(profileSelector)
 
     const handleCloseUserMenu = () => setAnchorElUser(null)
 
@@ -40,12 +42,12 @@ export function ButtonLogin({ }: Props) {
 
     return (
         <>
-            {authReducer.load ? (
+            {isLoading ? (
                 <Skeleton variant='circular'>
                     <Avatar />
                 </Skeleton>
             ) : (
-                authReducer.status ? (
+                profileReducer.result ? (
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title='Open settings'>
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

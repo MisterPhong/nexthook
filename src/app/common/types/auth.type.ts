@@ -29,3 +29,10 @@ export const LoginSchema = z.object({
     "password": z.string(),
 })
 export type Login = z.infer<typeof LoginSchema>
+
+export const ProfileSchema = z.object({
+    "userId": z.string(),
+    "username": z.string(),
+    "email": z.string(),
+});
+export type Profile = z.infer<typeof ProfileSchema>;

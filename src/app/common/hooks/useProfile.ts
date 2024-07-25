@@ -1,15 +1,15 @@
 import { httpClient } from "@/app/common/services/httpClient"
 import axios from "axios"
 import { server } from "../constant/server"
-import { OK } from "../types/auth.type"
+import { Profile } from "../types/auth.type"
 import { ErrorResponse, ErrorResponseSchema } from "../types/error.type"
-import { useMutation } from "react-query"
+import { useQuery } from "react-query"
 import { useAppDispatch } from "../store/store"
-import { setLogout } from "../store/slices/profileSlice"
+import { setProfile } from "../store/slices/profileSlice"
 
-async function logout(): Promise<OK> {
+async function profile(): Promise<Profile> {
     try {
-        const response = await httpClient.post(server.logout, {})
+        const response = await httpClient.get<Profile>(server.profile, {})
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -23,15 +23,13 @@ async function logout(): Promise<OK> {
     }
 }
 
-export function useLogout() {
+export function useProfile() {
     const dispatch = useAppDispatch()
 
-    return useMutation<OK, ErrorResponse, void>(
-        async () => await logout(),
-        {
-            onSuccess: () => {
-                dispatch(setLogout())
-            }
+    return useQuery<Profile, ErrorResponse>('profile', profile, {
+        retry: false,
+        onSuccess: (data) => {
+            dispatch(setProfile(data))
         }
-    )
+    })
 }

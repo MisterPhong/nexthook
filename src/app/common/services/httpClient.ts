@@ -1,11 +1,13 @@
 import axios from 'axios'
 import join from 'url-join'
+import Cookies from 'js-cookie'
+import { cookieKey } from '../constant/cookie'
 
 const NETWORK_CONNECTION_MESSAGE = 'Cannot connect to server, Please try again.'
 const NOT_CONNECT_NETWORK = 'NOT_CONNECT_NETWORK'
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//
 
-const apiUrl:any  = process.env.NEXT_PUBLIC_API_URL
+const apiUrl: any = process.env.NEXT_PUBLIC_API_URL
 
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(async (config: any) => {
@@ -28,22 +30,27 @@ axios.interceptors.request.use((res) => { return res }, (error) => {
     return Promise.reject(error)
 })
 
-axios.interceptors.response.use((response) => response, async (error) => {
-    const originalRequest = error.config
+axios.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config
+        const refreshToken = Cookies.get(cookieKey.refreshToken)
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true
+        if (refreshToken && error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true
 
-        try {
-            await axios.post('auth/refresh/local')
+            try {
+                await axios.post('auth/refresh/local')
 
-            // Retry the original request with the new token
-            return axios(originalRequest)
-        } catch (error) {
-            // Handle refresh token error or redirect to login
+                // Retry the original request with the new token
+                return axios(originalRequest)
+            } catch (refreshError) {
+                // Handle refresh token error or redirect to login
+                return Promise.reject(refreshError)
+            }
         }
+        return Promise.reject(error)
     }
-    return Promise.reject(error)
-})
+)
 
 export const httpClient = axios

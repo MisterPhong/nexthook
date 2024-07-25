@@ -2,15 +2,13 @@ import {
   AppBar as AppBars,
   Toolbar,
   Typography,
-  Button,
   Stack,
   Box
 } from '@mui/material'
-import { ButtonLogin } from '../modules/ButtonLogin'
+import { Avatars } from '../modules/Avatars'
+import Menus from '../modules/Menus'
 
 type Props = {}
-
-const pages = ['Products', 'Pricing', 'Blog']
 
 export default function AppBar({ }: Props) {
   return (
@@ -21,18 +19,11 @@ export default function AppBar({ }: Props) {
             Landing Page
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                sx={{ my: 2, display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Menus />
           </Box>
         </Box>
         <Stack spacing={2} direction='row'>
-          <ButtonLogin />
+          <Avatars />
         </Stack>
       </Toolbar>
     </AppBars>

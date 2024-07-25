@@ -5,4 +5,5 @@ export const server = {
     signup: 'auth/signup/local',
     otp: 'auth/confirm/otp',
     logout: 'auth/logout',
+    profile: 'auth/profile',
 }

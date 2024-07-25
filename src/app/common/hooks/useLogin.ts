@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query'
 import { setEmail } from '../store/slices/emailSlice'
 import { Email, Login } from '../types/auth.type'
-import { httpClient } from '@/app/_components/services/httpClient'
+import { httpClient } from '@/app/common/services/httpClient'
 import { server } from '../constant/server'
 import { useAppDispatch } from '../store/store'
 import axios from 'axios'

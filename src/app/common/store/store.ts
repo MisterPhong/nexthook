@@ -2,12 +2,12 @@ import { configureStore } from "@reduxjs/toolkit"
 import { useDispatch } from "react-redux"
 import predictReducer from "./slices/predictSlice"
 import emailReducer from './slices/emailSlice'
-import authReducer from './slices/authSlice'
+import profileReducer from './slices/profileSlice'
 
 const reducer = {
   predictReducer,
   emailReducer,
-  authReducer,
+  profileReducer
 }
 
 export const store = configureStore({
