@@ -6,4 +6,6 @@ export const server = {
     otp: 'auth/confirm/otp',
     logout: 'auth/logout',
     profile: 'auth/profile',
+    order: 'orders/create',
+    query_order: 'orders/query',
 }
