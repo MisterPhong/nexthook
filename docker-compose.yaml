@@ -1,6 +1,31 @@
-version: '3.9'
+version: '4'
 
 services:
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - '2181:2181'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    restart: always
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      # dev
+      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      # production
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    restart: always
+
   mongo:
     image: mongo
     restart: always
@@ -9,10 +34,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - '27017:27017'
-    volumes:
-      - ./mongo:/data/db
-    networks:
-      - backend
+    # volumes:
+    #   - ./mongo:/data/db
 
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -23,16 +46,12 @@ services:
       - '15672:15672'
       - '5672:5672'
     restart: always
-    networks:
-      - backend
 
   redis:
     image: redis:latest
     ports:
       - '6379:6379'
     restart: always
-    networks:
-      - backend
 
   postgres:
     image: postgres:latest
@@ -44,119 +63,136 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "4040:5432"
+      - '4040:5432'
     restart: always
-    networks:
-      - backend
 
-  order-service:
-    image: taotoxicboy/go-order-service:0.5.2
-    ports:
-      - "50051:50051"
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB_NAME=mydatabase
-    depends_on:
-      - postgres
-    restart: always
-    networks:
-      - backend
-
-  order-consumer-update:
-    image: taotoxicboy/go-order-consumer-update-service:0.1
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB_NAME=mydatabase
-      - RABBITMQ_URL=amqp://mikelopster:password@rabbitmq:5672
-    depends_on:
-      - postgres
-    restart: always
-    networks:
-      - backend
-
-  order-consumer-tx:
-    image: taotoxicboy/go-order-consumer-tx-service:0.1
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB_NAME=mydatabase
-      - RABBITMQ_URL=amqp://mikelopster:password@rabbitmq:5672
-    depends_on:
-      - postgres
-    restart: always
-    networks:
-      - backend
-
-  gateway-service:
-    image: taotoxicboy/zookeeper-gateway-service:0.1
+  key-service:
+    image: taotoxicboy/zookeeper-key-service:0.1
     # build:
     #   context: .
-    #   dockerfile: ./apps/gateway/Dockerfile
+    #   dockerfile: ./apps/key/Dockerfile
     environment:
-      NODE_ENV: production
-      AT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
-      RT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
-      PORT: 3000
-      AUTH_SERVICE_URL: auth-service:50022
-      CLIENT_URL: http://localhost:3000
-      ORDERS_SERVICE_URL: order-service:50051
-    depends_on:
-      - mongo
-      - redis
-      - rabbitmq
-    networks:
-      - backend
-    ports:
-      - '4000:3000'
-      - '8002:8001'
-
-  auth-service:
-    image: taotoxicboy/zookeeper-auth-service:0.1
-    environment:
-      AT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
-      RT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
-      REDIS_URL: radis
-      REDIS_PORT: 6379
-      RABBIT_MQ_URL: amqp://mikelopster:password@rabbitmq:5672
-      GRPC_URL: 0.0.0.0:50022
+      GRPC_URL: key-service:5005
       MONGODB_URI: mongodb://root:example@mongo:27017/zookeeper?authSource=admin
+      EXCHANGE_SERVICE_URL: exchange:50052
     depends_on:
+      - mongo
       - redis
       - rabbitmq
-      - mongo
-    networks:
-      - backend
+      - zookeeper
     ports:
-    - '50022:50022'
-    restart: always
+      - '5005:5005'
 
-  mail-queue-service:
-    image: taotoxicboy/zookeeper-mail-queue-service:0.1
+  mail-queue:
+    image: taotoxicboy/zookeeper-mail-queue-service:0.2
+    # build:
+    #   context: .
+    #   dockerfile: ./apps/mail-queue/Dockerfile
     environment:
+      RABBIT_MQ_URL: amqp://mikelopster:password@rabbitmq:5672
       USERNAME_EMAIL: themanpoolbot@gmail.com
       PASSWORD_EMAIL: jvpp fujd ecvy pifo
       REDIS_URL: redis
       REDIS_PORT: 6379
-      RABBIT_MQ_URL: amqp://mikelopster:password@rabbitmq:5672
     depends_on:
-      - mongo
-      - redis
+      - zookeeper
+      - kafka
       - rabbitmq
-    networks:
-      - backend
     restart: always
 
-networks:
-  backend:
-    driver: bridge
+  auth-service:
+    image: taotoxicboy/zookeeper-auth-service:0.2
+    # build:
+    #   context: .
+    #   dockerfile: ./apps/auth/Dockerfile
+    environment:
+      GRPC_URL: auth-service:50022
+      RT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
+      AT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
+      REDIS_URL: redis
+      REDIS_PORT: 6379
+      MONGODB_URI: mongodb://root:example@mongo:27017/zookeeper?authSource=admin
+      RABBIT_MQ_URL: amqp://mikelopster:password@rabbitmq:5672
+    ports:
+      - '50022:50022'
+    depends_on:
+      - redis
+      - zookeeper
+      - kafka
+      - rabbitmq
+    restart: always
+
+  exchange:
+    image: taotoxicboy/zookeeper-exchange:0.2
+    # build:
+    #   context: .
+    #   dockerfile: ./apps/exchange/Dockerfile
+    environment:
+      GRPC_URL: exchange:50052
+      KEY_SERVICE_URL: key-service:5005
+      KAFKA_URL: kafka:9092
+    depends_on:
+      - zookeeper
+      - kafka
+    ports:
+      - '50052:50052'
+    restart: always
+
+  gateway:
+      image: taotoxicboy/zookeeper-gateway-service:0.2
+      # build:
+      #   context: .
+      #   dockerfile: ./apps/gateway/Dockerfile
+      environment:
+        NODE_ENV: production
+        RT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
+        AT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
+        PORT: 4040
+        AUTH_SERVICE_URL: auth-service:50022
+        CLIENT_URL: http://localhost:3000
+        KAFKA_URL: kafka:9092
+        EXCHANGE_SERVICE_URL: exchange:50052
+        WEB_SOCKET: 8031
+        RABBITMQ_QUEUE_TX: order_tx_queue
+        RABBITMQ_QUEUE_QUERY: order_query_queue
+        RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+      depends_on:
+        - mongo
+        - redis
+        - rabbitmq
+        - zookeeper
+        - kafka
+      ports:
+        - '4000:4040'
+        - '8031:8031'
+
+  order-tx-consumer:
+    image: taotoxicboy/go-order-consumer-tx-service:0.1.1
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_NAME=mydatabase
+      - RABBITMQ_URL=amqp://mikelopster:password@rabbitmq:5672
+    depends_on:
+      - postgres
+      - rabbitmq
+    restart: always
+  
+  order-query:
+    image: taotoxicboy/go-order-consumer-query-service:0.2
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=myuser
+      - DB_PASSWORD=mypassword
+      - DB_NAME=mydatabase
+      - RABBITMQ_URL=amqp://mikelopster:password@rabbitmq:5672
+    depends_on:
+      - postgres
+      - rabbitmq
+    restart: always
 
 volumes:
   postgres_data:
