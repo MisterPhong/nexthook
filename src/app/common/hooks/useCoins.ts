@@ -1,5 +1,5 @@
 import { Coin } from "../types/coin.type";
-import { useQuery } from 'react-query'
+import { useQuery } from "react-query";
 
 async function fetchCoin(symbol: string): Promise<Coin> {
   return new Promise((resolve, reject) => {
@@ -20,8 +20,5 @@ async function fetchCoin(symbol: string): Promise<Coin> {
 }
 
 export function useCoins(symbol: string) {
-  return useQuery<Coin>(["coin", symbol], () => fetchCoin(symbol), {
-    // staleTime: 1000 * 60, // 1 minute
-    // cacheTime: 1000 * 60 * 5, // 5 minutes
-  });
+  return useQuery<Coin>(["coin", symbol], () => fetchCoin(symbol));
 }
