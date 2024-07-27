@@ -7,7 +7,7 @@ import React from "react";
 
 type Props = {};
 
-export default function CoinInfo({}: Props) {
+export function CoinInfo({}: Props) {
   return (
     <Box>
       {symbol.map((item) => (
@@ -35,7 +35,7 @@ export default function CoinInfo({}: Props) {
   );
 }
 
-function CoinPrice({ symbol }: { symbol: string }) {
+export function CoinPrice({ symbol }: { symbol: string }) {
   const { data, isLoading } = useCoins(symbol);
 
   return (
@@ -43,31 +43,95 @@ function CoinPrice({ symbol }: { symbol: string }) {
       {isLoading ? (
         <Skeleton className="mt-2" animation="wave" height={50} width={120} />
       ) : (
-        <Box>
-          <Typography
-            fontWeight={600}
-            variant="body1"
-            className={`${Number(data?.p) > 0 ? "text-LONG" : "text-SHORT"}`}
-          >
-            $
-            {data?.c.indexOf(".") !== -1 && Number(data?.c.indexOf(".")) >= 4
-              ? Number(data?.c).toFixed(2)
-              : Number(data?.c.indexOf(".")) >= 3
-              ? Number(data?.c).toFixed(3)
-              : Number(data?.c.indexOf(".")) >= 2
-              ? Number(data?.c).toFixed(4)
-              : Number(data?.c.indexOf(".")) >= 1 &&
-                Number(data?.c).toFixed(5)}{" "}
-            USDT
-          </Typography>
-          <Typography
-            fontWeight={600}
-            className={`${Number(data?.p) > 0 ? "text-LONG" : "text-SHORT"}`}
-          >
-            {Number(data?.P) > 0 ? `+${data?.P}%` : `${data?.P}%`}
-          </Typography>
-        </Box>
+        <>
+          <Prices c={data?.c!} p={+data?.p!} />
+          <Percentage p={+data?.P!} />
+        </>
       )}
     </Box>
+  );
+}
+
+export function Prices({ c, p }: { c: string; p: number }) {
+  return (
+    <Typography
+      fontWeight={600}
+      variant="body1"
+      className={`${Number(p) > 0 ? "text-LONG" : "text-SHORT"}`}
+    >
+      $
+      {c.indexOf(".") !== -1 && Number(c.indexOf(".")) >= 4
+        ? Number(c).toFixed(2)
+        : Number(c.indexOf(".")) >= 3
+        ? Number(c).toFixed(3)
+        : Number(c.indexOf(".")) >= 2
+        ? Number(c).toFixed(4)
+        : Number(c.indexOf(".")) >= 1 && Number(c).toFixed(5)}{" "}
+      USDT
+    </Typography>
+  );
+}
+
+export function Percentage({ p }: { p: number }) {
+  return (
+    <Typography
+      fontWeight={600}
+      className={`${Number(p) > 0 ? "text-LONG" : "text-SHORT"}`}
+    >
+      {Number(p) > 0 ? `+${p}%` : `${p}%`}
+    </Typography>
+  );
+}
+
+export function PriceLaning({ symbol }: { symbol: string }) {
+  const { data, isLoading } = useCoins(symbol);
+
+  return (
+    <>
+      {isLoading ? (
+        <Skeleton
+          className="mt-[-1px] ml-5"
+          animation="wave"
+          height={45}
+          width={80}
+        />
+      ) : (
+        <Typography
+          fontWeight={500}
+          className={`${!isLoading && "mt-5"} flex justify-end ${
+            Number(data?.p) > 0 ? "text-LONG" : "text-SHORT"
+          }`}
+          variant="body1"
+        >
+          $
+          {data?.c.indexOf(".") !== -1 && Number(data?.c.indexOf(".")) >= 4
+            ? Number(data?.c).toFixed(2)
+            : Number(data?.c.indexOf(".")) >= 3
+            ? Number(data?.c).toFixed(3)
+            : Number(data?.c.indexOf(".")) >= 2
+            ? Number(data?.c).toFixed(4)
+            : Number(data?.c.indexOf(".")) >= 1 &&
+              Number(data?.c).toFixed(5)}{" "}
+        </Typography>
+      )}
+      {isLoading ? (
+        <Skeleton
+          className="mt-[-1px] ml-5"
+          animation="wave"
+          height={45}
+          width={80}
+        />
+      ) : (
+        <Typography
+          fontWeight={500}
+          className={`${!isLoading && "mt-5"} flex justify-end ${
+            Number(data?.P) > 0 ? "text-LONG" : "text-SHORT"
+          }`}
+          variant="body1"
+        >
+          {Number(data?.P) > 0 ? `+${data?.P}%` : `${data?.P}%`}
+        </Typography>
+      )}
+    </>
   );
 }

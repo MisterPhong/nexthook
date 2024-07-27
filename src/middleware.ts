@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
 
   // Check if the user is visiting the root path
   if (url.pathname === routers.root) {
-    url.pathname = routers.predict;
+    url.pathname = routers.landing;
     return NextResponse.redirect(url);
   }
 
@@ -24,7 +24,7 @@ export function middleware(request: NextRequest) {
   if (url.pathname === routers.login || url.pathname === routers.signup) {
     const accessToken = request.cookies.get(cookieKey.accessToken)?.value;
     if (accessToken) {
-      url.pathname = routers.predict; // Redirect to /app/predict if already logged in
+      url.pathname = routers.landing; // Redirect to /app/predict if already logged in
       return NextResponse.redirect(url);
     }
   }
@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
   if (url.pathname === routers.position) {
     const accessToken = request.cookies.get(cookieKey.accessToken)?.value;
     if (!accessToken) {
-      url.pathname = routers.predict; // Redirect to /app/predict if no access token
+      url.pathname = routers.landing; // Redirect to /app/predict if no access token
       return NextResponse.redirect(url);
     }
   }

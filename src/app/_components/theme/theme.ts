@@ -17,6 +17,9 @@ const theme = createTheme({
     // text: {
     //   primary: "#757575",
     // },
+    text: {
+      primary: "#757575", // เพิ่มโค้ดสีใน text palette
+    },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
