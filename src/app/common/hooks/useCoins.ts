@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from "react";
 import { Coin } from "../types/coin.type";
 import { useQuery } from 'react-query'
 
@@ -10,7 +9,6 @@ async function fetchCoin(symbol: string): Promise<Coin> {
 
     ws.onmessage = (event) => {
       const newCoin = JSON.parse(event.data) as Coin;
-      // console.log(newCoin)
       resolve(newCoin);
       ws.close();
     };
