@@ -106,12 +106,10 @@ export function PriceLaning({ symbol }: { symbol: string }) {
           $
           {data?.c.indexOf(".") !== -1 && Number(data?.c.indexOf(".")) >= 4
             ? Number(data?.c).toFixed(2)
-            : Number(data?.c.indexOf(".")) >= 3
-            ? Number(data?.c).toFixed(3)
             : Number(data?.c.indexOf(".")) >= 2
-            ? Number(data?.c).toFixed(4)
+            ? Number(data?.c).toFixed(2)
             : Number(data?.c.indexOf(".")) >= 1 &&
-              Number(data?.c).toFixed(5)}{" "}
+              Number(data?.c).toFixed(4)}{" "}
         </Typography>
       )}
       {isLoading ? (
@@ -129,7 +127,7 @@ export function PriceLaning({ symbol }: { symbol: string }) {
           }`}
           variant="body1"
         >
-          {Number(data?.P) > 0 ? `+${data?.P}%` : `${data?.P}%`}
+          {Number(data?.P) > 0 ? `+${Number(data?.P).toFixed(2)}%` : `${Number(data?.P).toFixed(2)}%`}
         </Typography>
       )}
     </>
