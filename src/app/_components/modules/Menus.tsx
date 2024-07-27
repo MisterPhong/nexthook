@@ -1,7 +1,6 @@
 'use client'
 
 import { routers } from '@/app/common/constant/path'
-import { useProfile } from '@/app/common/hooks/useProfile'
 import { profileSelector } from '@/app/common/store/slices/profileSlice'
 import { Button } from '@mui/material'
 import Link from 'next/link'

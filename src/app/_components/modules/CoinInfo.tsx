@@ -64,7 +64,7 @@ function CoinPrice({ symbol }: { symbol: string }) {
             fontWeight={600}
             className={`${Number(data?.p) > 0 ? "text-LONG" : "text-SHORT"}`}
           >
-            {Number(data?.P) > 0 ? `+${data?.P}%` : `${data?.P}%`}%
+            {Number(data?.P) > 0 ? `+${data?.P}%` : `${data?.P}%`}
           </Typography>
         </Box>
       )}
