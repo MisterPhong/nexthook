@@ -1,11 +1,12 @@
 import { PriceLaning } from "@/app/_components/modules/CoinInfo";
-import theme from "@/app/_components/theme/theme";
+import AnimationText from "@/app/_components/share/AnimationText";
 import { symbol } from "@/app/common/constant/symbols";
 import {
   Box,
   Button,
   Card,
   CardContent,
+  Skeleton,
   Stack,
   TextField,
   Typography,
@@ -14,23 +15,16 @@ import React from "react";
 
 type Props = {};
 
-export default function page({}: Props) {
+export default async function page({}: Props) {
+
   return (
-    <Box className="grid grid-cols-2 gap-10 mt-10">
+    <Box className="grid grid-cols-2 mt-10 max-w-screen-xl mx-auto">
       <Stack spacing={2} direction={"column"}>
-        <Typography variant="h2" fontWeight={800} className="text-DarkPrimary">
-          Welcome
-        </Typography>
-        <Typography variant="h2" fontWeight={800} className="text-DarkPrimary">
-          To
-        </Typography>
-        <Typography variant="h2" fontWeight={800} className="text-DarkPrimary">
-          Zookeeper
-        </Typography>
+        <AnimationText />
         <Stack direction={"row"} spacing={2}>
-          <TextField label="Username" size="small" className="w-2/4" />
+          <TextField label="Username" size="small" className="w-2/3" />
           <Button variant="contained" size="small" className="w-1/4">
-            Sing Up
+            Sign Up
           </Button>
         </Stack>
       </Stack>
@@ -51,7 +45,7 @@ export default function page({}: Props) {
                   {item.nameLong}
                 </Typography>
               </Stack>
-              <PriceLaning  symbol={item.symbol}/>
+              <PriceLaning symbol={item.symbol} />
             </Box>
           ))}
         </CardContent>

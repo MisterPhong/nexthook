@@ -39,7 +39,7 @@ export function CoinPrice({ symbol }: { symbol: string }) {
   const { data, isLoading } = useCoins(symbol);
 
   return (
-    <Box className={`${!isLoading ? "mt-2" : "mt-[-5px]"}`}>
+    <Box className={`${!isLoading ? "mt-2" : "mt-[-2px]"}`}>
       {isLoading ? (
         <Skeleton className="mt-2" animation="wave" height={50} width={120} />
       ) : (
@@ -86,6 +86,18 @@ export function Percentage({ p }: { p: number }) {
 export function PriceLaning({ symbol }: { symbol: string }) {
   const { data, isLoading } = useCoins(symbol);
 
+  const formatPrice = (price: string) => {
+    const priceNum = Number(price);
+    if (price.indexOf(".") !== -1) {
+      if (price.indexOf(".") >= 4 || price.indexOf(".") >= 2) {
+        return priceNum.toFixed(2);
+      } else if (price.indexOf(".") >= 1) {
+        return priceNum.toFixed(4);
+      }
+    }
+    return priceNum.toFixed(2);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -103,13 +115,7 @@ export function PriceLaning({ symbol }: { symbol: string }) {
           }`}
           variant="body1"
         >
-          $
-          {data?.c.indexOf(".") !== -1 && Number(data?.c.indexOf(".")) >= 4
-            ? Number(data?.c).toFixed(2)
-            : Number(data?.c.indexOf(".")) >= 2
-            ? Number(data?.c).toFixed(2)
-            : Number(data?.c.indexOf(".")) >= 1 &&
-              Number(data?.c).toFixed(4)}{" "}
+          ${formatPrice(data?.c!)}
         </Typography>
       )}
       {isLoading ? (
@@ -127,7 +133,9 @@ export function PriceLaning({ symbol }: { symbol: string }) {
           }`}
           variant="body1"
         >
-          {Number(data?.P) > 0 ? `+${Number(data?.P).toFixed(2)}%` : `${Number(data?.P).toFixed(2)}%`}
+          {Number(data?.P) > 0
+            ? `+${Number(data?.P).toFixed(2)}%`
+            : `${Number(data?.P).toFixed(2)}%`}
         </Typography>
       )}
     </>

@@ -1,5 +1,5 @@
 "use client";
-import { Lato, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
 
 const roboto = Roboto({
@@ -14,18 +14,12 @@ const theme = createTheme({
     primary: {
       main: "#6600FF",
     },
-    // text: {
-    //   primary: "#757575",
-    // },
     text: {
-      primary: "#757575", // เพิ่มโค้ดสีใน text palette
+      primary: "#757575",
     },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
-    // allVariants: {
-    //   color: "#757575",
-    // },
     caption: {
       color: "#757575",
     },

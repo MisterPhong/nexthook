@@ -1,8 +1,16 @@
-"use client";
+import {
+  Box,
+  Card,
+  CardContent,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import React from "react";
 
-import { Box, Card, CardContent, Skeleton, Stack } from "@mui/material";
+type Props = {};
 
-export default function Loading() {
+export default function page({}: Props) {
   return (
     <Box className="grid grid-cols-2 mt-10 max-w-screen-xl mx-auto">
       <Box>
