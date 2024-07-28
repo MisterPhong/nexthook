@@ -1,6 +1,6 @@
-import { PriceLaning } from "@/app/_components/modules/CoinInfo";
-import AnimationText from "@/app/_components/share/AnimationText";
 import { symbol } from "@/app/common/constant/symbols";
+import AnimationText from "@/app/components/modules/AnimationText";
+import { PriceLaning } from "@/app/components/modules/CoinInfo";
 import {
   Box,
   Button,

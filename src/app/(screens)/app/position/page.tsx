@@ -1,3 +1,5 @@
+import PositionForm from '@/app/components/form/PositionForm'
+import Tabpanel from '@/app/components/modules/Tabpanel'
 import {
     Card,
     CardContent,
@@ -6,8 +8,6 @@ import {
     Stack
 } from '@mui/material'
 import React from 'react'
-import PositionForm from '@/app/_components/form/PositionForm'
-import Tabpanel from '@/app/_components/modules/Tabpanel'
 
 type Props = {}
 

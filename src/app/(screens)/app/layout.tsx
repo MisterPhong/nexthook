@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import React from 'react'
 import type { Metadata } from 'next'
-import AppBar from '@/app/_components/share/AppBar'
+import AppBar from '@/app/components/modules/AppBar'
 
 export default function layout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (

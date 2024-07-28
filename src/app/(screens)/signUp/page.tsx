@@ -1,4 +1,4 @@
-import SignupForm from "@/app/_components/form/SignupForm";
+import SignupForm from "@/app/components/form/SignupForm";
 import { CssBaseline, Card, CardContent } from "@mui/material";
 
 export default function Home() {

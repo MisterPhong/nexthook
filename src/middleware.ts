@@ -43,5 +43,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: [routers.root, routers.otp, routers.position],
+  matcher: ["/", "/otp", "/app/position"],
 };

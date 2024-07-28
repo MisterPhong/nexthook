@@ -1,6 +1,6 @@
+import { CoinInfo } from "@/app/components/modules/CoinInfo";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
-import { CoinInfo } from "@/app/_components/modules/CoinInfo";
 
 type Props = {};
 

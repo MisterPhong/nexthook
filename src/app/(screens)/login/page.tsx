@@ -1,4 +1,4 @@
-import LoginForm from "@/app/_components/form/LoginForm";
+import LoginForm from "@/app/components/form/LoginForm";
 import { CssBaseline, Card, CardContent } from "@mui/material";
 import React from "react";
 
