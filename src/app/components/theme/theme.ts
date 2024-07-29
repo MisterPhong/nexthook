@@ -37,6 +37,12 @@ const theme = createTheme({
           justifyContent: "flex-start",
           alignItems: "center",
         },
+        contained: {
+          textTransform: "none",
+        },
+        text: {
+          textTransform: "none",
+        },
       },
     },
   },

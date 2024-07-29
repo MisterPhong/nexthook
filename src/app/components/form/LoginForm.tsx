@@ -19,6 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Login, LoginSchema } from "@/app/common/types/auth.type";
 import { useRouter } from "next/navigation";
 import { routers } from "@/app/common/constant/path";
+import CustomTextField from "../share/CustomTextField";
 
 type Props = {};
 
@@ -43,7 +44,7 @@ export default function LoginForm({}: Props) {
 
   return (
     <Stack
-      spacing={3}
+      spacing={2}
       component={"form"}
       onSubmit={handleSubmit((data) => {
         mutate(data, {
@@ -53,29 +54,24 @@ export default function LoginForm({}: Props) {
         });
       })}
     >
-      <Typography variant="h5" className="text-center">
-        Logo
-      </Typography>
-      <Typography variant="h4" className="text-center">
-        Sign In
-      </Typography>
-      <TextField
-        id="text1"
+      <CustomTextField
+        id="username"
         label="Username"
         variant="outlined"
-        size="small"
-        type=""
-        error={isError}
-        helperText={errors.username && "Username is required"}
+        error={errors.username && true}
+        helperText={
+          errors.username ? errors.username.message : "Username is required"
+        }
         {...register("username", { required: true })}
       />
-      <TextField
-        id="text2"
+      <CustomTextField
+        id="password"
         label="Password"
         variant="outlined"
-        size="small"
-        error={isError}
-        helperText={errors.password && "Password is required"}
+        error={errors.password && true}
+        helperText={
+          errors.password ? errors.password.message : "Password is required"
+        }
         {...register("password", { required: true })}
       />
       {isError && (
@@ -83,19 +79,8 @@ export default function LoginForm({}: Props) {
           Incorrect username or password.
         </Typography>
       )}
-      <Button
-        disabled={isLoading}
-        variant="contained"
-        sx={{
-          backgroundColor: theme.palette.primary.main,
-          color: theme.palette.primary.contrastText,
-          "&:hover": {
-            backgroundColor: theme.palette.primary.dark,
-          },
-        }}
-        type="submit"
-      >
-        LOGIN
+      <Button disabled={isLoading} variant="contained" type="submit">
+        Continue
       </Button>
     </Stack>
   );

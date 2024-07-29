@@ -14,11 +14,18 @@ import OrDivider from "@/app/components/modules/OrDivider";
 import SocialButton from "@/app/components/share/SocialButton";
 
 export default async function page() {
-
   return (
     <Stack spacing={3} className="justify-center items-center min-h-screen">
       <Card className="w-96 p-5" elevation={3}>
         <CardContent>
+          <Stack className="mb-2">
+            <Typography variant="h5" className="text-center">
+              Logo
+            </Typography>
+            <Typography variant="h5" className="text-center" fontWeight={600}>
+              Sign In
+            </Typography>
+          </Stack>
           <LoginForm />
           <OrDivider />
           <Stack spacing={1}>
