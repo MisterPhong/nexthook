@@ -12,9 +12,9 @@ export default function layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <>     
+    <Box>     
       <AppBar />
       <Box className="container mx-auto mt-3">{children}</Box>
-    </>
+    </Box>
   );
 }

@@ -77,7 +77,6 @@ function AnimatedText({ text }: AnimatedTextProps) {
                 <Typography
                   variant="h2"
                   fontWeight={800}
-                  color={"secondary"}
                   sx={{
                     WebkitBackgroundClip: "text",
                     display: "inline-block",

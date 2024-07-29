@@ -1,11 +1,12 @@
-'use client'
+"use client";
 
-import React from 'react'
+import { Box, CssBaseline } from "@mui/material";
 
-type Props = {}
-
-export default function Loading({ }: Props) {
-    return (
-        <p>load...</p>
-    )
+export default function Loading() {
+  return (
+    <Box>
+      <CssBaseline />
+      <div className="spinner"></div>
+    </Box>
+  );
 }

@@ -14,17 +14,30 @@ const theme = createTheme({
     primary: {
       main: "#6600FF",
     },
-    secondary: {
-      main: "#58595b",
-    },
-    text: {
-      primary: "#757575",
+    background: {
+      default: "#fdfbff",
+      paper: "#fff",
     },
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
     caption: {
       color: "#757575",
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        outlined: {
+          color: "#000000",
+          borderColor: "#c9cace",
+          fontWeight: 300,
+          textTransform: "none",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        },
+      },
     },
   },
 });
