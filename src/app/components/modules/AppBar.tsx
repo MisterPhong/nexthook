@@ -39,13 +39,12 @@ export default function AppBar({}: Props) {
           </Box>
         </Box>
         <Stack spacing={2} direction="row">
-          <Notification />
-          {/* <Avatars /> */}
-          <Tooltip title="Open settings">
+          <Avatars />
+          {/* <Tooltip title="Open settings">
             <IconButton sx={{ p: 0 }}>
               <Avatar />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
         </Stack>
       </Toolbar>
     </AppBars>

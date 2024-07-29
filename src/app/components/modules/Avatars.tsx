@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
+import Notification from "./Notification";
 
 type Props = {};
 
@@ -45,7 +46,55 @@ export function Avatars({}: Props) {
 
   return (
     <>
-      {isLoading ? (
+      {profileReducer.result ? (
+        <Box sx={{ flexGrow: 0 }}>
+          <Notification />
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}
+          >
+            {settings.map((setting) => (
+              <MenuItem
+                key={setting}
+                onClick={() => handleMenuItemClick(setting)}
+              >
+                <Typography textAlign="center">{setting}</Typography>
+              </MenuItem>
+            ))}
+          </Menu>
+        </Box>
+      ) : (
+        <>
+          <Button
+            variant="contained"
+            LinkComponent={Link}
+            href={routers.signup}
+          >
+            Sign Up
+          </Button>
+          <Button variant="text" LinkComponent={Link} href={routers.login}>
+            Login
+          </Button>
+        </>
+      )}
+      {/* {isLoading ? (
         <Skeleton variant="circular">
           <Avatar />
         </Skeleton>
@@ -95,7 +144,7 @@ export function Avatars({}: Props) {
             Login
           </Button>
         </>
-      )}
+      )} */}
     </>
   );
 }
