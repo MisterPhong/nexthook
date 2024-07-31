@@ -33,11 +33,6 @@ const CustomTextField = React.forwardRef<HTMLDivElement, Props>((
             error={error}
             helperText={error && helperText}
             type={type}
-            sx={{
-                '& .MuiInputBase-root': {
-                    borderRadius: '10px',
-                },
-            }}
             size='small'
             inputRef={ref}
             {...props}

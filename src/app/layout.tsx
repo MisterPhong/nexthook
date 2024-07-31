@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import theme from "./_components/theme/theme";
 import { ThemeProvider } from "@mui/material";
-import QueryProvider from "./_components/utilities/QueryProvider";
-import StoreProvider from "./_components/utilities/StoreProvider";
+import theme from "./components/theme/theme";
+import QueryProvider from "./components/utilities/QueryProvider";
+import StoreProvider from "./components/utilities/StoreProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,16 +15,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <body>
         <main>
           <StoreProvider>
             <QueryProvider>
-              <ThemeProvider theme={theme}>
-                {children}
-              </ThemeProvider>
+              <ThemeProvider theme={theme}>{children}</ThemeProvider>
             </QueryProvider>
           </StoreProvider>
         </main>

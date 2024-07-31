@@ -8,4 +8,9 @@ export const server = {
     profile: 'auth/profile',
     order: 'orders/create',
     query_order: 'orders/query',
+    notification:'notification'
+}
+
+export const social = {
+    google:'auth/google/callback',
 }

@@ -1,15 +1,20 @@
-import { Box } from '@mui/material'
-import React from 'react'
-import type { Metadata } from 'next'
-import AppBar from '@/app/_components/share/AppBar'
+import { Box } from "@mui/material";
+import React from "react";
+import type { Metadata } from "next";
+import AppBar from "@/app/components/modules/AppBar";
 
-export default function layout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return (
-        <>
-            <AppBar />
-            <Box className='container mx-auto mt-3'>
-                {children}
-            </Box>
-        </>
-    )
+export const metadata: Metadata = {
+    title: 'Zookeeper',
+    description: 'Position page',
+}
+
+export default function layout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <Box>     
+      <AppBar />
+      {children}
+    </Box>
+  );
 }

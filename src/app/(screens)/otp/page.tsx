@@ -1,4 +1,4 @@
-import OtpForm from "@/app/_components/form/OtpForm";
+import OtpForm from "@/app/components/form/OtpForm";
 
 export default function Otp() {
   return (

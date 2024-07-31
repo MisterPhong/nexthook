@@ -1,39 +1,36 @@
-import SignupForm from '@/app/_components/form/SignupForm'
-import {
-  CssBaseline,
-  Card,
-} from '@mui/material'
+import { routers } from "@/app/common/constant/path";
+import SignupForm from "@/app/components/form/SignupForm";
+import OrDivider from "@/app/components/modules/OrDivider";
+import SocialButton from "@/app/components/share/SocialButton";
+import { Card, Stack, Box, Typography, Button } from "@mui/material";
+import Link from "next/link";
 
-export default function Home() {
-  // const { register, handleSubmit, formState: { errors } } = useForm()
-  // const router = useRouter()
-  // const [loginError, setLoginError] = useState(false)
-
-  // const onSubmit = async (data: any) => {
-  //   console.log(data)
-  //   // const res = await httpClient.post('auth/signin/local',{
-  //   //   username: data.username,
-  //   //   password: data.password
-  //   // })
-  //   // console.log(res.data)
-
-  //   if (data.username === 'test' && data.password === '123') {
-  //     console.log('Okay!')
-  //     router.push('/otp')
-  //   } else {
-  //     console.log('Wrong User')
-  //     setLoginError(true) // Set login error state
-  //   }
-  // }
-
+export default function page() {
   return (
-    <>
-      <CssBaseline />
-      <div className='flex justify-center items-center min-h-screen'>
-        <Card className='w-[500px] p-6' elevation={5}>
-          <SignupForm />
-        </Card>
-      </div>
-    </>
-  )
+    <Box className="w-full">
+      <Stack className="max-w-md mx-auto" spacing={2}>
+        <Typography variant="h5" className="text-center">
+          Logo
+        </Typography>
+        <Typography variant="h5" className="text-center" fontWeight={600}>
+          Create your account
+        </Typography>
+        <SignupForm />
+        <OrDivider />
+        <Stack spacing={1}>
+          <SocialButton
+            label="Continue with Google"
+            iconPath="/socialLogin/google.svg"
+          />
+          {/* <SocialButton
+            label="Continue with Facebook"
+            iconPath="/socialLogin/facebook.svg"
+          /> */}
+        </Stack>
+        <Button LinkComponent={Link} href={routers.login} variant="text">
+          Alerady have an account? Sign in
+        </Button>
+      </Stack>
+    </Box>
+  );
 }
