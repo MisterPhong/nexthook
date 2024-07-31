@@ -8,7 +8,6 @@ import { PositionResponse } from '../types/position.type'
 async function profile(): Promise<PositionResponse[]> {
     try {
         const response = await httpClient.get<PositionResponse[]>(server.query_order)
-        console.log(response.data)
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {

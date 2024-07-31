@@ -30,7 +30,6 @@ export function useAddPosition() {
         async (payload) => await order(payload),
         {
             onSuccess: (data) => {
-                console.log('hello world')
                 // dipatch(setEmail(data.email))
             }
         },

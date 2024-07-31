@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardContent,
-  CssBaseline,
   Stack,
   TextField,
   Typography,
@@ -15,10 +14,10 @@ import React from "react";
 
 type Props = {};
 
-export default async function page({}: Props) {
+export default async function page({ }: Props) {
+
   return (
     <Box className="grid grid-cols-2 mt-10 max-w-screen-xl mx-auto">
-      <CssBaseline />
       <Stack spacing={2} direction={"column"}>
         <AnimationText />
         <Stack direction={"row"} spacing={2}>

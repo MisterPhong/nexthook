@@ -44,7 +44,6 @@ export default function PositionForm({}: Props) {
         setTimefram("");
         setSymbol("");
         reset();
-        console.log(data);
         mutate({
           symbol: data.symbol,
           leverage: data.leverage,

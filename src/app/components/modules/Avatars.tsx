@@ -11,20 +11,22 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Skeleton,
+  Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Notification from "./Notification";
+import { Socket } from "dgram";
+import { io } from "socket.io-client";
 
 type Props = {};
 
 const settings = ["Profile", "Account", "Logout"];
 
-export function Avatars({}: Props) {
+export function Avatars({ }: Props) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -48,12 +50,15 @@ export function Avatars({}: Props) {
     <>
       {profileReducer.result ? (
         <Box sx={{ flexGrow: 0 }}>
-          <Notification />
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar />
-            </IconButton>
-          </Tooltip>
+          <Stack spacing={2} direction={'row'} >
+            {/* column */}
+            <Notification />
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar />
+              </IconButton>
+            </Tooltip>
+          </Stack>
           <Menu
             sx={{ mt: "45px" }}
             id="menu-appbar"
@@ -94,57 +99,6 @@ export function Avatars({}: Props) {
           </Button>
         </>
       )}
-      {/* {isLoading ? (
-        <Skeleton variant="circular">
-          <Avatar />
-        </Skeleton>
-      ) : profileReducer.result ? (
-        <Box sx={{ flexGrow: 0 }}>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            sx={{ mt: "45px" }}
-            id="menu-appbar"
-            anchorEl={anchorElUser}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
-          >
-            {settings.map((setting) => (
-              <MenuItem
-                key={setting}
-                onClick={() => handleMenuItemClick(setting)}
-              >
-                <Typography textAlign="center">{setting}</Typography>
-              </MenuItem>
-            ))}
-          </Menu>
-        </Box>
-      ) : (
-        <>
-          <Button
-            variant="contained"
-            LinkComponent={Link}
-            href={routers.signup}
-          >
-            Sign Up
-          </Button>
-          <Button variant="text" LinkComponent={Link} href={routers.login}>
-            Login
-          </Button>
-        </>
-      )} */}
     </>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Stack, Typography, useTheme } from "@mui/material";
+import { getCookies } from "@/app/common/actions/cookie-action";
 
 export function AnimationText() {
   // Placeholder text data
@@ -89,6 +90,7 @@ function AnimatedText({ text }: AnimatedTextProps) {
           ))}
         </Wrapper>
       ))}
+      {/* <button onClick={handleClick}>cookies</button> */}
     </>
   );
 }

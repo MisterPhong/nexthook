@@ -14,7 +14,7 @@ export default function layout({
   return (
     <Box>     
       <AppBar />
-      <Box className="container mx-auto mt-3">{children}</Box>
+      {children}
     </Box>
   );
 }

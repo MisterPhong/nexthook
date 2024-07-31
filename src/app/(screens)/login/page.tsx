@@ -18,7 +18,7 @@ export default async function page() {
     <Stack spacing={3} className="justify-center items-center min-h-screen">
       <Card className="w-96 p-5" elevation={3}>
         <CardContent>
-          <Stack className="mb-2">
+          <Stack className="mb-5">
             <Typography variant="h5" className="text-center">
               Logo
             </Typography>
@@ -33,10 +33,11 @@ export default async function page() {
               label="Continue with Google"
               iconPath="/socialLogin/google.svg"
             />
-            <SocialButton
+            {/* <SocialButton
               label="Continue with Facebook"
               iconPath="/socialLogin/facebook.svg"
-            />
+              type="Facebook"
+            /> */}
           </Stack>
         </CardContent>
       </Card>

@@ -22,20 +22,21 @@ import {
   useNotification,
   useRealNotify,
   useUpdateIsRead,
-} from "@/app/common/hooks/useNotifycation";
+} from "@/app/common/hooks/useNotification";
 import { useSelector } from "react-redux";
 import { notifySelector } from "@/app/common/store/slices/notitySlice";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { io } from "socket.io-client";
 
 type Props = {};
 
-export default function Notification({}: Props) {
+export default function Notification({ }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [open, setOpen] = useState(false);
   const popperRef = useRef<HTMLDivElement | null>(null);
   const notificationsReducer = useSelector(notifySelector);
   const { data } = useNotification();
-  const {} = useRealNotify();
+  const { } = useRealNotify();
   const { mutate: removeNotify } = useDeleteNotify();
   const { mutate: updateNotify } = useUpdateIsRead();
 
@@ -47,7 +48,7 @@ export default function Notification({}: Props) {
       setOpen(true);
 
       // Update isRead to true
-      updateNotify();
+      // updateNotify();
     }
   };
 
