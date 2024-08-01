@@ -5,8 +5,6 @@ import {
 import { RootState } from "../store"
 import { Profile } from "../../types/auth.type"
 
-
-
 type ProfileState = {
     result: Profile | undefined
 }

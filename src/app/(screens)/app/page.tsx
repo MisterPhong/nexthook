@@ -1,6 +1,7 @@
 import { symbol } from "@/app/common/constant/symbols";
 import { AnimationText } from "@/app/components/modules/AnimationText";
 import { PriceLaning } from "@/app/components/modules/CoinInfo";
+import { SquareSocialButton } from "@/app/components/share/SocialButton";
 import {
   Box,
   Button,
@@ -26,6 +27,9 @@ export default async function page({ }: Props) {
             Sign Up
           </Button>
         </Stack>
+        <Box className='w-fit'>
+        <SquareSocialButton iconPath="/socialLogin/google.svg" />
+        </Box>
       </Stack>
       <Card className="max-w-2xl mx-auto">
         <CardContent>

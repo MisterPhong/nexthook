@@ -1,7 +1,7 @@
 import { routers } from "@/app/common/constant/path";
 import SignupForm from "@/app/components/form/SignupForm";
 import OrDivider from "@/app/components/modules/OrDivider";
-import SocialButton from "@/app/components/share/SocialButton";
+import { SocialButton } from "@/app/components/share/SocialButton";
 import { Card, Stack, Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
 

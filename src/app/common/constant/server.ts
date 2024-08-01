@@ -12,5 +12,5 @@ export const server = {
 }
 
 export const social = {
-    google:'auth/google/callback',
+    google:'auth/google',
 }

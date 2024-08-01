@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import { routers } from "@/app/common/constant/path";
-import { useLogout } from "@/app/common/hooks/useLogout";
-import { useProfile } from "@/app/common/hooks/useProfile";
-import { profileSelector } from "@/app/common/store/slices/profileSlice";
+import { routers } from "@/app/common/constant/path"
+import { useLogout } from "@/app/common/hooks/useLogout"
+import { useProfile } from "@/app/common/hooks/useProfile"
+import { profileSelector } from "@/app/common/store/slices/profileSlice"
 import {
   Avatar,
   Box,
@@ -14,48 +14,54 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from "@mui/material";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import Notification from "./Notification";
-import { Socket } from "dgram";
-import { io } from "socket.io-client";
+} from "@mui/material"
+import Link from "next/link"
+import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import Notification from "./Notification"
+import { Socket } from "dgram"
+import { io } from "socket.io-client"
 
-type Props = {};
+type Props = {}
 
-const settings = ["Profile", "Account", "Logout"];
+const settings = ["Profile", "Account", "Logout"]
 
 export function Avatars({ }: Props) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
-  );
-  const { mutate } = useLogout();
-  const { isLoading } = useProfile();
-  const profileReducer = useSelector(profileSelector);
+  )
+  const { mutate } = useLogout()
+  const { isLoading } = useProfile()
+  const profileReducer = useSelector(profileSelector)
 
-  const handleCloseUserMenu = () => setAnchorElUser(null);
+  const handleCloseUserMenu = () => setAnchorElUser(null)
 
   const handleMenuItemClick = (setting: string) => {
-    handleCloseUserMenu();
+    handleCloseUserMenu()
     if (setting === "Logout") {
-      mutate();
+      mutate()
     }
-  };
+  }
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) =>
-    setAnchorElUser(event.currentTarget);
+    setAnchorElUser(event.currentTarget)
 
   return (
     <>
       {profileReducer.result ? (
         <Box sx={{ flexGrow: 0 }}>
           <Stack spacing={2} direction={'row'} >
-            {/* column */}
             <Notification />
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar />
+                {profileReducer.result.picture ? (
+                  <Avatar
+                    alt="picture"
+                    src={profileReducer.result.picture}
+                  />
+                ) : (
+                  <Avatar />
+                )}
               </IconButton>
             </Tooltip>
           </Stack>
@@ -100,5 +106,5 @@ export function Avatars({ }: Props) {
         </>
       )}
     </>
-  );
+  )
 }

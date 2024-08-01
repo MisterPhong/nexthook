@@ -11,7 +11,7 @@ import React from "react";
 import { Link as LinkMui } from "@mui/material";
 import { routers } from "@/app/common/constant/path";
 import OrDivider from "@/app/components/modules/OrDivider";
-import SocialButton from "@/app/components/share/SocialButton";
+import { SocialButton } from "@/app/components/share/SocialButton";
 
 export default async function page() {
   return (

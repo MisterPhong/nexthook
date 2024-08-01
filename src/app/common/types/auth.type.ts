@@ -64,5 +64,7 @@ export const ProfileSchema = z.object({
   userId: z.string(),
   username: z.string(),
   email: z.string(),
+  picture: z.string().nullable(),
+  name: z.string().nullable()
 });
 export type Profile = z.infer<typeof ProfileSchema>;
