@@ -1,10 +1,10 @@
-version: '4'
+version: "4"
 
 services:
   zookeeper:
     image: wurstmeister/zookeeper:latest
     ports:
-      - '2181:2181'
+      - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
     restart: always
@@ -23,7 +23,7 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - '9092:9092'
+      - "9092:9092"
     restart: always
 
   mongo:
@@ -33,9 +33,9 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
-      - '27017:27017'
-    # volumes:
-    #   - ./mongo:/data/db
+      - "27017:27017"
+    volumes:
+      - ./mongo:/data/db
 
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -43,14 +43,14 @@ services:
       RABBITMQ_DEFAULT_USER: mikelopster
       RABBITMQ_DEFAULT_PASS: password
     ports:
-      - '15672:15672'
-      - '5672:5672'
+      - "15672:15672"
+      - "5672:5672"
     restart: always
 
   redis:
     image: redis:latest
     ports:
-      - '6379:6379'
+      - "6379:6379"
     restart: always
 
   postgres:
@@ -63,11 +63,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - '4040:5432'
+      - "4040:5432"
     restart: always
 
   key-service:
-    image: taotoxicboy/zookeeper-key-service:0.1
+    image: taotoxicboy/zookeeper-key-service:0.2
     # build:
     #   context: .
     #   dockerfile: ./apps/key/Dockerfile
@@ -81,10 +81,10 @@ services:
       - rabbitmq
       - zookeeper
     ports:
-      - '5005:5005'
+      - "5005:5005"
 
   mail-queue:
-    image: taotoxicboy/zookeeper-mail-queue-service:0.2
+    image: taotoxicboy/zookeeper-mail-queue-service:0.3
     # build:
     #   context: .
     #   dockerfile: ./apps/mail-queue/Dockerfile
@@ -101,7 +101,7 @@ services:
     restart: always
 
   auth-service:
-    image: taotoxicboy/zookeeper-auth-service:0.2
+    image: taotoxicboy/zookeeper-auth-service:0.3
     # build:
     #   context: .
     #   dockerfile: ./apps/auth/Dockerfile
@@ -114,7 +114,7 @@ services:
       MONGODB_URI: mongodb://root:example@mongo:27017/zookeeper?authSource=admin
       RABBIT_MQ_URL: amqp://mikelopster:password@rabbitmq:5672
     ports:
-      - '50022:50022'
+      - "50022:50022"
     depends_on:
       - redis
       - zookeeper
@@ -123,7 +123,7 @@ services:
     restart: always
 
   exchange:
-    image: taotoxicboy/zookeeper-exchange:0.3
+    image: taotoxicboy/zookeeper-exchange:0.4
     # build:
     #   context: .
     #   dockerfile: ./apps/exchange/Dockerfile
@@ -135,11 +135,11 @@ services:
       - zookeeper
       - kafka
     ports:
-      - '50052:50052'
+      - "50052:50052"
     restart: always
 
   gateway:
-    image: taotoxicboy/zookeeper-gateway-service:0.2
+    image: taotoxicboy/zookeeper-gateway-service:0.3
     # build:
     #   context: .
     #   dockerfile: ./apps/gateway/Dockerfile
@@ -147,15 +147,22 @@ services:
       NODE_ENV: production
       RT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
       AT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
-      PORT: 4040
+      PORT: 4000
       AUTH_SERVICE_URL: auth-service:50022
-      CLIENT_URL: http://localhost:3000
+      KEY_SERVICE_URL: key-service:5005
+      # CLIENT_URL: http://localhost:3000
       KAFKA_URL: kafka:9092
       EXCHANGE_SERVICE_URL: exchange:50052
       WEB_SOCKET: 8031
+      # PREDICT_SERVICE_URL:
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
       RABBITMQ_QUEUE_TX: order_tx_queue
       RABBITMQ_QUEUE_QUERY: order_query_queue
-      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+      GOOGLE_CLIENT_ID: 1085551212854-qt83lqnnsut8ljv5soifk8a1tcsm1nm7.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      CALLBACK_URL: http://http://20.2.41.195/:4000/api/auth/google/callback
+      SOCIAL_REDIRECT: http://localhost:3000/app
+      NOTIFY_QUEUE: notification_queue
     depends_on:
       - mongo
       - redis
@@ -163,50 +170,8 @@ services:
       - zookeeper
       - kafka
     ports:
-      - '4000:4040'
-      - '8031:8031'
-
-  order-tx-consumer:
-    image: taotoxicboy/go-order-consumer-tx-service:0.1.1
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB_NAME=mydatabase
-      - RABBITMQ_URL=amqp://mikelopster:password@rabbitmq:5672
-    depends_on:
-      - postgres
-      - rabbitmq
-    restart: always
-
-  order-query:
-    image: taotoxicboy/go-order-consumer-query-service:0.2
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB_NAME=mydatabase
-      - RABBITMQ_URL=amqp://mikelopster:password@rabbitmq:5672
-    depends_on:
-      - postgres
-      - rabbitmq
-    restart: always
-
-  order-cron:
-    image: taotoxicboy/go-order-cronjob-service:0.1
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=myuser
-      - DB_PASSWORD=mypassword
-      - DB_NAME=mydatabase
-      - RABBITMQ_URL=amqp://mikelopster:password@rabbitmq:5672
-    depends_on:
-      - postgres
-      - rabbitmq
-    restart: always
+      - "3000:4000"
+      - "8001:8001"
 
 volumes:
   postgres_data:

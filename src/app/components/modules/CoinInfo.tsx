@@ -7,7 +7,7 @@ import React from "react";
 
 type Props = {};
 
-export function CoinInfo({}: Props) {
+export function CoinInfo({ }: Props) {
   return (
     <Box>
       {symbol.map((item) => (
@@ -21,7 +21,7 @@ export function CoinInfo({}: Props) {
               {item.nameLong}
             </Typography>
           </Stack>
-          <Typography fontWeight={500} className="mt-5" variant="body1">
+          <Typography fontWeight={500} className="5" variant="body1">
             15/07/2024{" "}
           </Typography>
           <CoinPrice symbol={item.symbol} />
@@ -63,10 +63,10 @@ export function Prices({ c, p }: { c: string; p: number }) {
       {c.indexOf(".") !== -1 && Number(c.indexOf(".")) >= 4
         ? Number(c).toFixed(2)
         : Number(c.indexOf(".")) >= 3
-        ? Number(c).toFixed(3)
-        : Number(c.indexOf(".")) >= 2
-        ? Number(c).toFixed(4)
-        : Number(c.indexOf(".")) >= 1 && Number(c).toFixed(5)}{" "}
+          ? Number(c).toFixed(3)
+          : Number(c.indexOf(".")) >= 2
+            ? Number(c).toFixed(4)
+            : Number(c.indexOf(".")) >= 1 && Number(c).toFixed(5)}{" "}
       USDT
     </Typography>
   );
@@ -102,7 +102,7 @@ export function PriceLaning({ symbol }: { symbol: string }) {
     <>
       {isLoading ? (
         <Skeleton
-          className="mt-[-1px] ml-5"
+          className="ml-5"
           animation="wave"
           height={45}
           width={80}
@@ -110,9 +110,8 @@ export function PriceLaning({ symbol }: { symbol: string }) {
       ) : (
         <Typography
           fontWeight={500}
-          className={`${!isLoading && "mt-5"} flex justify-end ${
-            Number(data?.p) > 0 ? "text-LONG" : "text-SHORT"
-          }`}
+          className={`${!isLoading && "mt-[21px]"} flex justify-end items-center ${Number(data?.p) > 0 ? "text-LONG" : "text-SHORT"
+            }`}
           variant="body1"
         >
           ${formatPrice(data?.c!)}
@@ -120,7 +119,7 @@ export function PriceLaning({ symbol }: { symbol: string }) {
       )}
       {isLoading ? (
         <Skeleton
-          className="mt-[-1px] ml-5"
+          className="ml-5"
           animation="wave"
           height={45}
           width={80}
@@ -128,9 +127,8 @@ export function PriceLaning({ symbol }: { symbol: string }) {
       ) : (
         <Typography
           fontWeight={500}
-          className={`${!isLoading && "mt-5"} flex justify-end ${
-            Number(data?.P) > 0 ? "text-LONG" : "text-SHORT"
-          }`}
+          className={`${!isLoading && "mt-[21px]"} flex justify-end items-center ${Number(data?.P) > 0 ? "text-LONG" : "text-SHORT"
+            }`}
           variant="body1"
         >
           {Number(data?.P) > 0

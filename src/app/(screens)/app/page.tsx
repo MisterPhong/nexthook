@@ -28,17 +28,42 @@ export default async function page({ }: Props) {
           </Button>
         </Stack>
         <Box className='w-fit'>
-        <SquareSocialButton iconPath="/socialLogin/google.svg" />
+          <SquareSocialButton iconPath="/socialLogin/google.svg" />
         </Box>
       </Stack>
       <Card className="max-w-2xl mx-auto">
         <CardContent>
+          <Stack
+            direction={'row'}
+            className="justify-between"
+            sx={{ borderBottom: 1, borderColor: 'divider' }}
+          >
+            <Typography
+              fontWeight={600}
+              color="secondary.main"
+            >
+              symbols
+            </Typography>
+            <Typography
+              fontWeight={600}
+              className="flex justify-end w-1/2"
+              color="secondary.main"
+            >
+              price
+            </Typography>
+            <Typography
+              fontWeight={600}
+              color="secondary.main"
+            >
+              chg%
+            </Typography>
+          </Stack>
           {symbol.map((item) => (
-            <Box key={item.symbol} className="grid grid-cols-4 w-96">
+            <Box key={item.symbol} className="grid grid-cols-4 w-96 mb-2">
               <Stack
                 spacing={0.5}
                 direction={"row"}
-                className="items-center col-span-2"
+                className="items-end col-span-2"
               >
                 {item.icon}
                 <Typography fontWeight={600} className="flex items-center">
