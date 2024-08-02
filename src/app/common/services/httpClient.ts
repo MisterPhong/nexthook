@@ -7,7 +7,7 @@ const NETWORK_CONNECTION_MESSAGE = 'Cannot connect to server, Please try again.'
 const NOT_CONNECT_NETWORK = 'NOT_CONNECT_NETWORK'
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//
 
-const apiUrl: any = process.env.NEXT_PUBLIC_API_URL
+const apiUrl = process.env.NEXT_PUBLIC_API_URL as string
 
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(async (config: any) => {

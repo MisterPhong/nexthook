@@ -1,5 +1,7 @@
 export const OK = 'OK'
 
+export const wsUrl = process.env.NEXT_PUBLIC_WS_URL as string
+
 export const server = {
     login: 'auth/signin/local',
     signup: 'auth/signup/local',

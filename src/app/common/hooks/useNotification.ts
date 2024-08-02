@@ -9,7 +9,7 @@ import {
 } from '../store/slices/notitySlice'
 import { Notify } from '../types/notify.type'
 import { httpClient } from '@/app/common/services/httpClient'
-import { server } from '../constant/server'
+import { server, wsUrl } from '../constant/server'
 import { getCookies } from '../actions/cookie-action'
 
 async function fetchNotifications(): Promise<Notify[]> {
@@ -45,9 +45,7 @@ async function realNotify(dispatch: AppDispatch): Promise<Notify> {
   const accessToken = await getCookies('access_token')
 
   return new Promise((resolve, reject) => {
-    // const accessToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NmE4ZjNhYjExOTgxMDc2NjdmOGZkMWQiLCJ1c2VybmFtZSI6InRoZXdhcmF0LnRhbzE5QGdtYWlsLmNvbSIsImlhdCI6MTcyMjQxMTA2NiwiZXhwIjoxNzIyNDk3NDY2fQ.syE598gUcW8KgCav4IAACxZglF36Z5xgjT8Jg8voqV8`
-
-    const socket = io('http://localhost:8002', {
+    const socket = io(wsUrl, {
       transportOptions: {
         polling: {
           extraHeaders: {
