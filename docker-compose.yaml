@@ -160,7 +160,7 @@ services:
       RABBITMQ_QUEUE_QUERY: order_query_queue
       GOOGLE_CLIENT_ID: 1085551212854-qt83lqnnsut8ljv5soifk8a1tcsm1nm7.apps.googleusercontent.com
       GOOGLE_CLIENT_SECRET: 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
-      CALLBACK_URL: http://http://20.2.41.195/:4000/api/auth/google/callback
+      CALLBACK_URL: http://localhost:4000/api/auth/google/callback
       SOCIAL_REDIRECT: http://localhost:3000/app
       NOTIFY_QUEUE: notification_queue
     depends_on:
