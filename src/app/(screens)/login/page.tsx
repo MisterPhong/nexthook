@@ -33,11 +33,6 @@ export default async function page() {
               label="Continue with Google"
               iconPath="/socialLogin/google.svg"
             />
-            {/* <SocialButton
-              label="Continue with Facebook"
-              iconPath="/socialLogin/facebook.svg"
-              type="Facebook"
-            /> */}
           </Stack>
         </CardContent>
       </Card>

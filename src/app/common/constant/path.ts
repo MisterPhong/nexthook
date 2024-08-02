@@ -6,4 +6,5 @@ export const routers = {
     login: '/login',
     signup: '/signup',
     position: '/app/position',
+    forgot: '/forgot',
 }
