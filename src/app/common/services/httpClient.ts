@@ -17,18 +17,22 @@ axios.interceptors.request.use(async (config: any) => {
     config.timeout = 10000
     return config
 })
-axios.interceptors.request.use((res) => { return res }, (error) => {
-    // console.log(JSON.stringify(error, undefined, 2))
-    if (axios.isCancel(error)) {
+axios.interceptors.request.use(
+    (res) => {
+        return res
+    },
+    (error) => {
+        if (axios.isCancel(error)) {
+            return Promise.reject(error)
+        } else if (!error.res) {
+            return Promise.reject({
+                code: NOT_CONNECT_NETWORK,
+                message: NETWORK_CONNECTION_MESSAGE,
+            })
+        }
         return Promise.reject(error)
-    } else if (!error.res) {
-        return Promise.reject({
-            code: NOT_CONNECT_NETWORK,
-            message: NETWORK_CONNECTION_MESSAGE
-        })
     }
-    return Promise.reject(error)
-})
+)
 
 axios.interceptors.response.use(
     (response) => response,
@@ -36,7 +40,11 @@ axios.interceptors.response.use(
         const originalRequest = error.config
         const refreshToken = Cookies.get(cookieKey.refreshToken)
 
-        if (refreshToken && error.response?.status === 401 && !originalRequest._retry) {
+        if (
+            refreshToken &&
+            error.response?.status === 401 &&
+            !originalRequest._retry
+        ) {
             originalRequest._retry = true
 
             try {

@@ -11,14 +11,11 @@ import { routers } from '@/app/common/constant/path'
 
 type Props = {}
 
-export default function OtpForm({ }: Props) {
+export default function OtpForm({}: Props) {
     const router = useRouter()
     const [otp, setOtp] = useState('')
     const emailReducer = useSelector(emailSelector)
-    const {
-        mutate,
-        isError
-    } = useSendOtp()
+    const { mutate, isError } = useSendOtp()
 
     const handleChange = async (newValue: string) => {
         setOtp(newValue)
@@ -26,7 +23,7 @@ export default function OtpForm({ }: Props) {
             mutate(+newValue, {
                 onSuccess: () => {
                     router.push(routers.predict)
-                }
+                },
             })
         }
     }
@@ -41,7 +38,11 @@ export default function OtpForm({ }: Props) {
 
     return (
         <Box>
-            <h1 className='flex justify-center'>{emailReducer.email!.slice(0, 2) + '******' + emailReducer.email!.slice(emailReducer.email!.indexOf('@'))}</h1>
+            <h1 className='flex justify-center'>
+                {emailReducer.email!.slice(0, 2) +
+                    '******' +
+                    emailReducer.email!.slice(emailReducer.email!.indexOf('@'))}
+            </h1>
             <MuiOtpInput
                 value={otp}
                 onChange={handleChange}

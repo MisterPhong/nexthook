@@ -6,8 +6,10 @@ type Props = {
 
 export default function AlertLabel({ message }: Props) {
     return (
-        <Box className="text-red-700 rounded w-full" role="alert">
-            <Typography variant='body2' component='p'>{message}</Typography>
+        <Box className='text-red-700 rounded w-full' role='alert'>
+            <Typography variant='body2' component='p'>
+                {message}
+            </Typography>
         </Box>
     )
 }

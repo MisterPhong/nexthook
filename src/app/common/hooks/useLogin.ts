@@ -9,11 +9,16 @@ import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 
 async function login(username: string, password: string): Promise<Email> {
     try {
-        const response = await httpClient.post(server.login, { username, password })
+        const response = await httpClient.post(server.login, {
+            username,
+            password,
+        })
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
-            const parsedError = ErrorResponseSchema.safeParse(error.response.data)
+            const parsedError = ErrorResponseSchema.safeParse(
+                error.response.data
+            )
             if (!parsedError.success) {
                 throw new Error('Unexpected error format')
             }
@@ -31,7 +36,7 @@ export function useLogin() {
         {
             onSuccess: (data) => {
                 dipatch(setEmail(data.email))
-            }
-        },
+            },
+        }
     )
 }

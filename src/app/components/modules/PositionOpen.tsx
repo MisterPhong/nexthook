@@ -5,12 +5,8 @@ import React from 'react'
 
 type Props = {}
 
-export default function PositionOpen({ }: Props) {
+export default function PositionOpen({}: Props) {
     const { data } = usePosition()
 
-    return (
-        <div>
-            {JSON.stringify(data)}
-        </div>
-    )
+    return <div>{JSON.stringify(data)}</div>
 }

@@ -12,7 +12,9 @@ async function postOtp(otp: number): Promise<Otp> {
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
-            const parsedError = ErrorResponseSchema.safeParse(error.response.data)
+            const parsedError = ErrorResponseSchema.safeParse(
+                error.response.data
+            )
             if (!parsedError.success) {
                 throw new Error('Unexpected error format')
             }
@@ -23,11 +25,10 @@ async function postOtp(otp: number): Promise<Otp> {
 }
 
 export function useSendOtp() {
-    const dispatch = useAppDispatch()
-
     return useMutation<Otp, ErrorResponse, number>(
-        async (payload) => await postOtp(payload), {
-        onSuccess: () => {
-        },
-    })
+        async (payload) => await postOtp(payload),
+        {
+            onSuccess: () => {},
+        }
+    )
 }
