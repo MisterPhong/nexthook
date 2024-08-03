@@ -5,7 +5,8 @@ export const SquareIconButton = styled(IconButton)(({ theme }) => ({
   borderRadius: 5, // ทำให้เป็นสี่เหลี่ยม
   padding: theme.spacing(2), // ปรับ padding ตามที่ต้องการ
   transition: 'background-color 0.3s, border-color 0.3s', // เพิ่ม transition
-  '&:hover': {
-    borderColor: '#212121', // เปลี่ยนสี border เมื่อ hover
+  "&:hover": {
+    backgroundColor: "#e5e5e5", // เปลี่ยนสีพื้นหลังเมื่อ hover
+    borderColor: "#212121", // เปลี่ยนสี border เมื่อ hover
   },
 }))

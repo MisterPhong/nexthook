@@ -11,35 +11,38 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Skeleton,
   Stack,
   Tooltip,
   Typography,
 } from "@mui/material"
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { useSelector } from "react-redux"
 import Notification from "./Notification"
-import { Socket } from "dgram"
-import { io } from "socket.io-client"
+import { useRouter } from 'next/navigation';
 
 type Props = {}
 
-const settings = ["Profile", "Account", "Logout"]
+const settings = ["My profile", "Account", "Logout"]
 
 export function Avatars({ }: Props) {
+  const router = useRouter()
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
   const { mutate } = useLogout()
-  const { isLoading } = useProfile()
+  const { } = useProfile()
   const profileReducer = useSelector(profileSelector)
 
   const handleCloseUserMenu = () => setAnchorElUser(null)
 
   const handleMenuItemClick = (setting: string) => {
     handleCloseUserMenu()
-    if (setting === "Logout") {
+    if (setting === settings[2]) {
       mutate()
+    } else if (setting === settings[0]) {
+      router.push(routers.profile)
     }
   }
 
@@ -106,5 +109,69 @@ export function Avatars({ }: Props) {
         </>
       )}
     </>
+  )
+}
+
+
+export function Profile() {
+  const { data, isLoading } = useProfile()
+
+  return (
+    <Stack direction='row' className='items-center'>
+      {isLoading ? (
+        <Skeleton
+          animation="wave"
+          variant="circular"
+          width={70}
+          height={70}
+        />
+      ) : (
+        data?.picture ? (
+          <Avatar
+            alt='profile'
+            src={data.picture}
+            sx={{ width: 70, height: 70 }}
+          />
+        ) : (
+          <Avatar
+            alt='profile'
+            sx={{ width: 70, height: 70 }}
+          />
+        )
+      )}
+      <Stack direction='column' className="ml-4">
+        {isLoading ? (
+            <Skeleton width={184.77} />
+        ) : (
+          <Typography
+            variant='h2'
+            fontWeight={600}
+            fontSize={18}
+          >
+            {data?.name}
+          </Typography>
+        )}
+        {isLoading ? (
+            <Skeleton width={184.77} />
+        ) : (
+          <Typography
+          variant='caption'
+          fontSize={15}
+          >
+            {data?.username}
+          </Typography>
+        )}
+        {isLoading ? (
+            <Skeleton width={184.77} />
+        ) : (
+          <Typography
+          variant='caption'
+          fontSize={15}
+          >
+            {data?.email}
+          </Typography>
+        )}
+      </Stack>
+    </Stack>
   )
 }

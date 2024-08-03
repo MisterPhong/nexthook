@@ -22,10 +22,6 @@ export default function page() {
             label="Continue with Google"
             iconPath="/socialLogin/google.svg"
           />
-          {/* <SocialButton
-            label="Continue with Facebook"
-            iconPath="/socialLogin/facebook.svg"
-          /> */}
         </Stack>
         <Button LinkComponent={Link} href={routers.login} variant="text">
           Alerady have an account? Sign in

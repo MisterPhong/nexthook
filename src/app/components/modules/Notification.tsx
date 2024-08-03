@@ -80,7 +80,7 @@ export default function Notification({ }: Props) {
 
   return (
     <Box className="flex items-center">
-      <Tooltip title="Notify">
+      <Tooltip title="Notifications">
         <IconButton onClick={handleClick}>
           <Badge
             badgeContent={notificationsReducer.notifysIsRead.length}

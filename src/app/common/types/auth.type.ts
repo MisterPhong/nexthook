@@ -55,14 +55,18 @@ export const SignupSchema = z
 export type Signup = z.infer<typeof SignupSchema>;
 
 export const LoginSchema = z.object({
-  username: z.string(),
-  password: z.string(),
+  username: z
+    .string()
+    .nonempty({ message: 'Username is required' }),
+  password: z
+    .string()
+    .nonempty({ message: 'Password is required' })
 });
 export type Login = z.infer<typeof LoginSchema>;
 
 export const ProfileSchema = z.object({
   userId: z.string(),
-  username: z.string(),
+  username: z.string().nullable(),
   email: z.string(),
   picture: z.string().nullable(),
   name: z.string().nullable()

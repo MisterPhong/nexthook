@@ -15,7 +15,8 @@ const theme = createTheme({
       main: "#6600FF",
     },
     secondary: {
-      main: "#6b6e78"
+      main: "#6b6e78",
+      // main: "#212021"
     },
     background: {
       default: "#fdfbff",
@@ -39,6 +40,10 @@ const theme = createTheme({
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "center",
+          "&:hover": {
+            backgroundColor: "#e5e5e5", // เปลี่ยนสีพื้นหลังเมื่อ hover
+            borderColor: "#c9cace", // เปลี่ยนสี border เมื่อ hover
+          },
         },
         contained: {
           textTransform: "none",

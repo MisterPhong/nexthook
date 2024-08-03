@@ -7,4 +7,5 @@ export const routers = {
     signup: '/signup',
     position: '/app/position',
     forgot: '/forgot',
+    profile:'/app/profile'
 }

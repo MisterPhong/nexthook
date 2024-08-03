@@ -1,187 +1,73 @@
-'use client';
-import React, { useState } from 'react';
-import { Box, Typography, Avatar, TextField, Button, Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
+import { Profile } from '@/app/components/modules/Avatars'
+import {
+  Typography,
+  Avatar,
+  Stack,
+  Card,
+  CardContent,
+  Button,
+  Box,
+} from '@mui/material'
 
-const ProfilePage: React.FC = () => {
-  const [username, setUsername] = useState('KKK');
-  const [email, setEmail] = useState('kkk@kเวร.com');
-  const profilePictureUrl = 'https://img.monomax.me/PSSbJq1aJ6gXroCwdtEZnqRP1X8=/monomax-obj.obs.ap-southeast-2.myhuaweicloud.com/assets/fileupload/picture/A-Better-Tomorrow_4.jpg';
-
-  const [openKeyDialog, setOpenKeyDialog] = useState(false);
-  const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
-  const [apikey, setApikey] = useState('');
-  const [seckey, setSeckey] = useState('');
-  const [seed, setSeed] = useState('');
-  const [editUsername, setEditUsername] = useState(username);
-  const [editEmail, setEditEmail] = useState(email);
-
-  const handleClickOpenKeyDialog = () => setOpenKeyDialog(true);
-  const handleCloseKeyDialog = () => {
-    setApikey('');
-    setSeckey('');
-    setSeed('');
-    setOpenKeyDialog(false);
-  };
-
-  const handleClickOpenEditProfileDialog = () => setOpenEditProfileDialog(true);
-  const handleCloseEditProfileDialog = () => setOpenEditProfileDialog(false);
-
-  const handleApikeyChange = (event: React.ChangeEvent<HTMLInputElement>) => setApikey(event.target.value);
-  const handleSeckeyChange = (event: React.ChangeEvent<HTMLInputElement>) => setSeckey(event.target.value);
-  const handleSeedChange = (event: React.ChangeEvent<HTMLInputElement>) => setSeed(event.target.value);
-
-  const handleEditUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => setEditUsername(event.target.value);
-  const handleEditEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => setEditEmail(event.target.value);
-
-  const handleSubmitKeyDialog = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('APIKey:', apikey);
-    console.log('SecretKey:', seckey);
-    console.log('SeedPhrase:', seed);
-    handleCloseKeyDialog();
-  };
-
-  const handleSubmitEditProfileDialog = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setUsername(editUsername);
-    setEmail(editEmail);
-    handleCloseEditProfileDialog();
-  };
-
+export default function page() {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      minHeight="70vh"
-      bgcolor="#f5f5f5"
-      padding={1}
-    >
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        padding={2}
-      >
-        <Avatar
-          alt={username}
-          src={profilePictureUrl}
-          sx={{ width: 150, height: 150, marginBottom: 2 }}
-        />
-        <Typography variant="h4" gutterBottom>
-          {username}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {email}
-        </Typography>
-      </Box>
-      <Button variant="contained" color="primary" onClick={handleClickOpenKeyDialog}>
-        Enter Key
-      </Button>
-      <Button variant="contained" color="secondary" onClick={handleClickOpenEditProfileDialog} sx={{ marginTop: 2 }}>
-        Edit Profile
-      </Button>
-
-      <Dialog open={openKeyDialog} onClose={handleCloseKeyDialog}
-        PaperProps={{
-          style: {
-            width: '600px',
-            maxWidth: '80%',
-          },
-        }}
-      >
-        <DialogTitle sx={{ marginBottom: 2 }}>Enter API Key & Secret Key</DialogTitle>
-        <DialogContent>
-          <Box
-            component="form"
-            onSubmit={handleSubmitKeyDialog}
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <TextField
-              size="small"
-              label="API Key"
-              value={apikey}
+    <Card elevation={3}>
+      <CardContent>
+        <Stack
+          direction='row'
+          sx={{
+            alignContent: 'center',
+            justifyContent: 'space-between',
+            margin: 'normal',
+            marginY: 3
+          }}
+        >
+          <Profile />
+          <Box className='flex items-center'>
+            <Button
               variant="outlined"
-              margin="dense"
-              onChange={handleApikeyChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <TextField
-              size="small"
-              label="Secret Key"
-              value={seckey}
-              variant="outlined"
-              margin="dense"
-              onChange={handleSeckeyChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <TextField
-              size="small"
-              label="Seed Phrase"
-              value={seed}
-              variant="outlined"
-              margin="dense"
-              onChange={handleSeedChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <DialogActions>
-              <Button onClick={handleCloseKeyDialog}>Cancel</Button>
-              <Button type="submit">Submit</Button>
-            </DialogActions>
+              size='small'
+              sx={{
+                justifyContent: 'center'
+              }}
+            >
+              Edit
+            </Button>
           </Box>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={openEditProfileDialog} onClose={handleCloseEditProfileDialog}
-        PaperProps={{
-          style: {
-            width: '600px',
-            maxWidth: '80%',
-          },
-        }}
-      >
-        <DialogTitle sx={{ marginBottom: 2 }}>Edit Profile</DialogTitle>
-        <DialogContent>
-          <Box
-            component="form"
-            onSubmit={handleSubmitEditProfileDialog}
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <TextField
-              size="small"
-              label="Username"
-              value={editUsername}
-              variant="outlined"
-              margin="dense"
-              onChange={handleEditUsernameChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <TextField
-              size="small"
-              label="Email"
-              value={editEmail}
-              variant="outlined"
-              margin="dense"
-              onChange={handleEditEmailChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <DialogActions>
-              <Button onClick={handleCloseEditProfileDialog}>Cancel</Button>
-              <Button type="submit">Save</Button>
-            </DialogActions>
-          </Box>
-        </DialogContent>
-      </Dialog>
-    </Box>
-  );
-};
-
-export default ProfilePage;
+        </Stack>
+        <div className="border-b border-border mb-4">
+          <ul className="flex space-x-4">
+            <li><a href="#" className="text-primary font-semibold">Key</a></li>
+            <li><a href="#" className="text-muted-foreground">Seed phrase</a></li>
+          </ul>
+        </div>
+        <p className="text-muted-foreground">Displaying 1 to 19 repositories</p>
+        <div className="mt-4">
+          <div className="flex items-center justify-between p-2 border border-border rounded-lg mb-2">
+            <div>
+              <h3 className="font-semibold">taotoxicboy/zookeeper-exchange</h3>
+              <p className="text-muted-foreground">By taotoxicboy · Updated 21 hours ago</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span>7</span>
+              <span>·</span>
+              <span>0</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between p-2 border border-border rounded-lg">
+            <div>
+              <h3 className="font-semibold">taotoxicboy/zookeeper-auth-service</h3>
+              <p className="text-muted-foreground">By taotoxicboy · Updated 21 hours ago</p>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span>17</span>
+              <span>·</span>
+              <span>0</span>
+            </div>
+          </div>
+        </div>
+        {/* // </div > */}
+      </CardContent>
+    </Card>
+  )
+}
