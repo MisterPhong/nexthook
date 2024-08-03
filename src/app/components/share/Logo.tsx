@@ -16,7 +16,7 @@ export default function Logo({ width = 80, height = 80 }: Props) {
             }}
         >
             <Image
-                alt='email-icon'
+                alt='logo-icon'
                 src='/logo/logo.svg'
                 width={width}
                 height={height}

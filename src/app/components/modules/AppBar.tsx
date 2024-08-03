@@ -1,12 +1,7 @@
-import {
-    AppBar as AppBars,
-    Toolbar,
-    Typography,
-    Stack,
-    Box,
-} from '@mui/material'
+import { AppBar as AppBars, Toolbar, Stack, Box } from '@mui/material'
 import { Avatars } from '../modules/Avatars'
 import Menus from '../modules/Menus'
+import Image from 'next/image'
 import Link from 'next/link'
 import { routers } from '@/app/common/constant/path'
 
@@ -22,14 +17,17 @@ export default function AppBar({}: Props) {
                 <Box
                     sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}
                 >
-                    <Typography
-                        component={Link}
-                        href={routers.landing}
-                        variant='h6'
-                        sx={{ mr: 2 }}
-                    >
-                        Logo
-                    </Typography>
+                    <Link href={routers.root}>
+                        <Image
+                            alt='email-icon'
+                            src='/logo/logo.svg'
+                            width={30}
+                            height={30}
+                            style={{
+                                marginRight: 10,
+                            }}
+                        />
+                    </Link>
                     <Box
                         sx={{
                             display: { xs: 'none', md: 'flex' },

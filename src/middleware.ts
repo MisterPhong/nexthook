@@ -30,7 +30,7 @@ export function middleware(request: NextRequest) {
     }
 
     // Check if the user is visiting the /app/position path
-    if (url.pathname === routers.position) {
+    if (url.pathname === routers.position || url.pathname === routers.profile) {
         const accessToken = request.cookies.get(cookieKey.accessToken)?.value
         if (!accessToken) {
             url.pathname = routers.landing // Redirect to /app/predict if no access token
@@ -43,5 +43,12 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/', '/otp', '/app/position'],
+    matcher: [
+        '/',
+        '/otp',
+        '/app/position',
+        '/app/profile',
+        '/challenge',
+        '/reset-password',
+    ],
 }
