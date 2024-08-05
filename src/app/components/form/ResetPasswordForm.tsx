@@ -16,15 +16,17 @@ import { useRouter } from 'next/navigation'
 import { routers } from '@/app/common/constant/path'
 import { IoEye, IoEyeOffOutline } from 'react-icons/io5'
 import PasswordStrengthBar from 'react-password-strength-bar'
+import { useResetPassword } from '@/app/common/hooks/useResetPassword'
 
-type Props = {}
+type Props = {
+    token: string
+}
 
-export default function NewPasswordForm() {
+export default function ResetPasswordForm({ token }: Props) {
+    console.log(token)
     const router = useRouter()
     const [showPassword, setShowPassword] = useState(false)
-    const [isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [password, setPassword] = useState('')
-    const { mutate, error, isLoading } = useSignup()
     const {
         register,
         handleSubmit,
@@ -32,6 +34,7 @@ export default function NewPasswordForm() {
     } = useForm<NewPassword>({
         resolver: zodResolver(NewPasswordSchema),
     })
+    const { mutate, isLoading } = useResetPassword()
 
     const handleClickShowPassword = () => setShowPassword((prev) => !prev)
 
@@ -46,6 +49,15 @@ export default function NewPasswordForm() {
             spacing={2}
             component={'form'}
             onSubmit={handleSubmit((data) => {
+                console.log(data)
+                mutate({
+                    token,
+                    password: data.password,
+                },{
+                    onSuccess:()=>{
+                        router.push(routers.login)
+                    }
+                })
                 //   mutate(data, {
                 //     onSuccess: () => router.push('/success-page'), // Adjust this according to your routing
                 //   });

@@ -35,7 +35,7 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - mongo_data`:/data/db
+      - mongo_data:/data/db
 
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -94,6 +94,7 @@ services:
       PASSWORD_EMAIL: jvpp fujd ecvy pifo
       REDIS_URL: redis
       REDIS_PORT: 6379
+      RESET_PASSWORD_URL: http://localhost:3000/new-password
     depends_on:
       - zookeeper
       - kafka
@@ -163,7 +164,6 @@ services:
       GOOGLE_CALLBACK_URL: http://localhost:4000/api/auth/google/callback
       SOCIAL_REDIRECT: http://localhost:3000/app
       NOTIFY_QUEUE: notification_queue
-      RESET_PASSWORD_URL: http://localhost:3000/new-password
     depends_on:
       - mongo
       - redis
