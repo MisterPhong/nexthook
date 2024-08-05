@@ -1,187 +1,72 @@
-'use client';
-import React, { useState } from 'react';
-import { Box, Typography, Avatar, TextField, Button, Dialog, DialogContent, DialogTitle, DialogActions } from '@mui/material';
+'use client'
 
-const ProfilePage: React.FC = () => {
-  const [username, setUsername] = useState('KKK');
-  const [email, setEmail] = useState('kkk@kเวร.com');
-  const profilePictureUrl = 'https://img.monomax.me/PSSbJq1aJ6gXroCwdtEZnqRP1X8=/monomax-obj.obs.ap-southeast-2.myhuaweicloud.com/assets/fileupload/picture/A-Better-Tomorrow_4.jpg';
+import { useState } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 
-  const [openKeyDialog, setOpenKeyDialog] = useState(false);
-  const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
-  const [apikey, setApikey] = useState('');
-  const [seckey, setSeckey] = useState('');
-  const [seed, setSeed] = useState('');
-  const [editUsername, setEditUsername] = useState(username);
-  const [editEmail, setEditEmail] = useState(email);
+export default function Widget() {
+  const [open, setOpen] = useState(false);
+  const [dialogContent, setDialogContent] = useState('');
 
-  const handleClickOpenKeyDialog = () => setOpenKeyDialog(true);
-  const handleCloseKeyDialog = () => {
-    setApikey('');
-    setSeckey('');
-    setSeed('');
-    setOpenKeyDialog(false);
+  const handleClickOpen = (content: string) => {
+    setDialogContent(content);
+    setOpen(true);
   };
 
-  const handleClickOpenEditProfileDialog = () => setOpenEditProfileDialog(true);
-  const handleCloseEditProfileDialog = () => setOpenEditProfileDialog(false);
-
-  const handleApikeyChange = (event: React.ChangeEvent<HTMLInputElement>) => setApikey(event.target.value);
-  const handleSeckeyChange = (event: React.ChangeEvent<HTMLInputElement>) => setSeckey(event.target.value);
-  const handleSeedChange = (event: React.ChangeEvent<HTMLInputElement>) => setSeed(event.target.value);
-
-  const handleEditUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => setEditUsername(event.target.value);
-  const handleEditEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => setEditEmail(event.target.value);
-
-  const handleSubmitKeyDialog = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('APIKey:', apikey);
-    console.log('SecretKey:', seckey);
-    console.log('SeedPhrase:', seed);
-    handleCloseKeyDialog();
-  };
-
-  const handleSubmitEditProfileDialog = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setUsername(editUsername);
-    setEmail(editEmail);
-    handleCloseEditProfileDialog();
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      minHeight="70vh"
-      bgcolor="#f5f5f5"
-      padding={1}
-    >
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        padding={2}
+    <div className="flex flex-col items-center p-6 bg-background rounded-lg shadow-md">
+      <img className="w-24 h-24 rounded-full border-4 border-primary" src="https://placehold.co/100x100?text=🔥" alt="User Profile Picture" />
+      <h2 className="mt-4 text-lg font-semibold text-foreground">KKK</h2>
+      <p className="text-muted-foreground">kkk@k135.com</p>
+      <Button 
+        className="mt-4 bg-primary text-primary-foreground hover:bg-primary/80 px-4 py-2 rounded-lg" 
+        onClick={() => handleClickOpen('Enter Key Dialog Content')}
       >
-        <Avatar
-          alt={username}
-          src={profilePictureUrl}
-          sx={{ width: 150, height: 150, marginBottom: 2 }}
-        />
-        <Typography variant="h4" gutterBottom>
-          {username}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {email}
-        </Typography>
-      </Box>
-      <Button variant="contained" color="primary" onClick={handleClickOpenKeyDialog}>
         Enter Key
       </Button>
-      <Button variant="contained" color="secondary" onClick={handleClickOpenEditProfileDialog} sx={{ marginTop: 2 }}>
-        Edit Profile
-      </Button>
 
-      <Dialog open={openKeyDialog} onClose={handleCloseKeyDialog}
-        PaperProps={{
-          style: {
-            width: '600px',
-            maxWidth: '80%',
-          },
-        }}
-      >
-        <DialogTitle sx={{ marginBottom: 2 }}>Enter API Key & Secret Key</DialogTitle>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{dialogContent}</DialogTitle>
         <DialogContent>
-          <Box
-            component="form"
-            onSubmit={handleSubmitKeyDialog}
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <TextField
-              size="small"
-              label="API Key"
-              value={apikey}
-              variant="outlined"
-              margin="dense"
-              onChange={handleApikeyChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <TextField
-              size="small"
-              label="Secret Key"
-              value={seckey}
-              variant="outlined"
-              margin="dense"
-              onChange={handleSeckeyChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <TextField
-              size="small"
-              label="Seed Phrase"
-              value={seed}
-              variant="outlined"
-              margin="dense"
-              onChange={handleSeedChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <DialogActions>
-              <Button onClick={handleCloseKeyDialog}>Cancel</Button>
-              <Button type="submit">Submit</Button>
-            </DialogActions>
-          </Box>
+          <DialogContentText>
+            Please enter the required information.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="api"
+            label="api key"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            margin="dense"
+            id="sec"
+            label="secrect key"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
         </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
       </Dialog>
-
-      <Dialog open={openEditProfileDialog} onClose={handleCloseEditProfileDialog}
-        PaperProps={{
-          style: {
-            width: '600px',
-            maxWidth: '80%',
-          },
-        }}
-      >
-        <DialogTitle sx={{ marginBottom: 2 }}>Edit Profile</DialogTitle>
-        <DialogContent>
-          <Box
-            component="form"
-            onSubmit={handleSubmitEditProfileDialog}
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <TextField
-              size="small"
-              label="Username"
-              value={editUsername}
-              variant="outlined"
-              margin="dense"
-              onChange={handleEditUsernameChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <TextField
-              size="small"
-              label="Email"
-              value={editEmail}
-              variant="outlined"
-              margin="dense"
-              onChange={handleEditEmailChange}
-              sx={{ marginBottom: 2, width: '500px' }}
-            />
-            <DialogActions>
-              <Button onClick={handleCloseEditProfileDialog}>Cancel</Button>
-              <Button type="submit">Save</Button>
-            </DialogActions>
-          </Box>
-        </DialogContent>
-      </Dialog>
-    </Box>
+    </div>
   );
-};
-
-export default ProfilePage;
+}
