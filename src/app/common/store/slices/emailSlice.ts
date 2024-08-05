@@ -15,7 +15,7 @@ const emailSlice = createSlice({
     name: 'email',
     initialState,
     reducers: {
-        setEmail(state: EmailState, action: PayloadAction<string>) {
+        setEmail(state: EmailState, action: PayloadAction<string | undefined>) {
             state.email = action.payload
             state.load = false
         },

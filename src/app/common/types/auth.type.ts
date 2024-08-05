@@ -1,3 +1,4 @@
+import { PassThrough } from 'stream'
 import * as z from 'zod'
 
 export const AuthSchema = z.object({
@@ -48,3 +49,50 @@ export const ProfileSchema = z.object({
     name: z.string().nullable(),
 })
 export type Profile = z.infer<typeof ProfileSchema>
+
+export const NewPasswordSchema = z
+    .object({
+        password: z
+            .string()
+            .min(8, { message: 'Password must be at least 8 characters long' })
+            .regex(/[A-Z]/, {
+                message: 'Password must contain at least one uppercase letter',
+            })
+            .regex(/[a-z]/, {
+                message: 'Password must contain at least one lowercase letter',
+            })
+            .regex(/[0-9]/, {
+                message: 'Password must contain at least one number',
+            })
+            .regex(/[@$!%*?&#]/, {
+                message: 'Password must contain at least one special character',
+            }),
+        confirmPassword: z
+            .string()
+            .min(8, { message: 'Password must be at least 8 characters long' })
+            .regex(/[A-Z]/, {
+                message: 'Password must contain at least one uppercase letter',
+            })
+            .regex(/[a-z]/, {
+                message: 'Password must contain at least one lowercase letter',
+            })
+            .regex(/[0-9]/, {
+                message: 'Password must contain at least one number',
+            })
+            .regex(/[@$!%*?&#]/, {
+                message: 'Password must contain at least one special character',
+            }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ['confirmPassword'], // Ensure this path matches the field you want to associate the error with
+    })
+
+export type NewPassword = z.infer<typeof NewPasswordSchema>
+
+export const ResetPasswordSchema = z.object({
+    "token": z.string(),
+    "password": z.string(),
+});
+export type ResetPassword = z.infer<typeof ResetPasswordSchema>;
+

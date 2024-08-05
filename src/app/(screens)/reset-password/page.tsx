@@ -1,3 +1,4 @@
+import ShowMail from '@/app/components/modules/ShowMail'
 import { DontAccount } from '@/app/components/share/DontAccount'
 import Logo from '@/app/components/share/Logo'
 import {
@@ -39,10 +40,11 @@ export default function page() {
                     <Typography align='center' paragraph color='textSecondary'>
                         Please check the email address
                     </Typography>
-                    <Typography align='center' paragraph color='textSecondary'>
+                    {/* <Typography align='center' paragraph color='textSecondary'>
                         ppv_tao@outlook.co.th for instructions to reset your
                         password.
-                    </Typography>
+                    </Typography> */}
+                    <ShowMail/>
                     <Button
                         variant='outlined'
                         sx={{
