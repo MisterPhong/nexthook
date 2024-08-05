@@ -21,13 +21,13 @@ const emailSlice = createSlice({
             state.email = action.payload
             state.load = false
         },
-        setReEmail(state: EmailState) {
-            state.email = undefined
+        setEamilForgot(state: EmailState, action: PayloadAction<string>) {
+            state.email = action.payload
             state.load = false
         },
     },
 })
 
-export const { setEmail, setReEmail } = emailSlice.actions
+export const { setEmail, setEamilForgot } = emailSlice.actions
 export const emailSelector = (store: RootState) => store.emailReducer
 export default emailSlice.reducer

@@ -12,7 +12,7 @@ import { httpClient } from '@/app/common/services/httpClient'
 import { server } from '@/app/common/constant/server'
 import { useChallenge } from '@/app/common/hooks/useChallenge'
 import { useAppDispatch } from '@/app/common/store/store'
-import { setEmail } from '@/app/common/store/slices/emailSlice'
+import { setEamilForgot, setEmail } from '@/app/common/store/slices/emailSlice'
 
 type Props = {}
 
@@ -35,7 +35,7 @@ export default function ForgotForm({}: Props) {
                 mutate(data, {
                     onSuccess: () => {
                         router.push(routers.resetPassword)
-                        dispatch(setEmail(data.email))
+                        dispatch(setEamilForgot(data.email))
                     },
                 })
             })}
