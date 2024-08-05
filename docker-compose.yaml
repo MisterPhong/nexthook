@@ -170,7 +170,7 @@ services:
       - zookeeper
       - kafka
     ports:
-      - "3000:4000"
+      - "4000:4000"
       - "8001:8001"
 
 volumes:
