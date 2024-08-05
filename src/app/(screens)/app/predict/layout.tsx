@@ -7,10 +7,8 @@ export const metadata: Metadata = {
     description: 'Prediction page',
 }
 
-export default function layout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return (
-        <Box className="container mx-auto mt-5">
-            {children}
-        </Box>
-    )
+export default function layout({
+    children,
+}: Readonly<{ children: React.ReactNode }>) {
+    return <Box className='container mx-auto mt-5'>{children}</Box>
 }

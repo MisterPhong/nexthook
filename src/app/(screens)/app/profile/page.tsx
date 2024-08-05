@@ -1,72 +1,103 @@
 'use client'
+import { Profile } from '@/app/components/modules/Avatars'
+import {
+    Stack,
+    Card,
+    CardContent,
+    Button,
+    Box,
+    Tab,
+    Divider,
+    Typography,
+} from '@mui/material'
+import { useState } from 'react'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { SiAwssecretsmanager } from 'react-icons/si'
 
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
+export default function page() {
+    const [value, setValue] = useState('1')
 
-export default function Widget() {
-  const [open, setOpen] = useState(false);
-  const [dialogContent, setDialogContent] = useState('');
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue)
+    }
 
-  const handleClickOpen = (content: string) => {
-    setDialogContent(content);
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div className="flex flex-col items-center p-6 bg-background rounded-lg shadow-md">
-      <img className="w-24 h-24 rounded-full border-4 border-primary" src="https://placehold.co/100x100?text=🔥" alt="User Profile Picture" />
-      <h2 className="mt-4 text-lg font-semibold text-foreground">KKK</h2>
-      <p className="text-muted-foreground">kkk@k135.com</p>
-      <Button 
-        className="mt-4 bg-primary text-primary-foreground hover:bg-primary/80 px-4 py-2 rounded-lg" 
-        onClick={() => handleClickOpen('Enter Key Dialog Content')}
-      >
-        Enter Key
-      </Button>
-
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{dialogContent}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please enter the required information.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="api"
-            label="api key"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            margin="dense"
-            id="sec"
-            label="secrect key"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+    return (
+        <Card elevation={3}>
+            <CardContent>
+                <Stack
+                    direction='row'
+                    sx={{
+                        alignContent: 'center',
+                        justifyContent: 'space-between',
+                        margin: 'normal',
+                        marginY: 3,
+                    }}
+                >
+                    <Profile />
+                    <Box className='flex items-center'>
+                        <Button
+                            variant='outlined'
+                            size='small'
+                            sx={{
+                                justifyContent: 'center',
+                            }}
+                        >
+                            Edit
+                        </Button>
+                    </Box>
+                </Stack>
+                <TabContext value={value}>
+                    <Divider />
+                    <Box>
+                        <TabList
+                            onChange={handleChange}
+                            aria-label='lab API tabs example'
+                        >
+                            <Tab
+                                sx={{
+                                    fontSize: 12,
+                                    color:
+                                        value === '1' ? '#6600FF' : '#6b6e78',
+                                    fontWeight:
+                                        value === '1' ? 'bold' : 'normal',
+                                }}
+                                label='Secret'
+                                value='1'
+                            />
+                        </TabList>
+                    </Box>
+                    <TabPanel value='1'>
+                        <Stack
+                            direction='column'
+                            spacing={2}
+                            alignItems='center'
+                            justifyContent='center'
+                            sx={{
+                                height: '100%',
+                            }}
+                        >
+                            <SiAwssecretsmanager size={50} />
+                            <Typography
+                                variant='h6'
+                                fontWeight={600}
+                                fontSize={20}
+                            >
+                                You have not added the secret key and api key
+                                yet.
+                            </Typography>
+                            <Button
+                                sx={{
+                                    width: 'max-content',
+                                }}
+                                variant='contained'
+                            >
+                                Add secret
+                            </Button>
+                        </Stack>
+                    </TabPanel>
+                    <TabPanel value='2'>Item Two</TabPanel>
+                </TabContext>
+            </CardContent>
+        </Card>
+    )
 }

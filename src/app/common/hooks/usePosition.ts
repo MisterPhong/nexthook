@@ -9,11 +9,15 @@ import { io } from 'socket.io-client'
 
 async function profile(): Promise<PositionResponse[]> {
     try {
-        const response = await httpClient.get<PositionResponse[]>(server.query_order)
+        const response = await httpClient.get<PositionResponse[]>(
+            server.query_order
+        )
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
-            const parsedError = ErrorResponseSchema.safeParse(error.response.data)
+            const parsedError = ErrorResponseSchema.safeParse(
+                error.response.data
+            )
             if (!parsedError.success) {
                 throw new Error('Unexpected error format')
             }
@@ -36,15 +40,15 @@ async function realPosition() {
     return new Promise((resolve, reject) => {
         const socket = io('http://localhost:9090', {
             query: {
-                seed: '1234'
+                seed: '1234',
             },
             transportOptions: {
                 polling: {
                     extraHeaders: {
-                        Authorization: `Bearer ${accessToken}` // Use access token from cookies
-                    }
-                }
-            }
+                        Authorization: `Bearer ${accessToken}`, // Use access token from cookies
+                    },
+                },
+            },
         })
 
         socket.on('connect', () => {
@@ -66,12 +70,8 @@ async function realPosition() {
 }
 
 export function useRealPosition() {
-    return useQuery<any, ErrorResponse>(
-        'real-position',
-        () => realPosition(),
-        {
-            refetchInterval: false, // Disable automatic refetching
-            refetchOnWindowFocus: false, // Disable refetching on window focus
-        }
-    )
+    return useQuery<any, ErrorResponse>('real-position', () => realPosition(), {
+        refetchInterval: false, // Disable automatic refetching
+        refetchOnWindowFocus: false, // Disable refetching on window focus
+    })
 }

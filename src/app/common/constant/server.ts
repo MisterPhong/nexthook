@@ -10,9 +10,9 @@ export const server = {
     profile: 'auth/profile',
     order: 'orders/create',
     query_order: 'orders/query',
-    notification:'notification'
+    notification: 'notification',
 }
 
 export const social = {
-    google:'auth/google',
+    google: 'auth/google',
 }

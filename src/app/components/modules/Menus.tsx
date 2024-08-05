@@ -12,33 +12,34 @@ type Props = {}
 const pages = [
     {
         page: 'Predict',
-        path: routers.predict
+        path: routers.predict,
     },
     {
         page: 'Position',
-        path: routers.position
-    },
-    {
-        page: 'Blog',
-        path: routers.position
+        path: routers.position,
     },
 ]
 
-export default function Menus({ }: Props) {
+export default function Menus({}: Props) {
     const profileReducer = useSelector(profileSelector)
 
     return (
         <>
-            {pages.filter(page => !(page.page === 'Position' && !profileReducer.result)).map((page) => (
-                <Button
-                    key={page.page}
-                    sx={{ my: 2, display: 'block' }}
-                    component={Link}
-                    href={page.path}
-                >
-                    {page.page}
-                </Button>
-            ))}
+            {pages
+                .filter(
+                    (page) =>
+                        !(page.page === 'Position' && !profileReducer.result),
+                )
+                .map((page) => (
+                    <Button
+                        key={page.page}
+                        sx={{ my: 2, display: 'block' }}
+                        component={Link}
+                        href={page.path}
+                    >
+                        {page.page}
+                    </Button>
+                ))}
         </>
     )
 }

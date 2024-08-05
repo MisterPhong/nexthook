@@ -1,6 +1,4 @@
-import {
-    InputLabel as Label
-} from '@mui/material'
+import { InputLabel as Label } from '@mui/material'
 import React from 'react'
 
 type Props = {
