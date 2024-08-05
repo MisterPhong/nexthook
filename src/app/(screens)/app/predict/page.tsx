@@ -1,5 +1,5 @@
 import { CoinInfo } from '@/app/components/modules/CoinInfo'
-import { Box, Card, CardContent, Typography } from '@mui/material'
+import { Box, Card, CardContent, Divider, Typography } from '@mui/material'
 import React from 'react'
 
 type Props = {}
@@ -29,6 +29,7 @@ export default function Page({}: Props) {
                         </Box>
                     ))}
                 </Box>
+                <Divider/>
                 <CoinInfo />
             </CardContent>
         </Card>

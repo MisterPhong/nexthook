@@ -4,9 +4,16 @@ import Image from 'next/image'
 type Props = {
     width?: number
     height?: number
+    src?: string
+    alt?: string
 }
 
-export default function Logo({ width = 80, height = 80 }: Props) {
+export default function Logo({
+    width = 60,
+    height = 60,
+    src = '/logo/Logo.svg',
+    alt = 'icon',
+}: Props) {
     return (
         <Box
             sx={{
@@ -15,12 +22,7 @@ export default function Logo({ width = 80, height = 80 }: Props) {
                 marginBottom: 2,
             }}
         >
-            <Image
-                alt='logo-icon'
-                src='/logo/logo.svg'
-                width={width}
-                height={height}
-            />
+            <Image alt={alt} src={src} width={width} height={height} />
         </Box>
     )
 }

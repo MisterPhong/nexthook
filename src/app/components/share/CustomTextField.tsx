@@ -1,4 +1,11 @@
-import { TextField, TextFieldVariants, TextFieldProps } from '@mui/material'
+import {
+    TextField,
+    TextFieldVariants,
+    TextFieldProps,
+    FilledInputProps,
+    OutlinedInputProps,
+    InputProps,
+} from '@mui/material'
 import React from 'react'
 
 type Props = {
@@ -8,10 +15,27 @@ type Props = {
     variant: TextFieldVariants
     id: string
     type?: React.HTMLInputTypeAttribute | undefined
+    InputProps?:
+        | Partial<FilledInputProps>
+        | Partial<OutlinedInputProps>
+        | Partial<InputProps>
+        | undefined
 } & TextFieldProps
 
 const CustomTextField = React.forwardRef<HTMLDivElement, Props>(
-    ({ id, error, helperText, label, variant, type, ...props }, ref) => {
+    (
+        {
+            id,
+            error,
+            helperText,
+            label,
+            variant,
+            type,
+            InputProps,
+            ...props
+        },
+        ref,
+    ) => {
         return (
             <TextField
                 id={id}
@@ -23,6 +47,7 @@ const CustomTextField = React.forwardRef<HTMLDivElement, Props>(
                 size='small'
                 inputRef={ref}
                 {...props}
+                InputProps={InputProps}
             />
         )
     },

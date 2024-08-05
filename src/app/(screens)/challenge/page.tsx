@@ -27,7 +27,12 @@ export default function page({}: Props) {
         >
             <Card className='w-96 px-5'>
                 <CardContent>
-                    <Logo/>
+                    <Logo
+                        alt='forgot-icon'
+                        src='/images/forgot.svg'
+                        width={140}
+                        height={140}
+                    />
                     <Typography variant='h6' align='center' gutterBottom>
                         Forgot Your Password
                     </Typography>

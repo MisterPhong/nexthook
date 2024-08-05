@@ -28,7 +28,7 @@ async function logout(): Promise<OK> {
 export function useLogout() {
     const dispatch = useAppDispatch()
 
-    return useMutation<OK, ErrorResponse, void>(async () => await logout(), {
+    return useMutation<OK, ErrorResponse, {}>(logout, {
         onSuccess: () => {
             dispatch(setLogout())
         },

@@ -19,8 +19,8 @@ export default function AppBar({}: Props) {
                 >
                     <Link href={routers.root}>
                         <Image
-                            alt='email-icon'
-                            src='/logo/logo.svg'
+                            alt='logo-icon'
+                            src='/logo/Logo.svg'
                             width={30}
                             height={30}
                             style={{

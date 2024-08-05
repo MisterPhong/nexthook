@@ -32,7 +32,7 @@ export function Avatars({}: Props) {
         null,
     )
     const { mutate } = useLogout()
-    const {} = useProfile()
+    const { isLoading } = useProfile()
     const profileReducer = useSelector(profileSelector)
 
     const handleCloseUserMenu = () => setAnchorElUser(null)
@@ -40,7 +40,14 @@ export function Avatars({}: Props) {
     const handleMenuItemClick = (setting: string) => {
         handleCloseUserMenu()
         if (setting === settings[2]) {
-            mutate()
+            mutate(
+                {},
+                {
+                    onSuccess: () => {
+                        router.push(routers.landing)
+                    },
+                },
+            )
         } else if (setting === settings[0]) {
             router.push(routers.profile)
         }
@@ -51,7 +58,12 @@ export function Avatars({}: Props) {
 
     return (
         <>
-            {profileReducer.result ? (
+            {isLoading ? (
+                <Stack spacing={2} direction={'row'}>
+                    <Skeleton variant='circular' width={40} height={40} />
+                    <Skeleton variant='circular' width={40} height={40} />
+                </Stack>
+            ) : profileReducer.result ? (
                 <Box sx={{ flexGrow: 0 }}>
                     <Stack spacing={2} direction={'row'}>
                         <Notification />

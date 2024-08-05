@@ -18,10 +18,6 @@ const pages = [
         page: 'Position',
         path: routers.position,
     },
-    {
-        page: 'Blog',
-        path: routers.position,
-    },
 ]
 
 export default function Menus({}: Props) {

@@ -7,7 +7,9 @@ type Props = {}
 export function DontAccount({}: Props) {
     return (
         <Card elevation={3} className='w-96 p-3 flex justify-center gap-x-2'>
-            <Typography fontWeight={400}>Don't have an account?</Typography>
+            <Typography fontWeight={400}>
+                Don&apos;t have an account?
+            </Typography>
             <LinkMui
                 component={Link}
                 href={routers.signup}

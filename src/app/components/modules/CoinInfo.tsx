@@ -2,7 +2,13 @@
 
 import { symbol } from '@/app/common/constant/symbols'
 import { useCoins } from '@/app/common/hooks/useCoins'
-import { Box, Skeleton, Stack, Typography } from '@mui/material'
+import {
+    Box,
+    Button,
+    Skeleton,
+    Stack,
+    Typography,
+} from '@mui/material'
 import React from 'react'
 
 type Props = {}
@@ -11,39 +17,71 @@ export function CoinInfo({}: Props) {
     return (
         <Box>
             {symbol.map((item) => (
-                <Box key={item.symbol} className='grid grid-cols-5 w-full'>
-                    <Stack
-                        spacing={0.5}
-                        direction={'row'}
-                        className='items-center'
+                <Box key={item.symbol}>
+                    <Box
+                        sx={{
+                            height: 'max-content',
+                        }}
+                        className='grid grid-cols-5'
                     >
-                        {item.icon}
-                        <Typography
-                            fontWeight={600}
-                            className='flex items-center'
+                        <Stack
+                            spacing={0.8}
+                            direction={'row'}
+                            alignItems='center'
                         >
-                            {item.nameShort}
-                        </Typography>
+                            {item.icon}
+                            <Typography
+                                fontWeight={600}
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                {item.nameShort}
+                            </Typography>
+                            <Typography fontWeight={400} variant='caption'>
+                                {item.nameLong}
+                            </Typography>
+                        </Stack>
                         <Typography
-                            fontWeight={400}
-                            className='flex'
-                            variant='caption'
+                            fontWeight={500}
+                            variant='body1'
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'start',
+                            }}
                         >
-                            {item.nameLong}
+                            15/07/2024
                         </Typography>
-                    </Stack>
-                    <Typography fontWeight={500} className='5' variant='body1'>
-                        15/07/2024{' '}
-                    </Typography>
-                    <CoinPrice symbol={item.symbol} />
-                    <Typography
-                        fontWeight={500}
-                        className='mt-5'
-                        variant='body1'
-                    >
-                        65,000
-                    </Typography>
-                    <button>open</button>
+                        <CoinPrice symbol={item.symbol} />
+                        <Typography
+                            fontWeight={500}
+                            variant='body1'
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'start',
+                            }}
+                        >
+                            65,000
+                        </Typography>
+                        <Button
+                            variant='outlined'
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: 'max-content',
+                                width: 'max-content',
+                                margin: 'auto',
+                            }}
+                        >
+                            open
+                        </Button>
+                    </Box>
+                    {/* <Divider /> */}
                 </Box>
             ))}
         </Box>
@@ -54,14 +92,9 @@ export function CoinPrice({ symbol }: { symbol: string }) {
     const { data, isLoading } = useCoins(symbol)
 
     return (
-        <Box className={`${!isLoading ? 'mt-2' : 'mt-[-2px]'}`}>
+        <Box>
             {isLoading ? (
-                <Skeleton
-                    className='mt-2'
-                    animation='wave'
-                    height={50}
-                    width={120}
-                />
+                <Skeleton animation='wave' height={48} width={120} />
             ) : (
                 <>
                     <Prices c={data?.c!} p={+data?.p!} />
@@ -119,22 +152,33 @@ export function PriceLaning({ symbol }: { symbol: string }) {
     }
 
     return (
-        <>
+        <Box
+            className='col-span-2'
+            sx={{
+                display: 'flex',
+                justifyContent: 'end',
+                alignItems: 'end',
+                flexDirection: 'row',
+                columnGap: 1,
+            }}
+        >
             {isLoading ? (
                 <Skeleton
-                    className='ml-5'
                     animation='wave'
                     height={45}
                     width={80}
                 />
             ) : (
                 <Typography
-                    fontWeight={500}
+                    fontWeight={600}
                     className={`${
-                        !isLoading && 'mt-[21px]'
-                    } flex justify-end items-center ${
                         Number(data?.p) > 0 ? 'text-LONG' : 'text-SHORT'
                     }`}
+                    sx={{
+                        height: '45px',
+                        display: 'flex',
+                        alignItems: 'end',
+                    }}
                     variant='body1'
                 >
                     ${formatPrice(data?.c!)}
@@ -142,19 +186,22 @@ export function PriceLaning({ symbol }: { symbol: string }) {
             )}
             {isLoading ? (
                 <Skeleton
-                    className='ml-5'
                     animation='wave'
                     height={45}
-                    width={80}
+                    width={50}
                 />
             ) : (
                 <Typography
-                    fontWeight={500}
+                    fontWeight={600}
                     className={`${
-                        !isLoading && 'mt-[21px]'
-                    } flex justify-end items-center ${
                         Number(data?.P) > 0 ? 'text-LONG' : 'text-SHORT'
                     }`}
+                    sx={{
+                        height: '45px',
+                        display: 'flex',
+                        alignItems: 'end',
+                        width:'50px'
+                    }}
                     variant='body1'
                 >
                     {Number(data?.P) > 0
@@ -162,6 +209,6 @@ export function PriceLaning({ symbol }: { symbol: string }) {
                         : `${Number(data?.P).toFixed(2)}%`}
                 </Typography>
             )}
-        </>
+        </Box>
     )
 }

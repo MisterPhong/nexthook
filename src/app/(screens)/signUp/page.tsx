@@ -10,11 +10,12 @@ export default function page() {
     return (
         <Box className='w-full'>
             <Stack className='max-w-md mx-auto' spacing={2}>
-            <Logo />
+                <Logo alt='logo' />
                 <Typography
-                    variant='h5'
-                    className='text-center'
+                    variant='h6'
                     fontWeight={500}
+                    fontSize={19}
+                    align='center'
                 >
                     Create your account
                 </Typography>

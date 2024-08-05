@@ -1,4 +1,5 @@
 import { DontAccount } from '@/app/components/share/DontAccount'
+import Logo from '@/app/components/share/Logo'
 import {
     Box,
     Button,
@@ -21,20 +22,12 @@ export default function page() {
         >
             <Card className='w-96 p-5' elevation={3}>
                 <CardContent>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            marginBottom: 2,
-                        }}
-                    >
-                        <Image
-                            alt='email-icon'
-                            src='/mail/mailbox.svg'
-                            width={150}
-                            height={150}
-                        />
-                    </Box>
+                    <Logo
+                        alt='email-icon'
+                        src='/images/mailbox.svg'
+                        width={150}
+                        height={150}
+                    />
                     <Typography
                         variant='h6'
                         fontWeight={500}
@@ -56,7 +49,7 @@ export default function page() {
                             marginX: 'auto',
                             justifyContent: 'center',
                             fontWeight: 300,
-                            fontSize:16
+                            fontSize: 16,
                         }}
                         fullWidth
                     >

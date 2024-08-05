@@ -9,11 +9,7 @@ import { setEmail } from '../store/slices/emailSlice'
 
 async function signup(payload: Signup): Promise<Email> {
     try {
-        const response = await httpClient.post(server.signup, {
-            email: payload.email,
-            username: payload.username,
-            password: payload.password,
-        })
+        const response = await httpClient.post(server.signup, payload)
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
