@@ -58,7 +58,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data`:/data/db
+      - mongo_data:/data/db
 
   rabbitmq:
     image: rabbitmq:management-alpine
@@ -91,7 +91,7 @@ services:
 
   key-service:
     container_name: srcret-service
-    image: taotoxicboy/zookeeper-key-service:0.2
+    image: taotoxicboy/zookeeper-key-service:0.3
     # build:
     #   context: .
     #   dockerfile: ./apps/key/Dockerfile
@@ -109,7 +109,7 @@ services:
 
   mail-queue:
     container_name: mail-service
-    image: taotoxicboy/zookeeper-mail-queue-service:0.3
+    image: taotoxicboy/zookeeper-mail-queue-service:0.4
     # build:
     #   context: .
     #   dockerfile: ./apps/mail-queue/Dockerfile
@@ -127,7 +127,7 @@ services:
 
   auth-service:
     container_name: auth-service
-    image: taotoxicboy/zookeeper-auth-service:0.3
+    image: taotoxicboy/zookeeper-auth-service:0.4
     # build:
     #   context: .
     #   dockerfile: ./apps/auth/Dockerfile
@@ -150,7 +150,7 @@ services:
 
   exchange:
     container_name: example-service
-    image: taotoxicboy/zookeeper-exchange:0.4
+    image: taotoxicboy/zookeeper-exchange:0.5
     # build:
     #   context: .
     #   dockerfile: ./apps/exchange/Dockerfile
@@ -167,7 +167,7 @@ services:
 
   gateway:
     container_name: gateway
-    image: taotoxicboy/zookeeper-gateway-service:0.3
+    image: taotoxicboy/zookeeper-gateway-service:0.4
     # build:
     #   context: .
     #   dockerfile: ./apps/gateway/Dockerfile
