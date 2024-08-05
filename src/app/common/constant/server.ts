@@ -11,6 +11,9 @@ export const server = {
     order: 'orders/create',
     query_order: 'orders/query',
     notification: 'notification',
+    forgotPassword: 'auth/forgot-password',
+    resetPassword: 'auth/reset-password',
+
 }
 
 export const social = {

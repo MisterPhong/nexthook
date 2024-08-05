@@ -3,11 +3,16 @@
 import { Forgot, ForgotSchema } from '@/app/common/types/forgot.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomTextField from '../share/CustomTextField'
 import { useRouter } from 'next/navigation'
 import { routers } from '@/app/common/constant/path'
+import { httpClient } from '@/app/common/services/httpClient'
+import { server } from '@/app/common/constant/server'
+import { useChallenge } from '@/app/common/hooks/useChallenge'
+import { useAppDispatch } from '@/app/common/store/store'
+import { setEmail } from '@/app/common/store/slices/emailSlice'
 
 type Props = {}
 
@@ -20,12 +25,19 @@ export default function ForgotForm({}: Props) {
     } = useForm<Forgot>({
         resolver: zodResolver(ForgotSchema),
     })
+    const { mutate } = useChallenge()
+    const dispatch = useAppDispatch()
 
     return (
         <form
-            onSubmit={handleSubmit((data) => {
+            onSubmit={handleSubmit(async (data) => {
                 console.log(data)
-                router.push(routers.resetPassword)
+                mutate(data, {
+                    onSuccess: () => {
+                        router.push(routers.resetPassword)
+                        dispatch(setEmail(data.email))
+                    },
+                })
             })}
         >
             <Box sx={{ mb: 2 }}>

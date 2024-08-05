@@ -1,10 +1,11 @@
+import { useAppDispatch } from './../store/store'
 import { httpClient } from '@/app/common/services/httpClient'
 import { server } from '../constant/server'
 import { useMutation } from 'react-query'
 import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import { Otp } from '../types/otp.type'
 import axios from 'axios'
-import { useAppDispatch } from '../store/store'
+import { setEmail, setReEmail } from '../store/slices/emailSlice'
 
 async function postOtp(otp: number): Promise<Otp> {
     try {
@@ -25,10 +26,14 @@ async function postOtp(otp: number): Promise<Otp> {
 }
 
 export function useSendOtp() {
+    const dispatch = useAppDispatch()
+
     return useMutation<Otp, ErrorResponse, number>(
         async (payload) => await postOtp(payload),
         {
-            onSuccess: () => {},
+            // onSuccess: () => {
+            //     dispatch(setReEmail())
+            // },
         }
     )
 }
