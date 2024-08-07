@@ -7,6 +7,10 @@ body {
   font-family: "Mitr", Arial, sans-serif;
 }
 
+.typeWriterText {
+   font-size: 40px;
+}
+
 .spinner {
    width: 56px;
    height: 56px;

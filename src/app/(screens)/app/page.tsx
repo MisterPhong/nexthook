@@ -1,5 +1,8 @@
 import { symbol } from '@/app/common/constant/symbols'
-import { AnimationText } from '@/app/components/modules/AnimationText'
+import {
+    AnimationText,
+    TextTypewriter,
+} from '@/app/components/modules/AnimationText'
 import { PriceLaning } from '@/app/components/modules/CoinInfo'
 import { SquareSocialButton } from '@/app/components/share/SocialButton'
 import {
@@ -13,6 +16,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import Image from 'next/image'
+import BgAnimation from '@/app/components/modules/BgAnimation'
 
 type Props = {}
 
@@ -29,17 +33,17 @@ export default async function page({}: Props) {
             >
                 <Image alt='landing' src='/blob.svg' width={200} height={200} />
             </Box>
+            <BgAnimation />
             <Box className='grid grid-cols-2 mt-10 max-w-screen-xl mx-auto'>
                 <Stack
                     spacing={2}
                     direction={'column'}
-                    sx={
-                        {
-                            // position: 'relative',
-                        }
-                    }
+                    sx={{
+                        justifyContent: 'center',
+                    }}
                 >
-                    <AnimationText />
+                    <TextTypewriter />
+                    {/* <AnimationText /> */}
                     <Stack direction={'row'} spacing={2}>
                         <TextField
                             label='Username'
@@ -57,24 +61,14 @@ export default async function page({}: Props) {
                     <Box className='w-fit'>
                         <SquareSocialButton iconPath='/socialLogin/google.svg' />
                     </Box>
-                    {/* <Box
-                        sx={{
-                            position: 'absolute',
-                            zIndex: -1,
-                            right: 50,
-                            bottom: 30,
-                            opacity: 0.7, // ปรับค่าตามที่ต้องการ
-                        }}
-                    >
-                        <Image
-                            alt='landing'
-                            src='/blob1.svg'
-                            width={200}
-                            height={200}
-                        />
-                    </Box> */}
                 </Stack>
-                <Card className='max-w-2xl mx-auto'>
+                <Card
+                    elevation={3}
+                    className='max-w-2xl mx-auto'
+                    sx={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.8)', // สีขาวที่มีความทึบ 50%
+                    }}
+                >
                     <CardContent>
                         <Stack
                             direction={'row'}
@@ -120,7 +114,7 @@ export default async function page({}: Props) {
                                         {item.nameLong}
                                     </Typography>
                                 </Stack>
-                                <PriceLaning symbol={item.symbol}/>
+                                <PriceLaning symbol={item.symbol} />
                             </Box>
                         ))}
                     </CardContent>

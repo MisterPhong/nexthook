@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Stack, Typography, useTheme } from '@mui/material'
+import { Typewriter } from 'react-simple-typewriter'
 
 export function AnimationText() {
     // Placeholder text data
@@ -92,5 +93,30 @@ function AnimatedText({ text }: AnimatedTextProps) {
                 </Wrapper>
             ))}
         </>
+    )
+}
+
+export function TextTypewriter() {
+    return (
+        <Typography
+            variant='h2'
+            fontWeight={800}
+            sx={{
+                WebkitBackgroundClip: 'text',
+                display: 'inline-block',
+            }}
+        >
+            <Typewriter
+                words={['Welcome', 'To', 'Zookeeper']}
+                loop={10}
+                cursor
+                cursorStyle='_'
+                typeSpeed={70}
+                deleteSpeed={100}
+                delaySpeed={1000}
+                // onLoopDone={handleDone}
+                // onType={handleType}
+            />
+        </Typography>
     )
 }
