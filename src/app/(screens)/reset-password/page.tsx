@@ -9,7 +9,6 @@ import {
     Stack,
     Typography,
 } from '@mui/material'
-import Image from 'next/image'
 
 export default function page() {
     return (
@@ -40,11 +39,7 @@ export default function page() {
                     <Typography align='center' paragraph color='textSecondary'>
                         Please check the email address
                     </Typography>
-                    {/* <Typography align='center' paragraph color='textSecondary'>
-                        ppv_tao@outlook.co.th for instructions to reset your
-                        password.
-                    </Typography> */}
-                    <ShowMail/>
+                    <ShowMail />
                     <Button
                         variant='outlined'
                         sx={{

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { TabPanel, CustomTabPanel } from '../share/CustomTabPanel'
 import PositionDesc from './PositionDesc'
 import PositionOpen from './PositionOpen'
-import { useRealPosition } from '@/app/common/hooks/usePosition'
+// import { useRealPosition } from '@/app/common/hooks/usePosition'
 import io, { Socket } from 'socket.io-client'
 
 type Props = {}
@@ -14,7 +14,7 @@ const tabLabels = [`Positions(1)`, `Open Orders(0)`]
 
 export default function Tabpanel({}: Props) {
     const [activeTab, setActiveTab] = useState<number>(0)
-    const {} = useRealPosition()
+    // const {} = useRealPosition()
 
     return (
         <Box>

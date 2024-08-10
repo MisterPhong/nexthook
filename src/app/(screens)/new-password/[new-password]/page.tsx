@@ -1,22 +1,21 @@
-import { routers } from '@/app/common/constant/path';
-import NewPasswordForm from '@/app/components/form/NewPasswordForm';
-import OrDivider from '@/app/components/modules/OrDivider';
-import Logo from '@/app/components/share/Logo';
-import { SocialButton } from '@/app/components/share/SocialButton';
-import { Box, Stack, Typography, Button } from '@mui/material';
-import Link from 'next/link';
+import { routers } from '@/app/common/constant/path'
+import NewPasswordForm from '@/app/components/form/NewPasswordForm'
+import OrDivider from '@/app/components/modules/OrDivider'
+import Logo from '@/app/components/share/Logo'
+import { SocialButton } from '@/app/components/share/SocialButton'
+import { Box, Stack, Typography, Button } from '@mui/material'
+import Link from 'next/link'
 import React from 'react'
 
 type Params = {
-    [key: string]: string;
-  };
-  
-  type Props = {
-    params: Params;
-  };
-  
+    [key: string]: string
+}
 
-export default function page({params}: Props) {
+type Props = {
+    params: Params
+}
+
+export default function page({ params }: Props) {
     return (
         <Box className='w-full'>
             <Stack className='max-w-md mx-auto' spacing={2}>
@@ -30,7 +29,7 @@ export default function page({params}: Props) {
                     Change Your Password
                 </Typography>
                 <Typography align='center' paragraph>
-                Enter a new password below to change your password.
+                    Enter a new password below to change your password.
                 </Typography>
                 <NewPasswordForm />
                 <OrDivider />

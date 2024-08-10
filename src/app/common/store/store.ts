@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux'
 import emailReducer from './slices/emailSlice'
 import profileReducer from './slices/profileSlice'
 import notifyReducer from './slices/notitySlice'
+import forgotReducer from './slices/forgotSlice'
 
 const reducer = {
     emailReducer,
     profileReducer,
     notifyReducer,
+    forgotReducer,
 }
 
 export const store = configureStore({

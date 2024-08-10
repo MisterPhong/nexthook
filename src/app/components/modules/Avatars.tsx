@@ -1,9 +1,11 @@
 'use client'
 
 import { routers } from '@/app/common/constant/path'
-import { useLogout } from '@/app/common/hooks/useLogout'
-import { useProfile } from '@/app/common/hooks/useProfile'
-import { profileSelector } from '@/app/common/store/slices/profileSlice'
+import {
+    logoutAsync,
+    profileAsync,
+    profileSelector,
+} from '@/app/common/store/slices/profileSlice'
 import {
     Avatar,
     Box,
@@ -17,10 +19,11 @@ import {
     Typography,
 } from '@mui/material'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Notification from './Notification'
 import { useRouter } from 'next/navigation'
+import { useAppDispatch } from '@/app/common/store/store'
 
 type Props = {}
 
@@ -28,26 +31,16 @@ const settings = ['My profile', 'Account', 'Logout']
 
 export function Avatars({}: Props) {
     const router = useRouter()
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-        null,
-    )
-    const { mutate } = useLogout()
-    const { isLoading } = useProfile()
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
     const profileReducer = useSelector(profileSelector)
-
+    const dispatch = useAppDispatch()
     const handleCloseUserMenu = () => setAnchorElUser(null)
 
     const handleMenuItemClick = (setting: string) => {
         handleCloseUserMenu()
         if (setting === settings[2]) {
-            mutate(
-                {},
-                {
-                    onSuccess: () => {
-                        router.push(routers.landing)
-                    },
-                },
-            )
+            dispatch(logoutAsync())
+            router.push(routers.landing)
         } else if (setting === settings[0]) {
             router.push(routers.profile)
         }
@@ -56,9 +49,13 @@ export function Avatars({}: Props) {
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) =>
         setAnchorElUser(event.currentTarget)
 
+    useEffect(() => {
+        dispatch(profileAsync())
+    }, [dispatch])
+
     return (
         <>
-            {isLoading ? (
+            {profileReducer.isPending ? (
                 <Stack spacing={2} direction={'row'}>
                     <Skeleton variant='circular' width={40} height={40} />
                     <Skeleton variant='circular' width={40} height={40} />
@@ -134,46 +131,46 @@ export function Avatars({}: Props) {
 }
 
 export function Profile() {
-    const { data, isLoading } = useProfile()
+    const profileReducer = useSelector(profileSelector)
 
     return (
         <Stack direction='row' className='items-center'>
-            {isLoading ? (
+            {profileReducer.isPending ? (
                 <Skeleton
                     animation='wave'
                     variant='circular'
                     width={70}
                     height={70}
                 />
-            ) : data?.picture ? (
+            ) : profileReducer.result?.picture ? (
                 <Avatar
                     alt='profile'
-                    src={data.picture}
+                    src={profileReducer.result.picture}
                     sx={{ width: 70, height: 70 }}
                 />
             ) : (
                 <Avatar alt='profile' sx={{ width: 70, height: 70 }} />
             )}
             <Stack direction='column' className='ml-4'>
-                {isLoading ? (
+                {profileReducer.isPending ? (
                     <Skeleton width={184.77} />
                 ) : (
                     <Typography variant='h2' fontWeight={600} fontSize={18}>
-                        {data?.name}
+                        {profileReducer.result?.name}
                     </Typography>
                 )}
-                {isLoading ? (
+                {profileReducer.isPending ? (
                     <Skeleton width={184.77} />
                 ) : (
                     <Typography variant='caption' fontSize={15}>
-                        {data?.username}
+                        {profileReducer.result?.username}
                     </Typography>
                 )}
-                {isLoading ? (
+                {profileReducer.isPending ? (
                     <Skeleton width={184.77} />
                 ) : (
                     <Typography variant='caption' fontSize={15}>
-                        {data?.email}
+                        {profileReducer.result?.email}
                     </Typography>
                 )}
             </Stack>

@@ -1,11 +1,11 @@
 import { httpClient } from '@/app/common/services/httpClient'
 import { server } from '../constant/server'
-import { useMutation } from 'react-query'
 import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import { Otp } from '../types/otp.type'
 import axios from 'axios'
+import { useMutation } from '@tanstack/react-query'
 
-async function postOtp(otp: number): Promise<Otp> {
+async function sendOneTimePass(otp: number): Promise<Otp> {
     try {
         const response = await httpClient.post<Otp>(server.otp, { otp: otp })
         return response.data
@@ -24,7 +24,8 @@ async function postOtp(otp: number): Promise<Otp> {
 }
 
 export function useSendOtp() {
-    return useMutation<Otp, ErrorResponse, number>(
-        async (payload) => await postOtp(payload)
-    )
+    return useMutation<Otp, ErrorResponse, number>({
+        mutationFn: async (payload) => await sendOneTimePass(payload),
+        mutationKey: ['sent-otp'],
+    })
 }

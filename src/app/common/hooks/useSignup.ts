@@ -1,4 +1,3 @@
-import { useMutation } from 'react-query'
 import { Email, Signup } from '../types/auth.type'
 import { httpClient } from '@/app/common/services/httpClient'
 import { server } from '../constant/server'
@@ -6,6 +5,7 @@ import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import axios from 'axios'
 import { useAppDispatch } from '../store/store'
 import { setEmail } from '../store/slices/emailSlice'
+import { useMutation } from '@tanstack/react-query'
 
 async function signup(payload: Signup): Promise<Email> {
     try {
@@ -28,12 +28,11 @@ async function signup(payload: Signup): Promise<Email> {
 export function useSignup() {
     const dispatch = useAppDispatch()
 
-    return useMutation<Email, ErrorResponse, Signup>(
-        async (payload) => await signup(payload),
-        {
-            onSuccess: (data) => {
-                dispatch(setEmail(data.email))
-            },
-        }
-    )
+    return useMutation<Email, ErrorResponse, Signup>({
+        mutationFn: async (payload) => await signup(payload),
+        mutationKey: ['signup'],
+        onSuccess: ({ email }) => {
+            dispatch(setEmail(email))
+        },
+    })
 }

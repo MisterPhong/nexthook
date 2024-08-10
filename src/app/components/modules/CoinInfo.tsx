@@ -1,15 +1,13 @@
 'use client'
 
 import { symbol } from '@/app/common/constant/symbols'
-import { useCoins } from '@/app/common/hooks/useCoins'
-import {
-    Box,
-    Button,
-    Skeleton,
-    Stack,
-    Typography,
-} from '@mui/material'
-import React from 'react'
+import { useRealCoin } from '@/app/common/hooks/useRealCoin'
+// import { useCoins } from '@/app/common/hooks/useCoins'
+import { Coin } from '@/app/common/types/coin.type'
+import { Box, Button, Skeleton, Stack, Typography } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
+import useWebSocket from 'react-use-websocket'
 
 type Props = {}
 
@@ -89,7 +87,8 @@ export function CoinInfo({}: Props) {
 }
 
 export function CoinPrice({ symbol }: { symbol: string }) {
-    const { data, isLoading } = useCoins(symbol)
+    // const { data, isLoading } = useCoins(symbol)
+    const { data, isLoading } = useRealCoin(symbol)
 
     return (
         <Box>
@@ -137,7 +136,7 @@ export function Percentage({ p }: { p: number }) {
 }
 
 export function PriceLaning({ symbol }: { symbol: string }) {
-    const { data, isLoading } = useCoins(symbol)
+    const { data, isLoading } = useRealCoin(symbol)
 
     const formatPrice = (price: string) => {
         const priceNum = Number(price)
@@ -163,11 +162,7 @@ export function PriceLaning({ symbol }: { symbol: string }) {
             }}
         >
             {isLoading ? (
-                <Skeleton
-                    animation='wave'
-                    height={45}
-                    width={80}
-                />
+                <Skeleton animation='wave' height={45} width={80} />
             ) : (
                 <Typography
                     fontWeight={600}
@@ -185,11 +180,7 @@ export function PriceLaning({ symbol }: { symbol: string }) {
                 </Typography>
             )}
             {isLoading ? (
-                <Skeleton
-                    animation='wave'
-                    height={45}
-                    width={50}
-                />
+                <Skeleton animation='wave' height={45} width={50} />
             ) : (
                 <Typography
                     fontWeight={600}
@@ -200,7 +191,7 @@ export function PriceLaning({ symbol }: { symbol: string }) {
                         height: '45px',
                         display: 'flex',
                         alignItems: 'end',
-                        width:'50px'
+                        width: '50px',
                     }}
                     variant='body1'
                 >

@@ -2,8 +2,8 @@ import { Box, CssBaseline } from '@mui/material'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-    title: 'Sign In',
-    description: 'sign in bot',
+    title: 'challenge',
+    description: 'challenge bot',
 }
 
 export default function layout({

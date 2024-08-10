@@ -1,5 +1,6 @@
 'use client'
-import { emailSelector } from '@/app/common/store/slices/emailSlice'
+
+import { forgotSelector } from '@/app/common/store/slices/forgotSlice'
 import { Typography } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
@@ -7,15 +8,11 @@ import { useSelector } from 'react-redux'
 type Props = {}
 
 export default function ShowMail({}: Props) {
-    const emailReducer = useSelector(emailSelector)
-
-    // if (emailReducer.load) {
-    //     return <div className='spinner'></div>
-    // }
+    const forgotReducer = useSelector(forgotSelector)
 
     return (
         <Typography align='center' paragraph color='textSecondary'>
-            {emailReducer.email} for instructions to reset your password.
+            {forgotReducer.email} for instructions to reset your password.
         </Typography>
     )
 }

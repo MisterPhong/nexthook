@@ -17,12 +17,12 @@ import {
 } from '@mui/material'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import {
-    useDeleteNotify,
-    useNotification,
-    useRealNotify,
-    useUpdateIsRead,
-} from '@/app/common/hooks/useNotification'
+// import {
+//     useDeleteNotify,
+//     useNotification,
+//     useRealNotify,
+//     useUpdateIsRead,
+// } from '@/app/common/hooks/useNotification'
 import { useSelector } from 'react-redux'
 import { notifySelector } from '@/app/common/store/slices/notitySlice'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -35,10 +35,10 @@ export default function Notification({}: Props) {
     const [open, setOpen] = useState(false)
     const popperRef = useRef<HTMLDivElement | null>(null)
     const notificationsReducer = useSelector(notifySelector)
-    const { data } = useNotification()
-    const {} = useRealNotify()
-    const { mutate: removeNotify } = useDeleteNotify()
-    const { mutate: updateNotify } = useUpdateIsRead()
+    // const { data } = useNotification()
+    // const {} = useRealNotify()
+    // const { mutate: removeNotify } = useDeleteNotify()
+    // const { mutate: updateNotify } = useUpdateIsRead()
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         if (open) {
@@ -116,7 +116,7 @@ export default function Notification({}: Props) {
                                 overflow: 'auto', // กำหนดการเลื่อน
                             }}
                         >
-                            {data && data.length > 0 ? (
+                            {/* {data && data.length > 0 ? (
                                 <List>
                                     {data?.map((notification, index) => (
                                         <ListItem key={index}>
@@ -149,7 +149,7 @@ export default function Notification({}: Props) {
                                 >
                                     No new notifications
                                 </Typography>
-                            )}
+                            )} */}
                         </Paper>
                     </Grow>
                 )}

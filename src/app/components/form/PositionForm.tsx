@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form'
 import InputLabel from '../share/InputLabel'
 import CustomSlider from '../share/CustomSlider'
 import theme from '../theme/theme'
-import { useAddPosition } from '@/app/common/hooks/useAddPosition'
+// import { useAddPosition } from '@/app/common/hooks/useAddPosition'
 import { Position, PositionSchema } from '@/app/common/types/position.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -23,7 +23,7 @@ const symbols = [
 export default function PositionForm({}: Props) {
     const [symbol, setSymbol] = useState('')
     const [timefram, setTimefram] = useState('')
-    const { mutate } = useAddPosition()
+    // const { mutate } = useAddPosition()
     const {
         register,
         handleSubmit,
@@ -44,13 +44,13 @@ export default function PositionForm({}: Props) {
                 setTimefram('')
                 setSymbol('')
                 reset()
-                mutate({
-                    symbol: data.symbol,
-                    leverage: data.leverage,
-                    quantity: data.quantity,
-                    timeframe: data.timeframe,
-                    ema: data.ema,
-                })
+                // mutate({
+                //     symbol: data.symbol,
+                //     leverage: data.leverage,
+                //     quantity: data.quantity,
+                //     timeframe: data.timeframe,
+                //     ema: data.ema,
+                // })
             })}
         >
             <Stack spacing={2} direction={'row'}>

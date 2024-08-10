@@ -3,16 +3,13 @@
 import { Forgot, ForgotSchema } from '@/app/common/types/forgot.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Box, Button } from '@mui/material'
-import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomTextField from '../share/CustomTextField'
 import { useRouter } from 'next/navigation'
 import { routers } from '@/app/common/constant/path'
-import { httpClient } from '@/app/common/services/httpClient'
-import { server } from '@/app/common/constant/server'
 import { useChallenge } from '@/app/common/hooks/useChallenge'
 import { useAppDispatch } from '@/app/common/store/store'
-import { setEamilForgot, setEmail } from '@/app/common/store/slices/emailSlice'
+import { setForgotEmail } from '@/app/common/store/slices/forgotSlice'
 
 type Props = {}
 
@@ -25,17 +22,16 @@ export default function ForgotForm({}: Props) {
     } = useForm<Forgot>({
         resolver: zodResolver(ForgotSchema),
     })
-    const { mutate } = useChallenge()
+    const { mutate, error, isPending } = useChallenge()
     const dispatch = useAppDispatch()
 
     return (
         <form
             onSubmit={handleSubmit(async (data) => {
-                console.log(data)
                 mutate(data, {
                     onSuccess: () => {
                         router.push(routers.resetPassword)
-                        dispatch(setEamilForgot(data.email))
+                        dispatch(setForgotEmail(data.email))
                     },
                 })
             })}
@@ -44,12 +40,13 @@ export default function ForgotForm({}: Props) {
                 <CustomTextField
                     id='email'
                     label='Email'
-                    // placeholder="email address*"
                     variant='outlined'
-                    error={errors.email && true}
+                    error={!!errors.email || error?.statusCode === 404}
                     helperText={
                         errors.email
                             ? errors.email.message
+                            : error?.statusCode === 404
+                            ? 'This email address could not be located'
                             : 'Email is required'
                     }
                     {...register('email', { required: true })}
@@ -57,7 +54,13 @@ export default function ForgotForm({}: Props) {
                     fullWidth
                 />
             </Box>
-            <Button fullWidth variant='contained' color='primary' type='submit'>
+            <Button
+                fullWidth
+                variant='contained'
+                color='primary'
+                type='submit'
+                disabled={isPending}
+            >
                 Continue
             </Button>
         </form>

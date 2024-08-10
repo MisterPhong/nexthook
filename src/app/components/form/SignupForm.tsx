@@ -19,7 +19,7 @@ export default function SignupForm({}: Props) {
     const [showPassword, setShowPassword] = useState(false)
     const [isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [password, setPassword] = useState('')
-    const { mutate, error, isLoading } = useSignup()
+    const { mutate, error, isPending } = useSignup()
     const {
         register,
         handleSubmit,
@@ -41,18 +41,11 @@ export default function SignupForm({}: Props) {
             spacing={2}
             component={'form'}
             onSubmit={handleSubmit((data) => {
-                mutate(
-                    {
-                        username: data.username,
-                        password: data.password,
-                        email: data.email,
+                mutate(data, {
+                    onSuccess: () => {
+                        router.push(routers.otp)
                     },
-                    {
-                        onSuccess: () => {
-                            router.push(routers.otp)
-                        },
-                    },
-                )
+                })
             })}
         >
             <CustomTextField
@@ -131,7 +124,7 @@ export default function SignupForm({}: Props) {
                     scoreWords={['Very weak', 'Weak', 'Fair', 'Good', 'Strong']}
                 />
             )}
-            <Button disabled={isLoading} variant='contained' type='submit'>
+            <Button disabled={isPending} variant='contained' type='submit'>
                 Sign Up
             </Button>
         </Stack>

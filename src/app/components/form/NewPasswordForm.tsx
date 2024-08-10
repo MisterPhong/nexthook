@@ -4,7 +4,7 @@ import { Stack, Button, IconButton } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomTextField from '../share/CustomTextField'
-import { useSignup } from '@/app/common/hooks/useSignup'
+// import { useSignup } from '@/app/common/hooks/useSignup'
 import {
     NewPassword,
     NewPasswordSchema,
@@ -24,7 +24,7 @@ export default function NewPasswordForm() {
     const [showPassword, setShowPassword] = useState(false)
     const [isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [password, setPassword] = useState('')
-    const { mutate, error, isLoading } = useSignup()
+    // const { mutate, error, isPending } = useSignup()
     const {
         register,
         handleSubmit,
@@ -46,9 +46,9 @@ export default function NewPasswordForm() {
             spacing={2}
             component={'form'}
             onSubmit={handleSubmit((data) => {
-                //   mutate(data, {
+                // mutate(data, {
                 //     onSuccess: () => router.push('/success-page'), // Adjust this according to your routing
-                //   });
+                // })
             })}
         >
             <CustomTextField
@@ -115,9 +115,9 @@ export default function NewPasswordForm() {
                 shortScoreWord=''
                 scoreWords={['Very weak', 'Weak', 'Fair', 'Good', 'Strong']}
             />
-            <Button disabled={isLoading} variant='contained' type='submit'>
+            {/* <Button disabled={isLoading} variant='contained' type='submit'>
                 Continue
-            </Button>
+            </Button> */}
         </Stack>
     )
 }

@@ -1,4 +1,3 @@
-import { useMutation } from 'react-query'
 import { setEmail } from '../store/slices/emailSlice'
 import { Email, Login } from '../types/auth.type'
 import { httpClient } from '@/app/common/services/httpClient'
@@ -6,6 +5,7 @@ import { server } from '../constant/server'
 import { useAppDispatch } from '../store/store'
 import axios from 'axios'
 import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
+import { useMutation } from '@tanstack/react-query'
 
 async function login(username: string, password: string): Promise<Email> {
     try {
@@ -31,12 +31,12 @@ async function login(username: string, password: string): Promise<Email> {
 export function useLogin() {
     const dipatch = useAppDispatch()
 
-    return useMutation<Email, ErrorResponse, Login>(
-        async ({ username, password }) => await login(username, password),
-        {
-            onSuccess: (data) => {
-                dipatch(setEmail(data.email))
-            },
-        }
-    )
+    return useMutation<Email, ErrorResponse, Login>({
+        mutationFn: async ({ username, password }) =>
+            await login(username, password),
+        mutationKey: ['login'],
+        onSuccess: ({ email }) => {
+            dipatch(setEmail(email))
+        },
+    })
 }
