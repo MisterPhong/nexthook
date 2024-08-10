@@ -8,7 +8,7 @@ import Link from 'next/link'
 import React from 'react'
 
 type Params = {
-    [key: string]: string
+    'new-password': string
 }
 
 type Props = {
@@ -31,7 +31,7 @@ export default function page({ params }: Props) {
                 <Typography align='center' paragraph>
                     Enter a new password below to change your password.
                 </Typography>
-                <NewPasswordForm />
+                <NewPasswordForm token={params['new-password']}/>
                 <OrDivider />
                 <Stack spacing={1}>
                     <SocialButton

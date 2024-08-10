@@ -4,7 +4,6 @@ import { Stack, Button, IconButton } from '@mui/material'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import CustomTextField from '../share/CustomTextField'
-// import { useSignup } from '@/app/common/hooks/useSignup'
 import {
     NewPassword,
     NewPasswordSchema,
@@ -16,15 +15,18 @@ import { useRouter } from 'next/navigation'
 import { routers } from '@/app/common/constant/path'
 import { IoEye, IoEyeOffOutline } from 'react-icons/io5'
 import PasswordStrengthBar from 'react-password-strength-bar'
+import { useResetPass } from '@/app/common/hooks/useResetPass'
 
-type Props = {}
+type Props = {
+    token:string
+}
 
-export default function NewPasswordForm() {
+export default function NewPasswordForm({token}:Props) {
     const router = useRouter()
     const [showPassword, setShowPassword] = useState(false)
-    const [isPasswordFocused, setIsPasswordFocused] = useState(false)
+    // const [isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [password, setPassword] = useState('')
-    // const { mutate, error, isPending } = useSignup()
+    const { mutate, isPending } = useResetPass()
     const {
         register,
         handleSubmit,
@@ -46,9 +48,15 @@ export default function NewPasswordForm() {
             spacing={2}
             component={'form'}
             onSubmit={handleSubmit((data) => {
-                // mutate(data, {
-                //     onSuccess: () => router.push('/success-page'), // Adjust this according to your routing
-                // })
+                mutate(
+                    {
+                        token,
+                        password: data.password,
+                    },
+                    {
+                        onSuccess: () => router.push(routers.login),
+                    },
+                )
             })}
         >
             <CustomTextField
@@ -115,9 +123,9 @@ export default function NewPasswordForm() {
                 shortScoreWord=''
                 scoreWords={['Very weak', 'Weak', 'Fair', 'Good', 'Strong']}
             />
-            {/* <Button disabled={isLoading} variant='contained' type='submit'>
+            <Button disabled={isPending} variant='contained' type='submit'>
                 Continue
-            </Button> */}
+            </Button>
         </Stack>
     )
 }
