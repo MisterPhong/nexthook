@@ -57,8 +57,8 @@ export function Avatars({}: Props) {
         <>
             {profileReducer.isPending ? (
                 <Stack spacing={2} direction={'row'}>
-                    <Skeleton variant='circular' width={40} height={40} />
-                    <Skeleton variant='circular' width={40} height={40} />
+                    <Skeleton variant='circular' width={30} height={30} />
+                    <Skeleton variant='circular' width={30} height={30} />
                 </Stack>
             ) : profileReducer.result ? (
                 <Box sx={{ flexGrow: 0 }}>
@@ -73,9 +73,13 @@ export function Avatars({}: Props) {
                                     <Avatar
                                         alt='picture'
                                         src={profileReducer.result.picture}
+                                        sx={{ width: 30, height: 30 }}
+
                                     />
                                 ) : (
-                                    <Avatar />
+                                    <Avatar 
+                                    sx={{ width: 30, height: 30 }}
+                                    />
                                 )}
                             </IconButton>
                         </Tooltip>

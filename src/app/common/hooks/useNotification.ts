@@ -1,21 +1,22 @@
 // import axios from 'axios'
-// import { useMutation, useQuery, useQueryClient } from 'react-query'
 // import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 // import { io } from 'socket.io-client'
 // import { AppDispatch, useAppDispatch } from '../store/store'
 // import {
 //     setAddNotify,
 //     setIsReadNotification,
-// } from '../store/slices/notitySlice'
+// } from '../store/slices/notiticationSlice'
 // import { Notify } from '../types/notify.type'
 // import { httpClient } from '@/app/common/services/httpClient'
 // import { server, wsUrl } from '../constant/server'
 // import { getCookies } from '../actions/cookie-action'
+// import { useQuery } from '@tanstack/react-query'
 
 // async function fetchNotifications(): Promise<Notify[]> {
 //     try {
-//         const res = await httpClient.get<Notify[]>(server.notification)
-//         return res.data
+//         const response = await httpClient.get<Notify[]>(server.notification)
+//         console.log(response.data)
+//         return response.data
 //     } catch (error) {
 //         if (axios.isAxiosError(error) && error.response) {
 //             const parsedError = ErrorResponseSchema.safeParse(
@@ -31,19 +32,21 @@
 // }
 
 // export function useNotification() {
-//     const dispatch = useAppDispatch()
+//     return useQuery<Notify[], ErrorResponse>({
+//         queryKey: ['notification'],
+//         queryFn: fetchNotifications,
+//     })
+// }
+// const dispatch = useAppDispatch()
 
-//     return useQuery<Notify[], ErrorResponse>(
-//         'notification',
-//         fetchNotifications,
-//         {
-//             retry: false,
-//             onSuccess: (data) => {
-//                 console.log(data)
-//                 dispatch(setIsReadNotification(data))
-//             },
-//         }
-//     )
+// 'notification',
+// fetchNotifications,
+// {
+//     retry: false,
+//     onSuccess: (data) => {
+//         console.log(data)
+//         dispatch(setIsReadNotification(data))
+//     },
 // }
 
 // // ฟังก์ชันสำหรับเปิดการเชื่อมต่อ WebSocket และรอรับการแจ้งเตือน
