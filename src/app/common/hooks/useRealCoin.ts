@@ -5,9 +5,9 @@ import { useQueryClient } from '@tanstack/react-query'
 
 export function useRealCoin(symbol: string) {
     const SOCKET_URL = `wss://stream.binance.com:9443/ws/${symbol}@ticker`
+    const queryClient = useQueryClient()
     const [isLoading, setIsLoading] = useState(true)
 
-    const queryClient = useQueryClient()
     useWebSocket(SOCKET_URL, {
         onMessage: (event) => {
             const newCoin: Coin = JSON.parse(event.data)

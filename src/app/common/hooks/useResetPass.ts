@@ -31,6 +31,6 @@ async function resetPass({ password, token }: ResetPassword): Promise<void> {
 export function useResetPass() {
     return useMutation<void, ErrorResponse, ResetPassword>({
         mutationFn: async (payload) => await resetPass(payload),
-        mutationKey: ['reset pass'],
+        mutationKey: ['reset pass'],        
     })
 }
