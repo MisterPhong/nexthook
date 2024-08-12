@@ -1,10 +1,9 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { Notification } from '../../types/notification.type'
-import { ErrorResponse, ErrorResponseSchema } from '../../types/error.type'
-import { httpClient } from '../../services/httpClient'
-import { server } from '../../constant/server'
+import { httpClient } from '../../services'
+import { server } from '../../constant'
 import axios from 'axios'
+import { ErrorResponse, ErrorResponseSchema, Notification } from '../../types'
 
 type NotificationState = {
     result: Notification[]

@@ -1,9 +1,7 @@
 'use client'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import theme from '../theme/theme'
-import { emailSelector } from '@/app/common/store/slices/emailSlice'
 import { useSelector } from 'react-redux'
-import OtpForm from '../form/OtpForm'
 import {
     useMediaQuery,
     Dialog,
@@ -16,6 +14,8 @@ import {
 } from '@mui/material'
 import Lottie from 'react-lottie'
 import * as animationData from '../../../../public/animetion/Animation - 1723215780655.json'
+import { emailSelector } from '@/app/common'
+import OtpForm from '../form/OtpForm'
 
 type Props = {
     handleClose: () => void

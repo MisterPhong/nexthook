@@ -1,9 +1,8 @@
-import { httpClient } from '@/app/common/services/httpClient'
-import { server } from '../constant/server'
-import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
-import { Otp } from '../types/otp.type'
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
+import { server } from '../constant'
+import { httpClient } from '../services'
+import { Otp, ErrorResponseSchema, ErrorResponse } from '../types'
 
 async function sendOneTimePass(otp: number): Promise<Otp> {
     try {

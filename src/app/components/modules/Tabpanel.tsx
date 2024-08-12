@@ -6,7 +6,6 @@ import { TabPanel, CustomTabPanel } from '../share/CustomTabPanel'
 import PositionDesc from './PositionDesc'
 import PositionOpen from './PositionOpen'
 // import { useRealPosition } from '@/app/common/hooks/usePosition'
-import io, { Socket } from 'socket.io-client'
 
 type Props = {}
 

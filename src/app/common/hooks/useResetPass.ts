@@ -1,9 +1,8 @@
 import axios from 'axios'
-import { server } from '../constant/server'
-import { httpClient } from '../services/httpClient'
-import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import { useMutation } from '@tanstack/react-query'
-import { ResetPassword } from '../types/auth.type'
+import { ResetPassword, ErrorResponse, ErrorResponseSchema } from '../types'
+import { server } from '../constant'
+import { httpClient } from '../services'
 
 async function resetPass({ password, token }: ResetPassword): Promise<void> {
     try {
@@ -31,6 +30,6 @@ async function resetPass({ password, token }: ResetPassword): Promise<void> {
 export function useResetPass() {
     return useMutation<void, ErrorResponse, ResetPassword>({
         mutationFn: async (payload) => await resetPass(payload),
-        mutationKey: ['reset pass'],        
+        mutationKey: ['reset pass'],
     })
 }

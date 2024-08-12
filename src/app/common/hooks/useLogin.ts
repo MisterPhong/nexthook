@@ -1,11 +1,9 @@
-import { setEmail } from '../store/slices/emailSlice'
-import { Email, Login } from '../types/auth.type'
-import { httpClient } from '@/app/common/services/httpClient'
-import { server } from '../constant/server'
-import { useAppDispatch } from '../store/store'
+import { server } from '../constant'
 import axios from 'axios'
-import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
+import { ErrorResponse, ErrorResponseSchema, Email, Login } from '../types'
 import { useMutation } from '@tanstack/react-query'
+import { httpClient } from '../services'
+import { setEmail, useAppDispatch } from '../store'
 
 async function login(username: string, password: string): Promise<Email> {
     try {

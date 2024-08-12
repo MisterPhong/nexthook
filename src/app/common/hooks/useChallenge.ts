@@ -1,8 +1,7 @@
-import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
-import { Email } from '../types/auth.type'
+import { Email, ErrorResponse, ErrorResponseSchema } from '../types'
 import axios from 'axios'
-import { server } from '../constant/server'
-import { httpClient } from '../services/httpClient'
+import { server } from '../constant'
+import { httpClient } from '../services'
 import { useMutation } from '@tanstack/react-query'
 
 async function challenge(payload: Email): Promise<void> {
@@ -24,10 +23,8 @@ async function challenge(payload: Email): Promise<void> {
 }
 
 export function useChallenge() {
-    return useMutation<void, ErrorResponse, Email>(
-        {
-            mutationFn: async (payload) => await challenge(payload),
-            mutationKey: ['challenge'],
-        }
-    )
+    return useMutation<void, ErrorResponse, Email>({
+        mutationFn: async (payload) => await challenge(payload),
+        mutationKey: ['challenge'],
+    })
 }

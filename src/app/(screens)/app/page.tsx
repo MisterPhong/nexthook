@@ -1,8 +1,4 @@
 import { symbol } from '@/app/common/constant/symbols'
-import {
-    AnimationText,
-    TextTypewriter,
-} from '@/app/components/modules/AnimationText'
 import { PriceLaning } from '@/app/components/modules/CoinInfo'
 import { SquareSocialButton } from '@/app/components/share/SocialButton'
 import {
@@ -17,6 +13,7 @@ import {
 import React from 'react'
 import Image from 'next/image'
 import BgAnimation from '@/app/components/modules/BgAnimation'
+import { TextTypewriter } from '@/app/components/modules/AnimationText'
 
 type Props = {}
 

@@ -21,14 +21,12 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import { useSelector } from 'react-redux'
 import DeleteIcon from '@mui/icons-material/Delete'
 import {
-    isDeletedAsync,
+    useAppDispatch,
+    notificationSelector,
     isReadedAsync,
     notificationAsync,
-    notificationSelector,
-    setAllAsRead,
-    setPop,
-} from '@/app/common/store/slices/notiticationSlice'
-import { useAppDispatch } from '@/app/common/store/store'
+    isDeletedAsync,
+} from '@/app/common'
 
 type Props = {}
 
@@ -146,7 +144,9 @@ export default function Notification({}: Props) {
                                                         aria-label='delete'
                                                         onClick={() =>
                                                             dispatch(
-                                                                isDeletedAsync(item._id)
+                                                                isDeletedAsync(
+                                                                    item._id,
+                                                                ),
                                                             )
                                                         }
                                                     >

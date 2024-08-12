@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import useWebSocket from 'react-use-websocket'
-import { Coin } from '../types/coin.type'
+import { Coin } from '../types'
 import { useQueryClient } from '@tanstack/react-query'
 
 export function useRealCoin(symbol: string) {
@@ -28,5 +28,4 @@ export function useRealCoin(symbol: string) {
         data,
         isLoading,
     }
-
 }

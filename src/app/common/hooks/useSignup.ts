@@ -1,11 +1,9 @@
-import { Email, Signup } from '../types/auth.type'
-import { httpClient } from '@/app/common/services/httpClient'
-import { server } from '../constant/server'
-import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import axios from 'axios'
-import { useAppDispatch } from '../store/store'
-import { setEmail } from '../store/slices/emailSlice'
 import { useMutation } from '@tanstack/react-query'
+import { server } from '../constant'
+import { httpClient } from '../services'
+import { useAppDispatch, setEmail } from '../store'
+import { Signup, Email, ErrorResponseSchema, ErrorResponse } from '../types'
 
 async function signup(payload: Signup): Promise<Email> {
     try {

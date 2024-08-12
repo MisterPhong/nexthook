@@ -1,11 +1,5 @@
 'use client'
 
-import { routers } from '@/app/common/constant/path'
-import {
-    logoutAsync,
-    profileAsync,
-    profileSelector,
-} from '@/app/common/store/slices/profileSlice'
 import {
     Avatar,
     Box,
@@ -23,7 +17,13 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Notification from './Notification'
 import { useRouter } from 'next/navigation'
-import { useAppDispatch } from '@/app/common/store/store'
+import {
+    profileSelector,
+    useAppDispatch,
+    logoutAsync,
+    routers,
+    profileAsync,
+} from '@/app/common'
 
 type Props = {}
 
@@ -74,12 +74,9 @@ export function Avatars({}: Props) {
                                         alt='picture'
                                         src={profileReducer.result.picture}
                                         sx={{ width: 30, height: 30 }}
-
                                     />
                                 ) : (
-                                    <Avatar 
-                                    sx={{ width: 30, height: 30 }}
-                                    />
+                                    <Avatar sx={{ width: 30, height: 30 }} />
                                 )}
                             </IconButton>
                         </Tooltip>

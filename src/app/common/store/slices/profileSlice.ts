@@ -1,11 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
-import { OK, Profile } from '../../types/auth.type'
-import { ErrorResponse, ErrorResponseSchema } from '../../types/error.type'
 import axios from 'axios'
-import { server } from '../../constant/server'
-import { httpClient } from '../../services/httpClient'
-import { getCookies } from '../../actions/cookie-action'
+import { server } from '../../constant'
+import { ErrorResponse, ErrorResponseSchema, OK, Profile } from '../../types'
+import { httpClient } from '../../services'
+import { getCookies } from '../../actions'
 
 type ProfileState = {
     result: Profile | undefined
@@ -106,7 +105,10 @@ const profileSlice = createSlice({
     extraReducers(builder) {
         builder.addCase(
             profileAsync.fulfilled,
-            (state: ProfileState, action: PayloadAction<Profile | undefined>) => {
+            (
+                state: ProfileState,
+                action: PayloadAction<Profile | undefined>
+            ) => {
                 state.result = action.payload
                 state.isError = false
                 state.isPending = false

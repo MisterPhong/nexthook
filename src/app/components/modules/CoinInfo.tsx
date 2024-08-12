@@ -2,12 +2,7 @@
 
 import { symbol } from '@/app/common/constant/symbols'
 import { useRealCoin } from '@/app/common/hooks/useRealCoin'
-// import { useCoins } from '@/app/common/hooks/useCoins'
-import { Coin } from '@/app/common/types/coin.type'
-import { Box, Button, Skeleton, Stack, Typography } from '@mui/material'
-import { useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
-import useWebSocket from 'react-use-websocket'
+import { Box, Stack, Typography, Button, Skeleton } from '@mui/material'
 
 type Props = {}
 
