@@ -1,17 +1,15 @@
 import * as z from 'zod'
 
-export const MsgSchema = z.enum(['hello world'])
-export type Msg = z.infer<typeof MsgSchema>
-
 export const NotificationElementSchema = z.object({
     _id: z.string(),
-    msg: MsgSchema,
+    msg: z.string(),
     isReaded: z.boolean(),
-    createdAt: z.coerce.date(),
-    readedAt: z.coerce.date(),
-    deletedAt: z.null(),
-})
-export type NotificationElement = z.infer<typeof NotificationElementSchema>
+    createdAt: z.string().datetime(),  // ใช้ string ที่เป็นรูปแบบ datetime
+    readedAt: z.string().datetime().nullable(), // รองรับ null
+    deletedAt: z.string().datetime().nullable(), // รองรับ null
+});
+
+export type NotificationElement = z.infer<typeof NotificationElementSchema>;
 
 export const NotificationSchema = z.object({
     _id: z.string(),

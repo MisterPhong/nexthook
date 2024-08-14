@@ -23,6 +23,7 @@ import {
     logoutAsync,
     routers,
     profileAsync,
+    useNotification,
 } from '@/app/common'
 
 type Props = {}
@@ -34,6 +35,8 @@ export function Avatars({}: Props) {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
     const profileReducer = useSelector(profileSelector)
     const dispatch = useAppDispatch()
+    const {} = useNotification()
+
     const handleCloseUserMenu = () => setAnchorElUser(null)
 
     const handleMenuItemClick = (setting: string) => {

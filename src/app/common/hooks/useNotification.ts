@@ -1,159 +1,70 @@
-// import axios from 'axios'
-// import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
-// import { io } from 'socket.io-client'
-// import { AppDispatch, useAppDispatch } from '../store/store'
-// import {
-//     setAddNotify,
-//     setIsReadNotification,
-// } from '../store/slices/notiticationSlice'
-// import { Notify } from '../types/notify.type'
-// import { httpClient } from '@/app/common/services/httpClient'
-// import { server, wsUrl } from '../constant/server'
-// import { getCookies } from '../actions/cookie-action'
-// import { useQuery } from '@tanstack/react-query'
+import { getCookies } from '../actions'
+import io from 'socket.io-client'
+import { useQuery } from '@tanstack/react-query'
+import { AppDispatch, setAddNotification, useAppDispatch } from '../store'
+import { ErrorResponse, NotificationElement } from '../types'
 
-// async function fetchNotifications(): Promise<Notify[]> {
-//     try {
-//         const response = await httpClient.get<Notify[]>(server.notification)
-//         console.log(response.data)
-//         return response.data
-//     } catch (error) {
-//         if (axios.isAxiosError(error) && error.response) {
-//             const parsedError = ErrorResponseSchema.safeParse(
-//                 error.response.data
-//             )
-//             if (!parsedError.success) {
-//                 throw new Error('Unexpected error format')
-//             }
-//             throw parsedError.data
-//         }
-//         throw new Error('Network or unexpected error')
-//     }
-// }
+const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 
-// export function useNotification() {
-//     return useQuery<Notify[], ErrorResponse>({
-//         queryKey: ['notification'],
-//         queryFn: fetchNotifications,
-//     })
-// }
-// const dispatch = useAppDispatch()
+function generateObjectId(): string {
+    const timestamp = Math.floor(Date.now() / 1000).toString(16) // ใช้ timestamp เป็น 8 characters แรก
+    const randomHex = () =>
+        Math.floor(Math.random() * 0x1000000)
+            .toString(16)
+            .padStart(6, '0') // สร้างส่วนที่เหลือแบบสุ่ม
 
-// 'notification',
-// fetchNotifications,
-// {
-//     retry: false,
-//     onSuccess: (data) => {
-//         console.log(data)
-//         dispatch(setIsReadNotification(data))
-//     },
-// }
+    return (
+        timestamp + randomHex() + randomHex() + randomHex().slice(0, 2) // ตัดให้เหลือ 24 characters
+    )
+}
 
-// // ฟังก์ชันสำหรับเปิดการเชื่อมต่อ WebSocket และรอรับการแจ้งเตือน
-// async function realNotify(dispatch: AppDispatch): Promise<Notify> {
-//     const accessToken = await getCookies('access_token')
+async function notification(
+    dispatch: AppDispatch
+): Promise<NotificationElement> {
+    const accessToken = await getCookies('access_token')
 
-//     return new Promise((resolve, reject) => {
-//         const socket = io(wsUrl, {
-//             transportOptions: {
-//                 polling: {
-//                     extraHeaders: {
-//                         Authorization: `Bearer ${accessToken}`, // Use access token from cookies
-//                     },
-//                 },
-//             },
-//         })
+    return new Promise((resolve, reject) => {
+        const socket = io(SOCKET_URL, {
+            transportOptions: {
+                polling: {
+                    extraHeaders: {
+                        Authorization: `Bearer ${accessToken}`, // Use access token from cookies
+                    },
+                },
+            },
+        })
 
-//         socket.on('connect', () => {
-//             console.log('Connected to WebSocket server')
-//         })
+        socket.on('connect', () => {
+            console.log('Connected to WebSocket server')
+            socket.emit('notification', 'Hello from client!')
+        })
 
-//         // Event listener for incoming messages
-//         socket.on('notification', (msg) => {
-//             dispatch(setAddNotify(msg))
-//             console.log('Received notification:', msg)
-//             resolve(msg)
-//         })
+        // Event listener for incoming messages
+        socket.on('notification', (msg) => {
+            const payload: NotificationElement = {
+                _id: generateObjectId(),
+                msg,
+                isReaded: false,
+                createdAt: new Date().toISOString(), // แปลง Date เป็น string
+                readedAt: null,
+                deletedAt: null,
+            }
+            dispatch(setAddNotification(payload))
+            resolve(payload)
+        })
 
-//         socket.on('error', (error) => {
-//             reject(error)
-//         })
-//     })
-// }
+        socket.on('error', (error) => {
+            reject(error)
+        })
+    })
+}
 
-// export function useRealNotify() {
-//     const dispatch = useAppDispatch()
+export function useNotification() {
+    const dispatch = useAppDispatch()
 
-//     return useQuery<Notify, ErrorResponse>(
-//         'real-notify',
-//         () => realNotify(dispatch),
-//         {
-//             refetchInterval: false, // Disable automatic refetching
-//             refetchOnWindowFocus: false, // Disable refetching on window focus
-//         }
-//     )
-// }
-
-// async function updateIsRead(): Promise<void> {
-//     try {
-//         const res = await httpClient.patch<void>(server.notification)
-//         return res.data
-//     } catch (error) {
-//         if (axios.isAxiosError(error) && error.response) {
-//             const parsedError = ErrorResponseSchema.safeParse(
-//                 error.response.data
-//             )
-//             if (!parsedError.success) {
-//                 throw new Error('Unexpected error format')
-//             }
-//             throw parsedError.data
-//         }
-//         throw new Error('Network or unexpected error')
-//     }
-// }
-
-// export function useUpdateIsRead() {
-//     const queryClient = useQueryClient()
-
-//     return useMutation<void, ErrorResponse, void>(
-//         async () => await updateIsRead(),
-//         {
-//             onSuccess: () => {
-//                 queryClient.invalidateQueries('notification')
-//             },
-//         }
-//     )
-// }
-
-// async function deleteNotify(id: string): Promise<void> {
-//     try {
-//         const res = await httpClient.delete<void>(
-//             `${server.notification}/${id}`
-//         )
-//         return res.data
-//     } catch (error) {
-//         if (axios.isAxiosError(error) && error.response) {
-//             const parsedError = ErrorResponseSchema.safeParse(
-//                 error.response.data
-//             )
-//             if (!parsedError.success) {
-//                 throw new Error('Unexpected error format')
-//             }
-//             throw parsedError.data
-//         }
-//         throw new Error('Network or unexpected error')
-//     }
-// }
-
-// export function useDeleteNotify() {
-//     const queryClient = useQueryClient()
-
-//     return useMutation<void, ErrorResponse, string>(
-//         async (id: string) => await deleteNotify(id),
-//         {
-//             onSuccess: () => {
-//                 queryClient.invalidateQueries('notification')
-//             },
-//         }
-//     )
-// }
+    return useQuery<NotificationElement, ErrorResponse>({
+        queryKey: ['notification'],
+        queryFn: () => notification(dispatch),
+        refetchOnWindowFocus: false, // ไม่ refetch ข้อมูลเมื่อ window กลับมา active
+    })
+}

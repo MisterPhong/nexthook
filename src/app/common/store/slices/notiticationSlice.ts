@@ -3,7 +3,12 @@ import { RootState } from '../store'
 import { httpClient } from '../../services'
 import { server } from '../../constant'
 import axios from 'axios'
-import { ErrorResponse, ErrorResponseSchema, Notification } from '../../types'
+import {
+    ErrorResponse,
+    ErrorResponseSchema,
+    Notification,
+    NotificationElement,
+} from '../../types'
 
 type NotificationState = {
     result: Notification | undefined
@@ -149,6 +154,15 @@ const notificationSlice = createSlice({
                 )
             }
         },
+        setAddNotification(
+            state: NotificationState,
+            action: PayloadAction<NotificationElement>
+        ) {
+            console.log('hello from redux')
+            if (state.result) {
+                state.result.notifications.push(action.payload)
+            }
+        },
     },
     extraReducers(builder) {
         builder.addCase(
@@ -184,7 +198,8 @@ const notificationSlice = createSlice({
     },
 })
 
-export const { setAllAsRead, setPop } = notificationSlice.actions
+export const { setAllAsRead, setPop, setAddNotification } =
+    notificationSlice.actions
 export const notificationSelector = (store: RootState) =>
     store.notificationReducer
 export default notificationSlice.reducer
