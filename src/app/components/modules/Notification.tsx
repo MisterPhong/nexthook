@@ -36,10 +36,6 @@ export default function Notification({}: Props) {
     const [open, setOpen] = useState(false)
     const popperRef = useRef<HTMLDivElement | null>(null)
     const notificationsReducer = useSelector(notificationSelector)
-    // const { data, isPending } = useNotification()
-    // const {} = useRealNotify()
-    // const { mutate: removeNotify } = useDeleteNotify()
-    // const { mutate: updateNotify } = useUpdateIsRead()
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         if (open) {
@@ -91,7 +87,7 @@ export default function Notification({}: Props) {
                     <IconButton onClick={handleClick}>
                         <Badge
                             badgeContent={
-                                notificationsReducer.result.filter(
+                                notificationsReducer.result?.notifications.filter(
                                     (item) => !item.isReaded,
                                 ).length
                             }
@@ -120,57 +116,56 @@ export default function Notification({}: Props) {
                 transition
                 ref={popperRef}
             >
-                {({ TransitionProps }) => (
-                    <Grow {...TransitionProps} timeout={350}>
-                        <Paper
-                            sx={{
-                                width: '200px',
-                                maxHeight: '300px', // กำหนด max-height
-                                overflow: 'auto', // กำหนดการเลื่อน
-                            }}
-                        >
-                            {notificationsReducer.result &&
-                            notificationsReducer.result.length > 0 ? (
-                                <List>
-                                    {notificationsReducer.result.map(
-                                        (item, index) => (
-                                            <ListItem key={index}>
-                                                <ListItemText
-                                                    primary={item.msg}
-                                                />
-                                                <ListItemSecondaryAction>
-                                                    <IconButton
-                                                        edge='end'
-                                                        aria-label='delete'
-                                                        onClick={() =>
-                                                            dispatch(
+                {({ TransitionProps }) => {
+                    return (
+                        <Grow {...TransitionProps} timeout={350}>
+                            <Paper
+                                sx={{
+                                    width: '200px',
+                                    maxHeight: '300px', // กำหนด max-height
+                                    overflow: 'auto', // กำหนดการเลื่อน
+                                }}
+                            >
+                                {notificationsReducer.result?.notifications &&
+                                    notificationsReducer.result?.notifications.length > 0 ? (
+                                    <List>
+                                        {notificationsReducer.result?.notifications.map(
+                                            (item, index) => (
+                                                <ListItem key={index}>
+                                                    <ListItemText
+                                                        primary={item.msg} />
+                                                    <ListItemSecondaryAction>
+                                                        <IconButton
+                                                            edge='end'
+                                                            aria-label='delete'
+                                                            onClick={() => dispatch(
                                                                 isDeletedAsync(
-                                                                    item._id,
-                                                                ),
-                                                            )
-                                                        }
-                                                    >
-                                                        <DeleteIcon fontSize='small' />
-                                                    </IconButton>
-                                                </ListItemSecondaryAction>
-                                            </ListItem>
-                                        ),
-                                    )}
-                                </List>
-                            ) : (
-                                <Typography
-                                    sx={{
-                                        p: 2,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    No new notifications
-                                </Typography>
-                            )}
-                        </Paper>
-                    </Grow>
-                )}
+                                                                    item._id
+                                                                )
+                                                            )}
+                                                        >
+                                                            <DeleteIcon fontSize='small' />
+                                                        </IconButton>
+                                                    </ListItemSecondaryAction>
+                                                </ListItem>
+                                            )
+                                        )}
+                                    </List>
+                                ) : (
+                                    <Typography
+                                        sx={{
+                                            p: 2,
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        No new notifications
+                                    </Typography>
+                                )}
+                            </Paper>
+                        </Grow>
+                    )
+                }}
             </Popper>
         </Box>
     )

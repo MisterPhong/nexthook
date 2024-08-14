@@ -30,4 +30,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: taotoxicboy/next14-keeper:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/next14-keeper:latest

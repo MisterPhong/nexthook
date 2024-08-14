@@ -6,30 +6,28 @@ import axios from 'axios'
 import { ErrorResponse, ErrorResponseSchema, Notification } from '../../types'
 
 type NotificationState = {
-    result: Notification[]
-    isReading: Notification[]
+    result: Notification | undefined
     isPending: boolean
     isError: boolean
     error: ErrorResponse | undefined
+    isDisabled: boolean
 }
 
 const initialState: NotificationState = {
-    result: [],
-    isReading: [],
+    result: undefined,
     isPending: true,
     isError: false,
     error: undefined,
+    isDisabled: false,
 }
 
 export const notificationAsync = createAsyncThunk<
-    Notification[],
+    Notification,
     void,
     { rejectValue: ErrorResponse }
 >('notification/notificationAsync', async (_, { rejectWithValue }) => {
     try {
-        const response = await httpClient.get<Notification[]>(
-            server.notification
-        )
+        const response = await httpClient.get<Notification>(server.notification)
 
         return response.data
     } catch (error) {
@@ -135,24 +133,27 @@ const notificationSlice = createSlice({
     initialState,
     reducers: {
         setAllAsRead(state: NotificationState) {
-            state.result = state.result.map((item) => ({
-                ...item,
-                isReaded: true,
-            }))
+            if (state.result) {
+                state.result.notifications = state.result.notifications.map(
+                    (item) => ({
+                        ...item,
+                        isReaded: true,
+                    })
+                )
+            }
         },
         setPop(state: NotificationState, action: PayloadAction<string>) {
-            state.result = state.result.filter(
-                (item) => item._id != action.payload
-            )
+            if (state.result) {
+                state.result.notifications = state.result?.notifications.filter(
+                    (item) => item._id != action.payload
+                )
+            }
         },
     },
     extraReducers(builder) {
         builder.addCase(
             notificationAsync.fulfilled,
-            (
-                state: NotificationState,
-                action: PayloadAction<Notification[]>
-            ) => {
+            (state: NotificationState, action: PayloadAction<Notification>) => {
                 state.result = action.payload
                 state.isError = false
                 state.isPending = false
@@ -162,7 +163,7 @@ const notificationSlice = createSlice({
         builder.addCase(
             notificationAsync.pending,
             (state: NotificationState) => {
-                state.result = []
+                state.result = undefined
                 state.isError = false
                 state.isPending = true
                 state.error = undefined
@@ -174,7 +175,7 @@ const notificationSlice = createSlice({
                 state: NotificationState,
                 action: PayloadAction<ErrorResponse | undefined>
             ) => {
-                state.result = []
+                state.result = undefined
                 state.isError = false
                 state.isPending = false
                 state.error = action.payload as ErrorResponse
