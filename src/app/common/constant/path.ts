@@ -4,7 +4,7 @@ export const routers = {
     predict: '/app/predict',
     otp: '/otp',
     login: '/login',
-    signup: '/signup',
+    signup: '/register',
     position: '/app/position',
     challenge: '/challenge',
     profile: '/app/profile',
