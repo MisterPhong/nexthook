@@ -1,8 +1,9 @@
-import { Email, ErrorResponse, ErrorResponseSchema } from '../types'
-import axios from 'axios'
-import { server } from '../constant'
-import { httpClient } from '../services'
 import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
+import { server } from '../constant/server'
+import { httpClient } from '../services/httpClient'
+import { Email } from '../types/auth.type'
+import { ErrorResponseSchema, ErrorResponse } from '../types/error.type'
 
 async function challenge(payload: Email): Promise<void> {
     try {

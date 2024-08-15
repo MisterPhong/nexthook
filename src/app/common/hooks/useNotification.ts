@@ -1,8 +1,12 @@
-import { getCookies } from '../actions'
+'use client'
+
 import io from 'socket.io-client'
 import { useQuery } from '@tanstack/react-query'
-import { AppDispatch, setAddNotification, useAppDispatch } from '../store'
-import { ErrorResponse, NotificationElement } from '../types'
+import { getCookies } from '../actions/cookie-action'
+import { setAddNotification } from '../store/slices/notiticationSlice'
+import { AppDispatch, useAppDispatch } from '../store/store'
+import { ErrorResponse } from '../types/error.type'
+import { NotificationElement } from '../types/notification.type'
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 
@@ -22,7 +26,7 @@ async function notification(
     dispatch: AppDispatch
 ): Promise<NotificationElement> {
     const accessToken = await getCookies('access_token')
-
+    
     return new Promise((resolve, reject) => {
         const socket = io(SOCKET_URL, {
             transportOptions: {

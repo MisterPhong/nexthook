@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
-import { server } from '../constant'
-import { httpClient } from '../services'
-import { Otp, ErrorResponseSchema, ErrorResponse } from '../types'
+import { server } from '../constant/server'
+import { httpClient } from '../services/httpClient'
+import { ErrorResponseSchema, ErrorResponse } from '../types/error.type'
+import { Otp } from '../types/otp.type'
 
 async function sendOneTimePass(otp: number): Promise<Otp> {
     try {

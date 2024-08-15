@@ -14,8 +14,8 @@ import {
 } from '@mui/material'
 import Lottie from 'react-lottie'
 import * as animationData from '../../../../public/animetion/Animation - 1723215780655.json'
-import { emailSelector } from '@/app/common'
 import OtpForm from '../form/OtpForm'
+import { emailSelector } from '@/app/common/store/slices/emailSlice'
 
 type Props = {
     handleClose: () => void

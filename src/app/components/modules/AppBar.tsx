@@ -2,8 +2,8 @@ import { AppBar as AppBars, Toolbar, Stack, Box } from '@mui/material'
 import { Avatars } from '../modules/Avatars'
 import Image from 'next/image'
 import Link from 'next/link'
-import { routers } from '@/app/common'
 import Menus from './Menus'
+import { routers } from '@/app/common/constant/path'
 
 type Props = {}
 

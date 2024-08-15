@@ -1,9 +1,11 @@
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
-import { server } from '../constant'
-import { httpClient } from '../services'
-import { useAppDispatch, setEmail } from '../store'
-import { Signup, Email, ErrorResponseSchema, ErrorResponse } from '../types'
+import { server } from '../constant/server'
+import { httpClient } from '../services/httpClient'
+import { setEmail } from '../store/slices/emailSlice'
+import { useAppDispatch } from '../store/store'
+import { Signup, Email } from '../types/auth.type'
+import { ErrorResponseSchema, ErrorResponse } from '../types/error.type'
 
 async function signup(payload: Signup): Promise<Email> {
     try {

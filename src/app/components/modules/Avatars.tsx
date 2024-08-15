@@ -15,16 +15,17 @@ import {
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import Notification from './Notification'
+// import Notification from './Notification'
 import { useRouter } from 'next/navigation'
-import {
-    profileSelector,
-    useAppDispatch,
-    logoutAsync,
-    routers,
-    profileAsync,
-    useNotification,
-} from '@/app/common'
+import dynamic from 'next/dynamic'
+import { routers } from '@/app/common/constant/path'
+import { useNotification } from '@/app/common/hooks/useNotification'
+import { useAppDispatch } from '@/app/common/store/store'
+import { profileSelector, logoutAsync, profileAsync } from '@/app/common/store/slices/profileSlice'
+
+const Notification = dynamic(() => import('./Notification'), {
+    ssr: false, // Disable Server-Side Rendering
+})
 
 type Props = {}
 

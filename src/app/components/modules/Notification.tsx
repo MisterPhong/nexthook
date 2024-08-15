@@ -20,13 +20,8 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { useSelector } from 'react-redux'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {
-    useAppDispatch,
-    notificationSelector,
-    isReadedAsync,
-    notificationAsync,
-    isDeletedAsync,
-} from '@/app/common'
+import { notificationSelector, isReadedAsync, notificationAsync, isDeletedAsync } from '@/app/common/store/slices/notiticationSlice'
+import { useAppDispatch } from '@/app/common/store/store'
 
 type Props = {}
 

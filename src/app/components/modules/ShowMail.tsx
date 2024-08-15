@@ -1,6 +1,6 @@
 'use client'
 
-import { forgotSelector } from '@/app/common'
+import { forgotSelector } from '@/app/common/store/slices/forgotSlice'
 import { Typography } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'

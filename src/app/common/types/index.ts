@@ -1,7 +1,0 @@
-export * from './auth.type'
-export * from './coin.type'
-export * from './error.type'
-export * from './forgot.type'
-export * from './notification.type'
-export * from './otp.type'
-export * from './position.type'

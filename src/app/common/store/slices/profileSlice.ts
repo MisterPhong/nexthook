@@ -1,10 +1,11 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 import axios from 'axios'
-import { server } from '../../constant'
-import { ErrorResponse, ErrorResponseSchema, OK, Profile } from '../../types'
-import { httpClient } from '../../services'
-import { getCookies } from '../../actions'
+import { getCookies } from '../../actions/cookie-action'
+import { server } from '../../constant/server'
+import { OK, Profile } from '../../types/auth.type'
+import { ErrorResponse, ErrorResponseSchema } from '../../types/error.type'
+import { httpClient } from '../../services/httpClient'
 
 type ProfileState = {
     result: Profile | undefined

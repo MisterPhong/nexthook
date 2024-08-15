@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { routers, cookieKey } from './app/common'
+import { routers } from './app/common/constant/path'
+import { cookieKey } from './app/common/constant/cookie'
 
 export function middleware(request: NextRequest) {
     const url = request.nextUrl.clone()

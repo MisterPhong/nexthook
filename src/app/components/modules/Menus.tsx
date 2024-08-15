@@ -1,6 +1,7 @@
 'use client'
 
-import { routers, profileSelector } from '@/app/common'
+import { routers } from '@/app/common/constant/path'
+import { profileSelector } from '@/app/common/store/slices/profileSlice'
 import { Button } from '@mui/material'
 import Link from 'next/link'
 import React from 'react'

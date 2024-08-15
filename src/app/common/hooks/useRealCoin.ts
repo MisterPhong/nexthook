@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import useWebSocket from 'react-use-websocket'
-import { Coin } from '../types'
 import { useQueryClient } from '@tanstack/react-query'
+import { Coin } from '../types/coin.type'
 
 export function useRealCoin(symbol: string) {
     const SOCKET_URL = `wss://stream.binance.com:9443/ws/${symbol}@ticker`
