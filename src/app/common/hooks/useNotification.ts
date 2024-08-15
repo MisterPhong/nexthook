@@ -3,10 +3,10 @@
 import io from 'socket.io-client'
 import { useQuery } from '@tanstack/react-query'
 import { getCookies } from '../actions/cookie-action'
-import { setAddNotification } from '../store/slices/notiticationSlice'
 import { AppDispatch, useAppDispatch } from '../store/store'
 import { ErrorResponse } from '../types/error.type'
 import { NotificationElement } from '../types/notification.type'
+import { setAddNotification } from '../store/slices/notiticationSlice'
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 
