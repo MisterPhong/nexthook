@@ -11,15 +11,6 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(url)
     }
 
-    // Check if the user is visiting the /otp path
-    if (url.pathname === routers.otp) {
-        const userId = request.cookies.get(cookieKey.userId)?.value
-        if (!userId) {
-            url.pathname = routers.login // Redirect to login page or any other page
-            return NextResponse.redirect(url)
-        }
-    }
-
     // Check if the user is visiting the /login or /signup path
     if (url.pathname === routers.login || url.pathname === routers.signup) {
         const accessToken = request.cookies.get(cookieKey.accessToken)?.value
@@ -45,7 +36,6 @@ export function middleware(request: NextRequest) {
 export const config = {
     matcher: [
         '/',
-        '/otp',
         '/app/position',
         '/app/profile',
         '/challenge',
