@@ -107,15 +107,13 @@ export function TextTypewriter() {
             }}
         >
             <Typewriter
-                words={['Welcome', 'To', 'Zookeeper']}
+                words={['Welcome', 'To', 'Keeper Hub']}
                 loop={10}
                 cursor
                 cursorStyle='_'
                 typeSpeed={70}
                 deleteSpeed={100}
                 delaySpeed={1000}
-                // onLoopDone={handleDone}
-                // onType={handleType}
             />
         </Typography>
     )

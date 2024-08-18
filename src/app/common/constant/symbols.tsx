@@ -30,20 +30,7 @@ export const symbol = [
         ),
     },
     {
-        symbol: 'dogeusdt',
-        nameShort: 'DOGE',
-        nameLong: 'Dogecoin',
-        icon: (
-            <Image
-                src={'/coins/doge.svg'}
-                alt='Dogecoin'
-                className='w-7 h-7 mt-5'
-                width={28}
-                height={28}
-            />
-        ),
-    },
-    {
+        // symbol: 'dogeusdt',
         symbol: 'bnbusdt',
         nameShort: 'BNB',
         nameLong: 'BNB',
@@ -58,34 +45,7 @@ export const symbol = [
         ),
     },
     {
-        symbol: 'ltcusdt',
-        nameShort: 'LTC',
-        nameLong: 'Litecoin',
-        icon: (
-            <Image
-                src={'/coins/ltc.svg'}
-                alt='Litecoin'
-                className='w-7 h-7 mt-5'
-                width={28}
-                height={28}
-            />
-        ),
-    },
-    {
-        symbol: 'xrpusdt',
-        nameShort: 'XRP',
-        nameLong: 'Ripple',
-        icon: (
-            <Image
-                src={'/coins/xrp.svg'}
-                alt='Ripple'
-                className='w-7 h-7 mt-5'
-                width={28}
-                height={28}
-            />
-        ),
-    },
-    {
+        // symbol: 'bnbusdt',
         symbol: 'adausdt',
         nameShort: 'ADA',
         nameLong: 'Cardano',
@@ -100,13 +60,14 @@ export const symbol = [
         ),
     },
     {
-        symbol: 'linkusdt',
-        nameShort: 'LINK',
-        nameLong: 'Chainlink',
+        // symbol: 'ltcusdt',
+        symbol: 'xrpusdt',
+        nameShort: 'XRP',
+        nameLong: 'Ripple',
         icon: (
             <Image
-                src={'/coins/link.svg'}
-                alt='Chainlink'
+                src={'/coins/xrp.svg'}
+                alt='Ripple'
                 className='w-7 h-7 mt-5'
                 width={28}
                 height={28}
@@ -114,6 +75,7 @@ export const symbol = [
         ),
     },
     {
+        // symbol: 'xrpusdt',
         symbol: 'dotusdt',
         nameShort: 'DOT',
         nameLong: 'Polkadot',
@@ -128,13 +90,59 @@ export const symbol = [
         ),
     },
     {
-        symbol: 'trxusdt',
-        nameShort: 'TRX',
-        nameLong: 'Tron',
+        // symbol: 'adausdt',
+        symbol: 'solusdt',
+        nameShort: 'SOL',
+        nameLong: 'Solana',
         icon: (
             <Image
-                src={'/coins/trx.svg'}
-                alt='Tron'
+                src={'/coins/sol.svg'}
+                alt='Solana'
+                className='w-7 h-7 mt-5'
+                width={28}
+                height={28}
+            />
+        ),
+    },
+    {
+        // symbol: 'linkusdt',
+        symbol: 'dogeusdt',
+        nameShort: 'Doge',
+        nameLong: 'Dogecoin',
+        icon: (
+            <Image
+                src={'/coins/doge.svg'}
+                alt='Dogecoin'
+                className='w-7 h-7 mt-5'
+                width={28}
+                height={28}
+            />
+        ),
+    },
+    {
+        // symbol: 'dotusdt',
+        symbol: 'ltcusdt',
+        nameShort: 'LTC',
+        nameLong: 'Litecoin',
+        icon: (
+            <Image
+                src={'/coins/ltc.svg'}
+                alt='Litecoin'
+                className='w-7 h-7 mt-5'
+                width={28}
+                height={28}
+            />
+        ),
+    },
+    {
+        // symbol: 'trxusdt',
+        symbol: 'linkusdt',
+        nameShort: 'Link',
+        nameLong: 'ChainLink',
+        icon: (
+            <Image
+                src={'/coins/link.svg'}
+                alt='ChainLink'
                 className='w-7 h-7 mt-5'
                 width={28}
                 height={28}

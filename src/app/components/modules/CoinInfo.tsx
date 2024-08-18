@@ -1,12 +1,15 @@
 'use client'
 
 import { symbol } from '@/app/common/constant/symbols'
+import { usePredict } from '@/app/common/hooks/usePredict'
 import { useRealCoin } from '@/app/common/hooks/useRealCoin'
 import { Box, Stack, Typography, Button, Skeleton } from '@mui/material'
 
 type Props = {}
 
 export function CoinInfo({}: Props) {
+    const { data } = usePredict()
+
     return (
         <Box>
             {symbol.map((item) => (
@@ -58,7 +61,11 @@ export function CoinInfo({}: Props) {
                                 justifyContent: 'start',
                             }}
                         >
-                            65,000
+                            {data?.symbols.find(
+                                (sym) =>
+                                    sym.symbol.toLocaleLowerCase() ===
+                                    item.symbol,
+                            )?.predictedPrice ?? 'No Data'}
                         </Typography>
                         <Button
                             variant='outlined'
@@ -74,7 +81,6 @@ export function CoinInfo({}: Props) {
                             open
                         </Button>
                     </Box>
-                    {/* <Divider /> */}
                 </Box>
             ))}
         </Box>

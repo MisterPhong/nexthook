@@ -13,10 +13,10 @@ const theme = createTheme({
         mode: 'light',
         primary: {
             main: '#6600FF',
+            dark: '#001122',
         },
         secondary: {
             main: '#6b6e78',
-            // main: "#212021"
         },
         background: {
             default: '#fdfbff',

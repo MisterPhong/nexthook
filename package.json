@@ -24,7 +24,9 @@
     "@tanstack/react-query-persist-client": "^5.51.21",
     "@types/js-cookie": "^3.0.6",
     "@types/react-lottie": "^1.2.10",
+    "@types/uuid": "^10.0.0",
     "axios": "^1.7.2",
+    "dayjs": "^1.11.12",
     "framer-motion": "^11.3.19",
     "js-cookie": "^3.0.5",
     "mui-one-time-password-input": "^2.0.3",
@@ -44,6 +46,7 @@
     "redux": "^5.0.1",
     "socket.io-client": "^4.7.5",
     "url-join": "^5.0.0",
+    "uuid": "^10.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

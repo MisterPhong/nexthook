@@ -1,4 +1,3 @@
-import { PassThrough } from 'stream'
 import * as z from 'zod'
 
 export const AuthSchema = z.object({
@@ -91,8 +90,7 @@ export const NewPasswordSchema = z
 export type NewPassword = z.infer<typeof NewPasswordSchema>
 
 export const ResetPasswordSchema = z.object({
-    "token": z.string(),
-    "password": z.string(),
-});
-export type ResetPassword = z.infer<typeof ResetPasswordSchema>;
-
+    token: z.string(),
+    password: z.string(),
+})
+export type ResetPassword = z.infer<typeof ResetPasswordSchema>

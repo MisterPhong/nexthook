@@ -4,12 +4,14 @@ import emailReducer from './slices/emailSlice'
 import profileReducer from './slices/profileSlice'
 import notificationReducer from './slices/notiticationSlice'
 import forgotReducer from './slices/forgotSlice'
+import positionReducer from './slices/positionSlicen'
 
 const reducer = {
     emailReducer,
     profileReducer,
     notificationReducer,
     forgotReducer,
+    positionReducer,
 }
 
 export const store = configureStore({

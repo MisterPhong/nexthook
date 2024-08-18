@@ -6,12 +6,12 @@ export const server = {
     otp: 'auth/confirm/otp',
     logout: 'auth/logout',
     profile: 'auth/profile',
-    order: 'orders/create',
-    query_order: 'orders/query',
+    position: 'orders/query',
     notification: 'notification',
     forgotPassword: 'auth/forgot-password',
     resetPassword: 'auth/reset-password',
-
+    createPosition: 'orders/create',
+    predict: 'predict',
 }
 
 export const social = {

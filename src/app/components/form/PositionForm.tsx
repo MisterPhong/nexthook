@@ -9,6 +9,8 @@ import theme from '../theme/theme'
 // import { useAddPosition } from '@/app/common/hooks/useAddPosition'
 import { Position, PositionSchema } from '@/app/common/types/position.type'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useAppDispatch } from '@/app/common/store/store'
+import { positionAddAsync } from '@/app/common/store/slices/positionSlicen'
 
 type Props = {}
 
@@ -21,9 +23,9 @@ const symbols = [
 ]
 
 export default function PositionForm({}: Props) {
+    const dispatch = useAppDispatch()
     const [symbol, setSymbol] = useState('')
     const [timefram, setTimefram] = useState('')
-    // const { mutate } = useAddPosition()
     const {
         register,
         handleSubmit,
@@ -31,9 +33,7 @@ export default function PositionForm({}: Props) {
         reset,
         watch,
         formState: { errors },
-    } = useForm<Position>({
-        resolver: zodResolver(PositionSchema),
-    })
+    } = useForm({})
 
     return (
         <Stack
@@ -44,18 +44,20 @@ export default function PositionForm({}: Props) {
                 setTimefram('')
                 setSymbol('')
                 reset()
-                // mutate({
-                //     symbol: data.symbol,
-                //     leverage: data.leverage,
-                //     quantity: data.quantity,
-                //     timeframe: data.timeframe,
-                //     ema: data.ema,
-                // })
+                const payload: Position = {
+                    symbol: data.symbol,
+                    leverage: data.leverage,
+                    quantity: data.quantity,
+                    timeframe: data.timeframe,
+                    ema: data.ema,
+                    type: 'EMA',
+                }
+                dispatch(positionAddAsync(payload))
             })}
         >
             <Stack spacing={2} direction={'row'}>
                 <Box>
-                    <InputLabel label='Symbols' />
+                    <InputLabel label='symbols' />
                     <Autocomplete
                         value={symbol}
                         onChange={(_event, newValue: any) => {
@@ -85,7 +87,7 @@ export default function PositionForm({}: Props) {
                     />
                 </Box>
                 <Box>
-                    <InputLabel label='Size' />
+                    <InputLabel label='size' />
                     <TextField
                         error={!!errors.quantity}
                         helperText={
@@ -106,7 +108,7 @@ export default function PositionForm({}: Props) {
                     />
                 </Box>
                 <Box>
-                    <InputLabel label='Timeframs' />
+                    <InputLabel label='timeframs' />
                     <Autocomplete
                         value={timefram}
                         onChange={(_event, newValue: any) => {
@@ -190,3 +192,11 @@ export default function PositionForm({}: Props) {
         </Stack>
     )
 }
+
+// mutate({
+//     symbol: data.symbol,
+//     leverage: data.leverage,
+//     quantity: data.quantity,
+//     timeframe: data.timeframe,
+//     ema: data.ema,
+// })

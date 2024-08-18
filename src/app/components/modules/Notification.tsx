@@ -20,7 +20,12 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { useSelector } from 'react-redux'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { notificationSelector, isReadedAsync, notificationAsync, isDeletedAsync } from '@/app/common/store/slices/notiticationSlice'
+import {
+    notificationSelector,
+    isReadedAsync,
+    notificationAsync,
+    isDeletedAsync,
+} from '@/app/common/store/slices/notiticationSlice'
 import { useAppDispatch } from '@/app/common/store/store'
 
 type Props = {}
@@ -82,9 +87,9 @@ export default function Notification({}: Props) {
                     <IconButton onClick={handleClick}>
                         <Badge
                             badgeContent={
-                                notificationsReducer.result?.notifications.filter(
+                                notificationsReducer.result?.notifications?.filter(
                                     (item) => !item.isReaded,
-                                ).length
+                                ).length || 0
                             }
                             color='primary'
                         >
@@ -122,28 +127,32 @@ export default function Notification({}: Props) {
                                 }}
                             >
                                 {notificationsReducer.result?.notifications &&
-                                    notificationsReducer.result?.notifications.length > 0 ? (
+                                notificationsReducer.result?.notifications
+                                    .length > 0 ? (
                                     <List>
                                         {notificationsReducer.result?.notifications.map(
                                             (item, index) => (
                                                 <ListItem key={index}>
                                                     <ListItemText
-                                                        primary={item.msg} />
+                                                        primary={item.msg}
+                                                    />
                                                     <ListItemSecondaryAction>
                                                         <IconButton
                                                             edge='end'
                                                             aria-label='delete'
-                                                            onClick={() => dispatch(
-                                                                isDeletedAsync(
-                                                                    item._id
+                                                            onClick={() =>
+                                                                dispatch(
+                                                                    isDeletedAsync(
+                                                                        item._id,
+                                                                    ),
                                                                 )
-                                                            )}
+                                                            }
                                                         >
                                                             <DeleteIcon fontSize='small' />
                                                         </IconButton>
                                                     </ListItemSecondaryAction>
                                                 </ListItem>
-                                            )
+                                            ),
                                         )}
                                     </List>
                                 ) : (
