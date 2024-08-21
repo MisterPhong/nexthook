@@ -1,14 +1,19 @@
 'use client'
 
+import { routers } from '@/app/common/constant/path'
 import { symbol } from '@/app/common/constant/symbols'
 import { usePredict } from '@/app/common/hooks/usePredict'
 import { useRealCoin } from '@/app/common/hooks/useRealCoin'
+import { profileSelector } from '@/app/common/store/slices/profileSlice'
 import { Box, Stack, Typography, Button, Skeleton } from '@mui/material'
+import Link from 'next/link'
+import { useSelector } from 'react-redux'
 
 type Props = {}
 
 export function CoinInfo({}: Props) {
     const { data } = usePredict()
+    const profileReducer = useSelector(profileSelector)
 
     return (
         <Box>
@@ -18,7 +23,7 @@ export function CoinInfo({}: Props) {
                         sx={{
                             height: 'max-content',
                         }}
-                        className='grid grid-cols-5'
+                        className={`grid grid-cols-${profileReducer.result ? '5':'4'}`}
                     >
                         <Stack
                             spacing={0.8}
@@ -67,7 +72,8 @@ export function CoinInfo({}: Props) {
                                     item.symbol,
                             )?.predictedPrice ?? 'No Data'}
                         </Typography>
-                        <Button
+                        {profileReducer.result && (
+                            <Button
                             variant='outlined'
                             sx={{
                                 display: 'flex',
@@ -77,9 +83,13 @@ export function CoinInfo({}: Props) {
                                 width: 'max-content',
                                 margin: 'auto',
                             }}
+                            type='button'
+                            LinkComponent={Link}
+                            href={routers.position}
                         >
-                            open
+                            open position
                         </Button>
+                        )}
                     </Box>
                 </Box>
             ))}
@@ -88,7 +98,6 @@ export function CoinInfo({}: Props) {
 }
 
 export function CoinPrice({ symbol }: { symbol: string }) {
-    // const { data, isLoading } = useCoins(symbol)
     const { data, isLoading } = useRealCoin(symbol)
 
     return (

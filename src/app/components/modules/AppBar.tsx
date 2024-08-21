@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Menus from './Menus'
 import { routers } from '@/app/common/constant/path'
+import Notification from './Notification'
 
 type Props = {}
 

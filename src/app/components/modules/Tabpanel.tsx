@@ -6,7 +6,10 @@ import { TabPanel, CustomTabPanel } from '../share/CustomTabPanel'
 import PositionDesc from './PositionDesc'
 import PositionOpen from './PositionOpen'
 import { useAppDispatch } from '@/app/common/store/store'
-import { positionAsync, positionSelector } from '@/app/common/store/slices/positionSlicen'
+import {
+    positionAsync,
+    positionSelector,
+} from '@/app/common/store/slices/positionSlicen'
 import { useSelector } from 'react-redux'
 
 type Props = {}
@@ -18,12 +21,15 @@ export default function Tabpanel({}: Props) {
 
     useEffect(() => {
         dispatch(positionAsync())
-    }, [])
+    }, [dispatch])
 
     return (
         <Box>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                {[`Positions(1)`, `Open Orders(${positionReducer.result.length})`].map((label, index) => (
+                {[
+                    `Positions(1)`,
+                    `Open Orders(${positionReducer.result.length})`,
+                ].map((label, index) => (
                     <TabPanel
                         key={index}
                         label={label}
@@ -62,7 +68,7 @@ export default function Tabpanel({}: Props) {
                                     height: 'auto',
                                 }}
                             >
-                                <Typography variant='body2' >{item}</Typography>
+                                <Typography variant='body2'>{item}</Typography>
                             </Grid>
                         ))}
                     </Grid>

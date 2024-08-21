@@ -1,7 +1,14 @@
 'use client'
 
-import { Autocomplete, Stack, TextField, Box, Button } from '@mui/material'
-import React, { useState } from 'react'
+import {
+    Autocomplete,
+    Stack,
+    TextField,
+    Box,
+    Button,
+    ButtonGroup,
+} from '@mui/material'
+import React, { useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import InputLabel from '../share/InputLabel'
 import CustomSlider from '../share/CustomSlider'
@@ -11,21 +18,15 @@ import { Position, PositionSchema } from '@/app/common/types/position.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAppDispatch } from '@/app/common/store/store'
 import { positionAddAsync } from '@/app/common/store/slices/positionSlicen'
-
+import { symbol as symbols } from '@/app/common/constant/symbols'
 type Props = {}
-
-const symbols = [
-    { symbol: 'BTCUSDT' },
-    { symbol: 'ETHUSDT' },
-    { symbol: 'ADAUSDT' },
-    { symbol: 'DOGEUSDT' },
-    { symbol: 'BNBUSDT' },
-]
 
 export default function PositionForm({}: Props) {
     const dispatch = useAppDispatch()
     const [symbol, setSymbol] = useState('')
     const [timefram, setTimefram] = useState('')
+    const [type, setType] = useState('AI')
+
     const {
         register,
         handleSubmit,
@@ -50,11 +51,25 @@ export default function PositionForm({}: Props) {
                     quantity: data.quantity,
                     timeframe: data.timeframe,
                     ema: data.ema,
-                    type: 'EMA',
+                    type,
                 }
                 dispatch(positionAddAsync(payload))
             })}
         >
+            <ButtonGroup variant='text' aria-label='Basic button group'>
+                {['AI', 'EMA'].map((item) => (
+                    <Button
+                        key={item}
+                        sx={{
+                            width: 100,
+                        }}
+                        onClick={() => setType(item)}
+                        disabled={type === item}
+                    >
+                        {item}
+                    </Button>
+                ))}
+            </ButtonGroup>
             <Stack spacing={2} direction={'row'}>
                 <Box>
                     <InputLabel label='symbols' />
@@ -66,7 +81,8 @@ export default function PositionForm({}: Props) {
                         className='w-40'
                         disablePortal
                         id='combo-box-demo'
-                        options={symbols.map((item) => item.symbol)}
+                        // options={symbols.map((item) => item.symbol)}
+                        options={symbols.map((item) => item.symbol.toUpperCase())}
                         isOptionEqualToValue={(option, value) =>
                             option === value
                         }
@@ -107,36 +123,40 @@ export default function PositionForm({}: Props) {
                         })}
                     />
                 </Box>
-                <Box>
-                    <InputLabel label='timeframs' />
-                    <Autocomplete
-                        value={timefram}
-                        onChange={(_event, newValue: any) => {
-                            setTimefram(newValue)
-                        }}
-                        className='w-40'
-                        disablePortal
-                        id='timeframs'
-                        options={['1h', '4h', '1d']}
-                        isOptionEqualToValue={(option, value) =>
-                            option === value
-                        }
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                {...register('timeframe', { required: true })}
-                                fullWidth
-                                size='small'
-                                error={!!errors.timeframe}
-                                helperText={
-                                    !!errors.timeframe
-                                        ? 'Please select a timeframe.'
-                                        : ''
-                                }
-                            />
-                        )}
-                    />
-                </Box>
+                {type === 'EMA' && (
+                    <Box>
+                        <InputLabel label='timeframs' />
+                        <Autocomplete
+                            value={timefram}
+                            onChange={(_event, newValue: any) => {
+                                setTimefram(newValue)
+                            }}
+                            className='w-40'
+                            disablePortal
+                            id='timeframs'
+                            options={['1h', '4h', '1d']}
+                            isOptionEqualToValue={(option, value) =>
+                                option === value
+                            }
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    {...register('timeframe', {
+                                        required: true,
+                                    })}
+                                    fullWidth
+                                    size='small'
+                                    error={!!errors.timeframe}
+                                    helperText={
+                                        !!errors.timeframe
+                                            ? 'Please select a timeframe.'
+                                            : ''
+                                    }
+                                />
+                            )}
+                        />
+                    </Box>
+                )}
             </Stack>
             <Box>
                 <InputLabel label='Adjust Leverage' />
@@ -187,7 +207,7 @@ export default function PositionForm({}: Props) {
                 }}
                 type='submit'
             >
-                open order
+                open position
             </Button>
         </Stack>
     )
