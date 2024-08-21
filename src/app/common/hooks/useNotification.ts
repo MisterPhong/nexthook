@@ -6,7 +6,7 @@ import { AppDispatch, useAppDispatch } from '../store/store'
 import { ErrorResponse } from '../types/error.type'
 import { NotificationElement } from '../types/notification.type'
 import { setAddNotification } from '../store/slices/notiticationSlice'
-import { getCookies } from '../actions'
+import { getCookies } from '../actions/cookie-action'
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 

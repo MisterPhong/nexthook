@@ -8,7 +8,6 @@ import { useSignup } from '@/app/common/hooks/useSignup'
 import { Signup, SignupSchema } from '@/app/common/types/auth.type'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { routers } from '@/app/common/constant/path'
 import { IoEye, IoEyeOffOutline } from 'react-icons/io5'
 import PasswordStrengthBar from 'react-password-strength-bar'
 import ResponsiveDialog from '../modules/ResponsiveDialog'
@@ -16,7 +15,6 @@ import ResponsiveDialog from '../modules/ResponsiveDialog'
 type Props = {}
 
 export default function SignupForm({}: Props) {
-    const router = useRouter()
     const [showPassword, setShowPassword] = useState(false)
     const [isPasswordFocused, setIsPasswordFocused] = useState(false)
     const [password, setPassword] = useState('')
