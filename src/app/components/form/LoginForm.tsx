@@ -15,7 +15,6 @@ import ResponsiveDialog from '../modules/ResponsiveDialog'
 type Props = {}
 
 export default function LoginForm({}: Props) {
-    const router = useRouter()
     const { mutate, isPending, isError } = useLogin()
     const [open, setOpen] = useState(false)
     const {

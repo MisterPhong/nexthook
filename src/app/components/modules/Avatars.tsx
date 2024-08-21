@@ -20,7 +20,11 @@ import { useRouter } from 'next/navigation'
 import { routers } from '@/app/common/constant/path'
 import { useNotification } from '@/app/common/hooks/useNotification'
 import { useAppDispatch } from '@/app/common/store/store'
-import { profileSelector, logoutAsync, profileAsync } from '@/app/common/store/slices/profileSlice'
+import {
+    profileSelector,
+    logoutAsync,
+    profileAsync,
+} from '@/app/common/store/slices/profileSlice'
 
 type Props = {}
 

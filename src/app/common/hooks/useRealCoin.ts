@@ -15,7 +15,7 @@ export function useRealCoin(symbol: string) {
             const newCoin: Coin = JSON.parse(event.data)
             queryClient.setQueryData(['coin', symbol], newCoin)
         },
-        shouldReconnect: (closeEvent) => true, // Reconnect on close
+        shouldReconnect: () => true, // Reconnect on close
     })
 
     const data = queryClient.getQueryData<Coin>(['coin', symbol])

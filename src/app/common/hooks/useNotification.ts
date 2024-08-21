@@ -2,11 +2,11 @@
 
 import io from 'socket.io-client'
 import { useQuery } from '@tanstack/react-query'
-import { getCookies } from '../actions/cookie-action'
 import { AppDispatch, useAppDispatch } from '../store/store'
 import { ErrorResponse } from '../types/error.type'
 import { NotificationElement } from '../types/notification.type'
 import { setAddNotification } from '../store/slices/notiticationSlice'
+import { getCookies } from '../actions'
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 
@@ -24,9 +24,13 @@ function generateObjectId(): string {
 
 async function notification(
     dispatch: AppDispatch
-): Promise<NotificationElement> {
+): Promise<NotificationElement | null> {
     const accessToken = await getCookies('access_token')
-    
+
+    if (!accessToken) {
+        return null
+    }
+
     return new Promise((resolve, reject) => {
         const socket = io(SOCKET_URL, {
             transportOptions: {
@@ -66,7 +70,7 @@ async function notification(
 export function useNotification() {
     const dispatch = useAppDispatch()
 
-    return useQuery<NotificationElement, ErrorResponse>({
+    return useQuery<NotificationElement | null, ErrorResponse>({
         queryKey: ['notification'],
         queryFn: () => notification(dispatch),
         refetchOnWindowFocus: false, // ไม่ refetch ข้อมูลเมื่อ window กลับมา active

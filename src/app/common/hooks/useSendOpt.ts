@@ -1,31 +1,11 @@
-import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
-import { server } from '../constant/server'
-import { httpClient } from '../services/httpClient'
-import { ErrorResponseSchema, ErrorResponse } from '../types/error.type'
+import { ErrorResponse } from '../types/error.type'
 import { Otp } from '../types/otp.type'
-
-async function sendOneTimePass(otp: number): Promise<Otp> {
-    try {
-        const response = await httpClient.post<Otp>(server.otp, { otp: otp })
-        return response.data
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            const parsedError = ErrorResponseSchema.safeParse(
-                error.response.data
-            )
-            if (!parsedError.success) {
-                throw new Error('Unexpected error format')
-            }
-            throw parsedError.data
-        }
-        throw new Error('Network or unexpected error')
-    }
-}
+import { sendOneTimePassAction } from '../actions'
 
 export function useSendOtp() {
     return useMutation<Otp, ErrorResponse, number>({
-        mutationFn: async (payload) => await sendOneTimePass(payload),
+        mutationFn: async (payload) => await sendOneTimePassAction(payload),
         mutationKey: ['sent-otp'],
     })
 }
