@@ -6,7 +6,8 @@ import {
     NotificationElement,
     Notification,
 } from '../../types/notification.type'
-import { notificationDelete, notificationIsReadAction, notificationsAction } from '../../actions'
+import { server } from '../../constant/server'
+import { httpClient } from '../../services/httpClient'
 
 type NotificationState = {
     result: Notification | undefined
@@ -30,9 +31,8 @@ export const notificationAsync = createAsyncThunk<
     { rejectValue: ErrorResponse }
 >('notification/notificationAsync', async (_, { rejectWithValue }) => {
     try {
-        // const response = await httpClient.get<Notification>(server.notification)
-        // return response.data
-        return await notificationsAction()
+        const response = await httpClient.get<Notification>(server.notification)
+        return response.data
     } catch (error) {
         // Handling error logic remains the same
         if (axios.isAxiosError(error) && error.response) {
@@ -64,8 +64,7 @@ export const isReadedAsync = createAsyncThunk<
 >('isReaded/isReadedAsync', async (_, { rejectWithValue, dispatch }) => {
     try {
         dispatch(setAllAsRead())
-        // await httpClient.patch<void>(server.notification)
-        await notificationIsReadAction()
+        await httpClient.patch<void>(server.notification)
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const parsedError = ErrorResponseSchema.safeParse(
@@ -96,8 +95,7 @@ export const isDeletedAsync = createAsyncThunk<
 >('isDeleted/isDeletedAsync', async (id, { rejectWithValue, dispatch }) => {
     try {
         dispatch(setPop(id))
-        // await httpClient.delete<void>(`${server.notification}/${id}`)
-        await notificationDelete(id)
+        await httpClient.delete<void>(`${server.notification}/${id}`)
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const parsedError = ErrorResponseSchema.safeParse(

@@ -3,7 +3,9 @@ import { RootState } from '../store'
 import axios from 'axios'
 import { OK, Profile } from '../../types/auth.type'
 import { ErrorResponse, ErrorResponseSchema } from '../../types/error.type'
-import { logoutAction, profileAction } from '../../actions'
+import { getCookies } from '../../actions/cookie-action'
+import { server } from '../../constant/server'
+import { httpClient } from '../../services/httpClient'
 
 type ProfileState = {
     result: Profile | undefined
@@ -26,9 +28,8 @@ export const logoutAsync = createAsyncThunk<
 >('logout/logoutAsync', async (_, { rejectWithValue, dispatch }) => {
     try {
         dispatch(setLogout())
-        return await logoutAction()
-        // const response = await httpClient.post<OK>(server.logout, {})
-        // return response.data
+        const response = await httpClient.post<OK>(server.logout, {})
+        return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const parsedError = ErrorResponseSchema.safeParse(
@@ -61,13 +62,12 @@ export const profileAsync = createAsyncThunk<
     { rejectValue: ErrorResponse }
 >('profile/profileAsync', async (_, { rejectWithValue }) => {
     try {
-        return await profileAction()
-        // const refreshToken = await getCookies('refresh_token')
-        // if (!refreshToken) {
-        //     return undefined
-        // }
-        // const response = await httpClient.get<Profile>(server.profile)
-        // return response.data
+        const refreshToken = await getCookies('refresh_token')
+        if (!refreshToken) {
+            return undefined
+        }
+        const response = await httpClient.get<Profile>(server.profile)
+        return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             const parsedError = ErrorResponseSchema.safeParse(
