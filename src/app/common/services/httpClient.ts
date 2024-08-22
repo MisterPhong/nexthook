@@ -1,7 +1,7 @@
 import axios from 'axios'
 import join from 'url-join'
-import Cookies from 'js-cookie'
 import { cookieKey } from '../constant/cookie'
+import { getCookies } from '../actions/cookie-action'
 
 const NETWORK_CONNECTION_MESSAGE = 'Cannot connect to server, Please try again.'
 const NOT_CONNECT_NETWORK = 'NOT_CONNECT_NETWORK'
@@ -38,7 +38,8 @@ axios.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config
-        const refreshToken = Cookies.get(cookieKey.refreshToken)
+        // const refreshToken = Cookies.get(cookieKey.refreshToken)
+        const refreshToken = await getCookies(cookieKey.refreshToken)
 
         if (
             refreshToken &&

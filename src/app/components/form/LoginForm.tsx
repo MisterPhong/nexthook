@@ -56,7 +56,7 @@ export default function LoginForm({}: Props) {
             dispatch(setEmail(state.message))
             handleOpen()
         }
-    }, [state, setError])
+    }, [state, setError,dispatch])
 
     return (
         <>

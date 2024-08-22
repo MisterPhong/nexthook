@@ -63,7 +63,7 @@ export default function SignupForm({}: Props) {
             dispatch(setEmail(state.message))
             handleOpen()
         }
-    }, [state, setError])
+    }, [state, setError,dispatch])
 
     return (
         <>
