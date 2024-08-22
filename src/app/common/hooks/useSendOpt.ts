@@ -10,7 +10,6 @@ async function sendOneTimePass(otp: number): Promise<Otp> {
         const response = await httpClient.post<Otp>(server.otp, { otp: otp })
         return response.data
     } catch (error) {
-        console.log(error)
         if (axios.isAxiosError(error) && error.response) {
             const parsedError = ErrorResponseSchema.safeParse(
                 error.response.data
