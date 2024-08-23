@@ -4,9 +4,9 @@ import axios from 'axios'
 import { Email, Signup } from '../types/auth.type'
 import { State } from '../types/state.type'
 import { ZodError } from 'zod'
-import { httpClient } from '../services/httpClient'
 import { server } from '../constant/server'
 import { cookies } from 'next/headers'
+import { httpClient } from '../services/httpClient'
 
 const cookie = cookies()
 
