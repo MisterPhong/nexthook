@@ -19,17 +19,16 @@ export async function loginAction(
         const cookies = response.headers['set-cookie']
         const userId = cookies![0].split(';')[0].split('=')[1]
         cookie.set('user_id', userId, {
-            secure: process.env.NODE_ENV === 'production',
+            // secure: process.env.NODE_ENV === 'production',
             httpOnly: true,
             maxAge: 1 * 24 * 60 * 60 * 1000, // 1d
-            sameSite: 'strict',
+            // sameSite: 'strict',
         })
         return {
             status: 'success',
             message: response.data.email,
         }
     } catch (error) {
-        console.log(error)
         if (axios.isAxiosError(error) && error.response) {
             // ดึงข้อมูลจาก error.response.data
             const errorData = error.response.data

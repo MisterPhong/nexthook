@@ -23,7 +23,7 @@ export function CoinInfo({}: Props) {
                         sx={{
                             height: 'max-content',
                         }}
-                        className={`grid grid-cols-${profileReducer.result ? '5':'4'}`}
+                        className={`grid grid-cols-5`}
                     >
                         <Stack
                             spacing={0.8}

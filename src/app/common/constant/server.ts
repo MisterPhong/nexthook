@@ -12,6 +12,8 @@ export const server = {
     resetPassword: 'auth/reset-password',
     createPosition: 'orders/create',
     predict: 'predict',
+    createKey: 'key/create',
+    key: 'key',
 }
 
 export const social = {

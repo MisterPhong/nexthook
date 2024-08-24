@@ -1,5 +1,4 @@
-import PositionForm from '@/app/components/form/PositionForm'
-import Tabpanel from '@/app/components/modules/Tabpanel'
+import PositionScreen from '@/app/components/screens/PositionScreen'
 import { Card, CardContent, Stack } from '@mui/material'
 import React from 'react'
 
@@ -9,8 +8,7 @@ export default function page({}: Props) {
     return (
         <Card>
             <CardContent component={Stack} spacing={2} direction={'column'}>
-                <PositionForm />
-                <Tabpanel />
+                <PositionScreen />
             </CardContent>
         </Card>
     )

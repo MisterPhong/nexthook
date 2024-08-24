@@ -31,4 +31,4 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64 
-          tags: ${{ secrets.DOCKER_USERNAME }}/next14-keeper:latest
+          tags: lindermand/next14-keeper

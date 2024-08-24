@@ -1,42 +1,54 @@
 'use server'
 
-import axios from 'axios'
-import { Email, Signup } from '../types/auth.type'
-import { State } from '../types/state.type'
 import { ZodError } from 'zod'
+import { State } from '../types/state.type'
+import axios from 'axios'
+import { Apikey } from '../types/apikey.type'
+import { httpClient } from '../services/httpClient'
 import { server } from '../constant/server'
 import { cookies } from 'next/headers'
-import { httpClient } from '../services/httpClient'
+import { cookieKey } from '../constant/cookie'
+import { OK } from '../types/auth.type'
 
 const cookie = cookies()
 
-export async function signupAction(
+export async function apiKeyAction(
     prevState: State | null,
-    payload: Signup
+    payload: Apikey
 ): Promise<State | null> {
     try {
-        const response = await httpClient.post<Email>(server.signup, payload)
-        const cookies = response.headers['set-cookie']
-        const userId = cookies![0].split(';')[0].split('=')[1]
-        cookie.set('user_id', userId, {
-            // secure: process.env.NODE_ENV === 'production',
-            httpOnly: true,
-            maxAge: 1 * 24 * 60 * 60 * 1000, // 1d
-            // sameSite: 'strict',
-        })
+        if (!payload.apiKey || !payload.secretKey) {
+            return {
+                status: 'error',
+                message: 'required',
+            }
+        }
 
+        let config = {
+            headers: {
+                Authorization: `Bearer ${
+                    cookie.get(cookieKey.accessToken)?.value
+                }`,
+            },
+        }
+        const response = await httpClient.post<OK>(
+            server.createKey,
+            payload,
+            config
+        )
+        console.log()
         return {
+            message: response.data.message,
             status: 'success',
-            message: response.data.email,
         }
     } catch (error) {
+        console.log(error)
         if (axios.isAxiosError(error) && error.response) {
             // ดึงข้อมูลจาก error.response.data
             const errorData = error.response.data
 
             return {
                 status: 'error',
-                // message: errorData.message, // ใช้ข้อความจากข้อมูลข้อผิดพลาด
                 message: errorData.message, // ใช้ข้อความจากข้อมูลข้อผิดพลาด
                 errors: [
                     {

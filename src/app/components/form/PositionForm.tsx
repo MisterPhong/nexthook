@@ -8,14 +8,12 @@ import {
     Button,
     ButtonGroup,
 } from '@mui/material'
-import React, { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import InputLabel from '../share/InputLabel'
 import CustomSlider from '../share/CustomSlider'
 import theme from '../theme/theme'
-// import { useAddPosition } from '@/app/common/hooks/useAddPosition'
-import { Position, PositionSchema } from '@/app/common/types/position.type'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Position } from '@/app/common/types/position.type'
 import { useAppDispatch } from '@/app/common/store/store'
 import { positionAddAsync } from '@/app/common/store/slices/positionSlicen'
 import { symbol as symbols } from '@/app/common/constant/symbols'
@@ -81,8 +79,9 @@ export default function PositionForm({}: Props) {
                         className='w-40'
                         disablePortal
                         id='combo-box-demo'
-                        // options={symbols.map((item) => item.symbol)}
-                        options={symbols.map((item) => item.symbol.toUpperCase())}
+                        options={symbols.map((item) =>
+                            item.symbol.toUpperCase(),
+                        )}
                         isOptionEqualToValue={(option, value) =>
                             option === value
                         }
@@ -212,11 +211,3 @@ export default function PositionForm({}: Props) {
         </Stack>
     )
 }
-
-// mutate({
-//     symbol: data.symbol,
-//     leverage: data.leverage,
-//     quantity: data.quantity,
-//     timeframe: data.timeframe,
-//     ema: data.ema,
-// })
