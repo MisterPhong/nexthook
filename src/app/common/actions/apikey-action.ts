@@ -24,25 +24,31 @@ export async function apiKeyAction(
             }
         }
 
+        const accessToken = cookie.get(cookieKey.accessToken)?.value
+        if (!accessToken) {
+            return {
+                status: 'error',
+                message: 'not found accessToken',
+            }
+        }
+
         let config = {
             headers: {
-                Authorization: `Bearer ${
-                    cookie.get(cookieKey.accessToken)?.value
-                }`,
+                Authorization: `Bearer ${accessToken}`,
             },
         }
+
         const response = await httpClient.post<OK>(
             server.createKey,
             payload,
             config
         )
-        console.log()
+
         return {
             message: response.data.message,
             status: 'success',
         }
     } catch (error) {
-        console.log(error)
         if (axios.isAxiosError(error) && error.response) {
             // ดึงข้อมูลจาก error.response.data
             const errorData = error.response.data

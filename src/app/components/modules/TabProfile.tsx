@@ -2,12 +2,20 @@
 
 import { useKey } from '@/app/common/hooks/useKey'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Divider, Box, Tab, Stack, Typography, Button } from '@mui/material'
+import {
+    Divider,
+    Box,
+    Tab,
+    Stack,
+    Typography,
+    Button,
+    Skeleton,
+} from '@mui/material'
 import React, { Fragment, useState } from 'react'
 import { FaKeycdn } from 'react-icons/fa'
 import ApiKeyForm from '../form/ApiKeyForm'
-import TextKey from './TextKey'
 import { useQueryClient } from '@tanstack/react-query'
+import { keys } from '@/app/common/constant/key'
 
 type Props = {}
 
@@ -17,8 +25,10 @@ export default function TabProfile({}: Props) {
     const [open, setOpen] = useState<boolean>(false)
     const queryClient = useQueryClient()
 
-    const refetchKey = () =>
-        queryClient.invalidateQueries({ queryKey: ['key'] })
+    const refetch = () => {
+        queryClient.invalidateQueries({ queryKey: [keys.key] })
+        queryClient.invalidateQueries({ queryKey: [keys.usdt] })
+    }
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -50,16 +60,67 @@ export default function TabProfile({}: Props) {
                     </TabList>
                 </Box>
                 <TabPanel value='1'>
-                    {isPending ? (
-                        <h1>load...</h1>
-                    ) : data?.apiKey ? (
-                        <Stack direction='column' spacing={0.3}>
-                            <TextKey text={data.apiKey} title='API KEY' />
-                            <Divider />
-                            <TextKey text={data.secretKey} title='SECRET KEY' />
-                            <Divider />
-                        </Stack>
-                    ) : (
+                    <Fragment>
+                        {data?.apiKey && (
+                            <Typography
+                                variant='h6'
+                                fontWeight={600}
+                                fontSize={15}
+                            >
+                                API Key
+                            </Typography>
+                        )}
+                        {isPending ? (
+                            <Skeleton
+                                variant='text'
+                                width={422}
+                                sx={{ fontSize: 18 }}
+                            />
+                        ) : (
+                            data?.apiKey && (
+                                <Typography
+                                    variant='h6'
+                                    fontWeight={500}
+                                    fontSize={17}
+                                    sx={{ width: 'fit-content' }}
+                                >
+                                    {data.apiKey.replace(/./g, '*')}
+                                </Typography>
+                            )
+                        )}
+                    </Fragment>
+                    {data?.apiKey && <Divider />}
+                    <Fragment>
+                        {data?.secretKey && (
+                            <Typography
+                                variant='h6'
+                                fontWeight={600}
+                                fontSize={15}
+                            >
+                                SECRET Key
+                            </Typography>
+                        )}
+                        {isPending ? (
+                            <Skeleton
+                                variant='text'
+                                width={422}
+                                sx={{ fontSize: 18 }}
+                            />
+                        ) : (
+                            data?.secretKey && (
+                                <Typography
+                                    variant='h6'
+                                    fontWeight={500}
+                                    fontSize={17}
+                                    sx={{ width: 'fit-content' }}
+                                >
+                                    {data.secretKey.replace(/./g, '*')}
+                                </Typography>
+                            )
+                        )}
+                    </Fragment>
+                    {data?.secretKey && <Divider />}
+                    {!data?.apiKey && (
                         <Stack
                             direction='column'
                             spacing={2}
@@ -95,7 +156,7 @@ export default function TabProfile({}: Props) {
             <ApiKeyForm
                 open={open}
                 handleClose={handleClose}
-                refetchKey={refetchKey}
+                refetch={refetch}
             />
         </Fragment>
     )

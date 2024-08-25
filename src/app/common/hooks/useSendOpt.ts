@@ -4,6 +4,7 @@ import { Otp } from '../types/otp.type'
 import axios from 'axios'
 import { server } from '../constant/server'
 import { httpClient } from '../services/httpClient'
+import { keys } from '../constant/key'
 
 async function sendOneTimePass(otp: number): Promise<Otp> {
     try {
@@ -26,6 +27,6 @@ async function sendOneTimePass(otp: number): Promise<Otp> {
 export function useSendOtp() {
     return useMutation<Otp, ErrorResponse, number>({
         mutationFn: async (payload) => await sendOneTimePass(payload),
-        mutationKey: ['sent-otp'],
+        mutationKey: [keys.sendOtp],
     })
 }

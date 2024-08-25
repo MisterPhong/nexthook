@@ -13,7 +13,7 @@ import {
     Typography,
 } from '@mui/material'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Notification from './Notification'
 import { useRouter } from 'next/navigation'
@@ -25,6 +25,7 @@ import {
     logoutAsync,
     profileAsync,
 } from '@/app/common/store/slices/profileSlice'
+import UsdtDisplay from './UsdtDisplay'
 
 type Props = {}
 
@@ -57,7 +58,7 @@ export function Avatars({}: Props) {
     }, [dispatch])
 
     return (
-        <>
+        <Fragment>
             {profileReducer.isPending ? (
                 <Stack spacing={2} direction={'row'}>
                     <Skeleton variant='circular' width={30} height={30} />
@@ -66,6 +67,7 @@ export function Avatars({}: Props) {
             ) : profileReducer.result ? (
                 <Box sx={{ flexGrow: 0 }}>
                     <Stack spacing={2} direction={'row'}>
+                        <UsdtDisplay />
                         <Notification />
                         <Tooltip title='Open settings'>
                             <IconButton
@@ -130,7 +132,7 @@ export function Avatars({}: Props) {
                     </Button>
                 </>
             )}
-        </>
+        </Fragment>
     )
 }
 
@@ -157,21 +159,33 @@ export function Profile() {
             )}
             <Stack direction='column' className='ml-4'>
                 {profileReducer.isPending ? (
-                    <Skeleton width={184.77} />
+                    <Skeleton
+                        variant='text'
+                        sx={{ fontSize: 18 }}
+                        width={185}
+                    />
                 ) : (
                     <Typography variant='h2' fontWeight={600} fontSize={18}>
                         {profileReducer.result?.name}
                     </Typography>
                 )}
                 {profileReducer.isPending ? (
-                    <Skeleton width={184.77} />
+                    <Skeleton
+                        variant='text'
+                        sx={{ fontSize: 15 }}
+                        width={185}
+                    />
                 ) : (
                     <Typography variant='caption' fontSize={15}>
                         {profileReducer.result?.username}
                     </Typography>
                 )}
                 {profileReducer.isPending ? (
-                    <Skeleton width={184.77} />
+                    <Skeleton
+                        variant='text'
+                        sx={{ fontSize: 15 }}
+                        width={185}
+                    />
                 ) : (
                     <Typography variant='caption' fontSize={15}>
                         {profileReducer.result?.email}

@@ -3,6 +3,7 @@ import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import { Predict } from '../types/predict.type'
 import axios from 'axios'
 import { httpClient } from '../services/httpClient'
+import { keys } from '../constant/key'
 
 async function predict(): Promise<Predict> {
     try {
@@ -26,7 +27,7 @@ async function predict(): Promise<Predict> {
 
 export function usePredict() {
     return useQuery<Predict, ErrorResponse>({
-        queryKey: ['predict'],
+        queryKey: [keys.predict],
         queryFn: predict,
     })
 }

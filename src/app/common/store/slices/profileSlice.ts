@@ -66,6 +66,7 @@ export const profileAsync = createAsyncThunk<
         if (!refreshToken) {
             return undefined
         }
+
         const response = await httpClient.get<Profile>(server.profile)
         return response.data
     } catch (error) {

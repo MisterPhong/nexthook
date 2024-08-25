@@ -30,6 +30,7 @@
     "dayjs": "^1.11.12",
     "framer-motion": "^11.3.19",
     "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "mui-one-time-password-input": "^2.0.3",
     "next": "14.2.4",
     "nookies": "^2.5.2",

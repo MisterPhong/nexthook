@@ -7,6 +7,8 @@ import { ErrorResponse } from '../types/error.type'
 import { NotificationElement } from '../types/notification.type'
 import { setAddNotification } from '../store/slices/notiticationSlice'
 import { getCookies } from '../actions/cookie-action'
+import { cookieKey } from '../constant/cookie'
+import { keys } from '../constant/key'
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 
@@ -25,7 +27,7 @@ function generateObjectId(): string {
 async function notification(
     dispatch: AppDispatch
 ): Promise<NotificationElement | null> {
-    const accessToken = await getCookies('access_token')
+    const accessToken = await getCookies(cookieKey.accessToken)
 
     if (!accessToken) {
         return null
@@ -71,7 +73,7 @@ export function useNotification() {
     const dispatch = useAppDispatch()
 
     return useQuery<NotificationElement | null, ErrorResponse>({
-        queryKey: ['notification'],
+        queryKey: [keys.notification],
         queryFn: () => notification(dispatch),
         refetchOnWindowFocus: false, // ไม่ refetch ข้อมูลเมื่อ window กลับมา active
     })

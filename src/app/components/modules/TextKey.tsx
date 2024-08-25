@@ -13,7 +13,12 @@ export default function TextKey({
             <Typography variant='h6' fontWeight={600} fontSize={15}>
                 {title}
             </Typography>
-            <Typography variant='h6' fontWeight={500} fontSize={17}>
+            <Typography
+                variant='h6'
+                fontWeight={500}
+                fontSize={17}
+                sx={{ width: 'fit-content' }}
+            >
                 {text.replace(/./g, '*')}
             </Typography>
         </Fragment>

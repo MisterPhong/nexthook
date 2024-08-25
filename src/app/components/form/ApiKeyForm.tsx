@@ -11,9 +11,11 @@ import {
     Stack,
     DialogActions,
     Button,
+    LinearProgress,
+    Box,
 } from '@mui/material'
 import { Fragment, useCallback, useEffect, useTransition } from 'react'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormState } from 'react-dom'
 import {
     FieldErrors,
     FieldPath,
@@ -25,10 +27,10 @@ import CustomTextField from '../share/CustomTextField'
 type Props = {
     open: boolean
     handleClose: () => void
-    refetchKey: () => Promise<void>
+    refetch: () => void
 }
 
-export default function ApiKeyForm({ open, handleClose, refetchKey }: Props) {
+export default function ApiKeyForm({ open, handleClose, refetch }: Props) {
     const [pending, startTransaction] = useTransition()
     const [state, formAction] = useFormState<State, Apikey>(apiKeyAction, null)
     const {
@@ -61,9 +63,9 @@ export default function ApiKeyForm({ open, handleClose, refetchKey }: Props) {
         }
         if (state.status === 'success') {
             handleCloseAndReset()
-            refetchKey()
+            refetch()
         }
-    }, [state, setError, handleCloseAndReset, refetchKey])
+    }, [state, setError, handleCloseAndReset, refetch])
 
     return (
         <Fragment>
@@ -71,18 +73,42 @@ export default function ApiKeyForm({ open, handleClose, refetchKey }: Props) {
                 open={open}
                 aria-labelledby='alert-dialog-title'
                 aria-describedby='alert-dialog-description'
-                maxWidth='lg'
+                maxWidth='sm'
                 component={'form'}
                 onSubmit={handleSubmit((data) => {
                     startTransaction(() => formAction(data))
                 })}
+                PaperProps={{
+                    sx: {
+                        height: 320,
+                        width: '100%',
+                    },
+                }}
             >
-                <Form
-                    handleClose={handleCloseAndReset}
-                    register={register}
-                    errors={errors}
-                    state={state}
-                />
+                {pending ? (
+                    <Stack
+                        spacing={1}
+                        direction='column'
+                        sx={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100%',
+                        }}
+                    >
+                        <Typography variant='h6' fontWeight={600} fontSize={20}>
+                            Verifying API key
+                        </Typography>
+                        <div className='spinner'></div>
+                    </Stack>
+                ) : (
+                    <Form
+                        handleClose={handleCloseAndReset}
+                        register={register}
+                        errors={errors}
+                        state={state}
+                        pending={pending}
+                    />
+                )}
             </Dialog>
         </Fragment>
     )
@@ -93,14 +119,14 @@ function Form({
     errors,
     state,
     handleClose,
+    pending,
 }: {
     register: UseFormRegister<Apikey>
     errors: FieldErrors<Apikey>
     state: State
     handleClose: () => void
+    pending: boolean
 }) {
-    const { pending } = useFormStatus()
-
     return (
         <>
             <DialogTitle id='alert-dialog-title'>New API Key</DialogTitle>

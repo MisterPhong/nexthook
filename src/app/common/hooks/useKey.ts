@@ -4,10 +4,11 @@ import { Apikey } from '../types/apikey.type'
 import axios from 'axios'
 import { httpClient } from '../services/httpClient'
 import { server } from '../constant/server'
+import { keys } from '../constant/key'
 
-async function getKey() {
+async function getKey(): Promise<Apikey> {
     try {
-        const response = await httpClient.post(server.key)
+        const response = await httpClient.post<Apikey>(server.key)
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -25,7 +26,7 @@ async function getKey() {
 
 export function useKey() {
     return useQuery<Apikey, ErrorResponse>({
-        queryKey: ['key'],
+        queryKey: [keys.key],
         queryFn: getKey,
     })
 }

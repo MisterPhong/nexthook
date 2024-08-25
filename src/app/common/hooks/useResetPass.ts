@@ -4,6 +4,7 @@ import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import axios from 'axios'
 import { server } from '../constant/server'
 import { httpClient } from '../services/httpClient'
+import { keys } from '../constant/key'
 
 async function resetPass({ password, token }: ResetPassword): Promise<void> {
     try {
@@ -30,7 +31,7 @@ async function resetPass({ password, token }: ResetPassword): Promise<void> {
 
 export function useResetPass() {
     return useMutation<void, ErrorResponse, ResetPassword>({
+        mutationKey: [keys.resetPass],
         mutationFn: async (payload) => await resetPass(payload),
-        mutationKey: ['reset pass'],
     })
 }

@@ -4,6 +4,7 @@ import { ErrorResponse, ErrorResponseSchema } from '../types/error.type'
 import axios from 'axios'
 import { server } from '../constant/server'
 import { httpClient } from '../services/httpClient'
+import { keys } from '../constant/key'
 
 async function challenge(payload: Email): Promise<void> {
     try {
@@ -26,6 +27,6 @@ async function challenge(payload: Email): Promise<void> {
 export function useChallenge() {
     return useMutation<void, ErrorResponse, Email>({
         mutationFn: async (payload) => await challenge(payload),
-        mutationKey: ['challenge'],
+        mutationKey: [keys.challenge],
     })
 }
