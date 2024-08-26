@@ -31,13 +31,12 @@ async function usdtDisplay(): Promise<UsdtDisplay | null> {
 
         socket.on('connect', () => {
             console.log('Connected to WebSocket server')
-            socket.emit(ws.joinUsdt, payload.sub) // ส่งคำขอเข้าร่วมห้อง
-            socket.emit(ws.usdt, 'This is a message from client!')
+            // socket.emit(ws.joinUsdt, payload.sub) // ส่งคำขอเข้าร่วมห้อง
+            socket.emit(ws.usdt, 'connect server!')
         })
 
         // Event listener for incoming messages
         socket.on(ws.usdt, (msg) => {
-            console.log(msg)
             resolve(msg)
         })
 
