@@ -29,6 +29,15 @@ const theme = createTheme({
             color: '#757575',
         },
     },
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 600,// สำหรับจอขนาดเล็ก (มือถือ)
+            md: 1025, // สำหรับจอขนาดกลาง (แท็บเล็ต)// default 960px
+            lg: 1280, // สำหรับจอขนาดใหญ่ (คอมพิวเตอร์)
+            xl: 1920, // สำหรับจอขนาดใหญ่มาก (จอใหญ่)
+        },
+    },
     components: {
         MuiButton: {
             styleOverrides: {

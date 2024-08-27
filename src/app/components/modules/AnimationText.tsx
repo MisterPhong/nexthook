@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Stack, Typography, useTheme } from '@mui/material'
+import { Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { Typewriter } from 'react-simple-typewriter'
 
 export function AnimationText() {
@@ -104,6 +104,12 @@ export function TextTypewriter() {
             sx={{
                 WebkitBackgroundClip: 'text',
                 display: 'inline-block',
+                fontSize: {
+                    xs: '2rem', // สำหรับจอขนาดเล็ก (มือถือ)
+                    sm: '3rem', // สำหรับจอขนาดกลาง (แท็บเล็ต)
+                    md: '4rem', // สำหรับจอขนาดใหญ่ (คอมพิวเตอร์)
+                    lg: '5rem', // สำหรับจอขนาดใหญ่มาก (จอใหญ่)
+                },
             }}
         >
             <Typewriter
