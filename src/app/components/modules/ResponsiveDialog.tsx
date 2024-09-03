@@ -88,7 +88,7 @@ export default function ResponsiveDialog({ handleClose, open }: Props) {
                             <OtpForm />
                         </DialogContent>
                         <DialogActions>
-                            <Button autoFocus onClick={handleClose}>
+                            <Button onClick={handleClose}>
                                 Close
                             </Button>
                         </DialogActions>

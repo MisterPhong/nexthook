@@ -1,4 +1,5 @@
 'use client'
+
 import { Box } from '@mui/material'
 import React from 'react'
 import Image from 'next/image'
@@ -22,9 +23,17 @@ export default function BgAnimation({}: Props) {
     return (
         <Box
             sx={{
+                display: {
+                    xs: 'none',
+                    md: 'block',
+                },
                 position: 'absolute',
                 zIndex: -1,
-                left: 320,
+                left: {
+                  md: 400,
+                  lg: 500,
+                  xl: 650
+                },
                 buttom: 0,
                 animation: `${upDown} 3s ease-in-out infinite`, // ใช้ animation ที่สร้าง
             }}

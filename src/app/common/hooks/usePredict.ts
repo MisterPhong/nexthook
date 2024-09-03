@@ -5,11 +5,12 @@ import axios from 'axios'
 import { httpClient } from '../services/httpClient'
 import { keys } from '../constant/key'
 
-async function predict(): Promise<Predict> {
+export async function predict(): Promise<Predict> {
     try {
         const response = await httpClient.get<Predict>(
             'http://82.112.231.165/api/predict'
         )
+
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -31,3 +32,21 @@ export function usePredict() {
         queryFn: predict,
     })
 }
+
+// export type Predict =
+//     | {
+//           date: Date
+//           symbols: Symbol[]
+//       }
+//     | Error
+
+// export type Error = {
+//     statusCode: string
+//     message: string
+// }
+
+// export type Symbol = {
+//     symbol: string
+//     actualPrice: number
+//     predictedPrice: number
+// }

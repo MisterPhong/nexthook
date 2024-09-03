@@ -8,8 +8,21 @@ import Logo from '@/app/components/share/Logo'
 
 export default function page() {
     return (
-        <Box className='w-full'>
-            <Stack className='max-w-md mx-auto' spacing={2}>
+        <Box 
+        sx={{
+            width: '100%'
+        }}
+        >
+            <Stack 
+            sx={{
+                maxWidth: 500,
+                mx:{
+                    xs: 5,
+                    sm: 'auto'
+                },
+            }}
+            spacing={2}
+            >
                 <Logo alt='logo' />
                 <Typography
                     variant='h6'

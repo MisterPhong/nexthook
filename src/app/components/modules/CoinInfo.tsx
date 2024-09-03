@@ -1,18 +1,21 @@
 'use client'
 
+import Link from 'next/link'
 import { routers } from '@/app/common/constant/path'
 import { symbol } from '@/app/common/constant/symbols'
-import { usePredict } from '@/app/common/hooks/usePredict'
 import { useRealCoin } from '@/app/common/hooks/useRealCoin'
 import { profileSelector } from '@/app/common/store/slices/profileSlice'
 import { Box, Stack, Typography, Button, Skeleton } from '@mui/material'
-import Link from 'next/link'
+import { Fragment, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import dayjs from 'dayjs'
+import { Predict } from '@/app/common/types/predict.type'
 
-type Props = {}
+type Props = {
+    data: Predict
+}
 
-export function CoinInfo({}: Props) {
-    const { data } = usePredict()
+export function CoinInfo({ data }: Props) {
     const profileReducer = useSelector(profileSelector)
 
     return (
@@ -45,6 +48,7 @@ export function CoinInfo({}: Props) {
                                 {item.nameLong}
                             </Typography>
                         </Stack>
+
                         <Typography
                             fontWeight={500}
                             variant='body1'
@@ -54,41 +58,29 @@ export function CoinInfo({}: Props) {
                                 justifyContent: 'start',
                             }}
                         >
-                            15/07/2024
+                            {dayjs(data.date).format('DD/MM/YYYY')}
                         </Typography>
-                        <CoinPrice symbol={item.symbol} />
-                        <Typography
-                            fontWeight={500}
-                            variant='body1'
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'start',
-                            }}
-                        >
-                            {data?.symbols.find(
-                                (sym) =>
-                                    sym.symbol.toLocaleLowerCase() ===
-                                    item.symbol,
-                            )?.predictedPrice ?? 'No Data'}
-                        </Typography>
+
+                        <Box className='col-span-2'>
+                            <CoinPrice symbol={item.symbol} data={data} />
+                        </Box>
                         {profileReducer.result && (
                             <Button
-                            variant='outlined'
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: 'max-content',
-                                width: 'max-content',
-                                margin: 'auto',
-                            }}
-                            type='button'
-                            LinkComponent={Link}
-                            href={routers.position}
-                        >
-                            open position
-                        </Button>
+                                variant='outlined'
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: 'max-content',
+                                    width: 'max-content',
+                                    margin: 'auto',
+                                }}
+                                type='button'
+                                LinkComponent={Link}
+                                href={routers.position}
+                            >
+                                open position
+                            </Button>
                         )}
                     </Box>
                 </Box>
@@ -97,19 +89,114 @@ export function CoinInfo({}: Props) {
     )
 }
 
-export function CoinPrice({ symbol }: { symbol: string }) {
+export function CoinPrice({
+    symbol,
+    data: predict,
+}: {
+    symbol: string
+    data: Predict
+}) {
     const { data, isLoading } = useRealCoin(symbol)
 
+    // Memoize the predictedSymbol to avoid recalculating it on every render
+    const predictedSymbol = useMemo(() => {
+        if (predict?.symbols) {
+            return predict?.symbols.find(
+                (sym) => sym.symbol.toLocaleLowerCase() === symbol,
+            )
+        }
+        return null
+    }, [predict, symbol])
+
+    // Calculate the percentage difference
+    const percentageDifference = useMemo(() => {
+        if (data?.c && predictedSymbol?.predictedPrice) {
+            const difference = predictedSymbol.predictedPrice - Number(data?.c)
+            return (difference / Number(data.c)) * 100
+        }
+        return null
+    }, [data?.c, predictedSymbol?.predictedPrice])
+
     return (
-        <Box>
-            {isLoading ? (
-                <Skeleton animation='wave' height={48} width={120} />
-            ) : (
-                <>
-                    <Prices c={data?.c!} p={+data?.p!} />
-                    <Percentage p={+data?.P!} />
-                </>
-            )}
+        <Box className='grid grid-cols-2'>
+            <Box>
+                {isLoading ? (
+                    <Skeleton
+                        variant='text'
+                        animation='wave'
+                        height={48}
+                        width={120}
+                    />
+                ) : (
+                    <Fragment>
+                        <Prices c={data?.c!} p={+data?.p!} />
+                        <Percentage p={+data?.P!} />
+                    </Fragment>
+                )}
+            </Box>
+            <Box>
+                <Fragment>
+                    <Typography
+                        fontWeight={600}
+                        variant='body1'
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'start',
+                        }}
+                        className={
+                            typeof predictedSymbol?.predictedPrice ===
+                                'number' && data?.c !== undefined
+                                ? predictedSymbol?.predictedPrice > +data.c
+                                    ? 'text-LONG'
+                                    : 'text-SHORT'
+                                : ''
+                        }
+                    >
+                        $
+                        {predictedSymbol?.predictedPrice !== undefined
+                            ? predictedSymbol.predictedPrice
+                                  .toString()
+                                  .indexOf('.') !== -1 &&
+                              Number(
+                                  predictedSymbol.predictedPrice
+                                      .toString()
+                                      .indexOf('.'),
+                              ) >= 4
+                                ? Number(
+                                      predictedSymbol.predictedPrice,
+                                  ).toFixed(2)
+                                : Number(
+                                      predictedSymbol.predictedPrice
+                                          .toString()
+                                          .indexOf('.'),
+                                  ) >= 2
+                                ? Number(
+                                      predictedSymbol.predictedPrice,
+                                  ).toFixed(5)
+                                : Number(
+                                      predictedSymbol.predictedPrice,
+                                  ).toFixed(5)
+                            : 'No Data'}{' '}
+                        USDT
+                    </Typography>
+                    <Typography
+                        fontWeight={600}
+                        className={`${
+                            Number(percentageDifference) > 0
+                                ? 'text-LONG'
+                                : 'text-SHORT'
+                        }`}
+                        sx={{
+                            fontSize: {
+                                sm: 15,
+                            },
+                        }}
+                    >
+                        {percentageDifference?.toFixed(2)}%
+                    </Typography>
+                </Fragment>
+            </Box>
         </Box>
     )
 }
@@ -120,6 +207,11 @@ export function Prices({ c, p }: { c: string; p: number }) {
             fontWeight={600}
             variant='body1'
             className={`${Number(p) > 0 ? 'text-LONG' : 'text-SHORT'}`}
+            sx={{
+                fontSize: {
+                    sm: 15,
+                },
+            }}
         >
             $
             {c.indexOf('.') !== -1 && Number(c.indexOf('.')) >= 4
@@ -139,8 +231,15 @@ export function Percentage({ p }: { p: number }) {
         <Typography
             fontWeight={600}
             className={`${Number(p) > 0 ? 'text-LONG' : 'text-SHORT'}`}
+            sx={{
+                fontSize: {
+                    sm: 15,
+                },
+            }}
         >
-            {Number(p) > 0 ? `+${p}%` : `${p}%`}
+            {Number(p) > 0
+                ? `+${Number(p).toFixed(2)}%`
+                : `${Number(p).toFixed(2)}%`}
         </Typography>
     )
 }

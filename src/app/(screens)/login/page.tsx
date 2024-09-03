@@ -15,9 +15,19 @@ export default async function page() {
                 minHeight: '100vh',
             }}
         >
-            <Card className='w-96 p-5' elevation={3}>
+            <Card
+                sx={{
+                    width: {
+                        xs: 350,
+                        sm: 450,
+                    },
+                }}
+                elevation={3}
+            >
                 <CardContent>
-                    <Stack className='mb-5'>
+                    <Stack sx={{
+                        mb: 2
+                    }}>
                         <Logo alt='logo' />
                         <Typography
                             variant='h6'

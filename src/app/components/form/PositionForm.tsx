@@ -13,7 +13,7 @@ import { Controller, useForm } from 'react-hook-form'
 import InputLabel from '../share/InputLabel'
 import CustomSlider from '../share/CustomSlider'
 import theme from '../theme/theme'
-import { Position } from '@/app/common/types/position.type'
+import { Position, PositionsForm } from '@/app/common/types/position.type'
 import { useAppDispatch } from '@/app/common/store/store'
 import { positionAddAsync } from '@/app/common/store/slices/positionSlicen'
 import { symbol as symbols } from '@/app/common/constant/symbols'
@@ -43,7 +43,7 @@ export default function PositionForm({}: Props) {
                 setTimefram('')
                 setSymbol('')
                 reset()
-                const payload: Position = {
+                const payload: PositionsForm = {
                     symbol: data.symbol,
                     leverage: data.leverage,
                     quantity: data.quantity,
@@ -122,41 +122,41 @@ export default function PositionForm({}: Props) {
                         })}
                     />
                 </Box>
-                {type === 'EMA' && (
-                    <Box>
-                        <InputLabel label='timeframs' />
-                        <Autocomplete
-                            value={timefram}
-                            onChange={(_event, newValue: any) => {
-                                setTimefram(newValue)
-                            }}
-                            className='w-40'
-                            disablePortal
-                            id='timeframs'
-                            options={['1h', '4h', '1d']}
-                            isOptionEqualToValue={(option, value) =>
-                                option === value
-                            }
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    {...register('timeframe', {
-                                        required: true,
-                                    })}
-                                    fullWidth
-                                    size='small'
-                                    error={!!errors.timeframe}
-                                    helperText={
-                                        !!errors.timeframe
-                                            ? 'Please select a timeframe.'
-                                            : ''
-                                    }
-                                />
-                            )}
-                        />
-                    </Box>
-                )}
             </Stack>
+            {type === 'EMA' && (
+                <Box>
+                    <InputLabel label='timeframs' />
+                    <Autocomplete
+                        value={timefram}
+                        onChange={(_event, newValue: any) => {
+                            setTimefram(newValue)
+                        }}
+                        className='w-40'
+                        disablePortal
+                        id='timeframs'
+                        options={['1h', '4h', '1d']}
+                        isOptionEqualToValue={(option, value) =>
+                            option === value
+                        }
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                {...register('timeframe', {
+                                    required: true,
+                                })}
+                                fullWidth
+                                size='small'
+                                error={!!errors.timeframe}
+                                helperText={
+                                    !!errors.timeframe
+                                        ? 'Please select a timeframe.'
+                                        : ''
+                                }
+                            />
+                        )}
+                    />
+                </Box>
+            )}
             <Box>
                 <InputLabel label='Adjust Leverage' />
                 <Controller

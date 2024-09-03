@@ -7,6 +7,7 @@ import React, { Fragment } from 'react'
 import PositionForm from '../form/PositionForm'
 import Tabpanel from '../modules/Tabpanel'
 import { useKey } from '@/app/common/hooks/useKey'
+import { IoMdKey } from 'react-icons/io'
 
 type Props = {}
 
@@ -40,8 +41,9 @@ export default function PositionScreen({}: Props) {
                         variant='contained'
                         LinkComponent={Link}
                         href={routers.profile}
+                        startIcon={<IoMdKey style={{ marginRight: -4 }} />}
                     >
-                        ADD API KEY
+                        Add API key
                     </Button>
                 </Box>
             )}

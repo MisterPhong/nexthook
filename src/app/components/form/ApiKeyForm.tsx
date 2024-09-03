@@ -11,8 +11,6 @@ import {
     Stack,
     DialogActions,
     Button,
-    LinearProgress,
-    Box,
 } from '@mui/material'
 import { Fragment, useCallback, useEffect, useTransition } from 'react'
 import { useFormState } from 'react-dom'
@@ -174,13 +172,10 @@ function Form({
                 </Stack>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Close</Button>
-                <Button
-                    autoFocus
-                    variant='contained'
-                    type='submit'
-                    disabled={pending}
-                >
+                <Button onClick={handleClose} type='button'>
+                    Close
+                </Button>
+                <Button variant='contained' type='submit' disabled={pending}>
                     Continue
                 </Button>
             </DialogActions>

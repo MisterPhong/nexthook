@@ -4,12 +4,12 @@ import axios from 'axios'
 import { server } from '../../constant/server'
 import { ErrorResponse, ErrorResponseSchema } from '../../types/error.type'
 import { httpClient } from '../../services/httpClient'
-import { Position } from '../../types/position.type'
+import { Position, PositionsForm } from '../../types/position.type'
 import { OK } from '../../types/auth.type'
 import { v4 as uuidv4 } from 'uuid'
 
 type PositionState = {
-    result: Position[]
+    result: PositionsForm[]
     isPending: boolean
     isError: boolean
     error: ErrorResponse | undefined
@@ -23,12 +23,12 @@ const initialState: PositionState = {
 }
 
 export const positionAsync = createAsyncThunk<
-    Position[],
+    PositionsForm[],
     void,
     { rejectValue: ErrorResponse }
 >('position/positionAsync', async (_, { rejectWithValue }) => {
     try {
-        const response = await httpClient.get<Position[]>(server.position)
+        const response = await httpClient.get<PositionsForm[]>(server.position)
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -58,7 +58,7 @@ export const positionAsync = createAsyncThunk<
 
 export const positionAddAsync = createAsyncThunk<
     OK,
-    Position,
+    PositionsForm,
     { rejectValue: ErrorResponse }
 >(
     'positionAdd/positionAddAsync',
@@ -67,7 +67,7 @@ export const positionAddAsync = createAsyncThunk<
         { rejectWithValue, dispatch }
     ) => {
         try {
-            const payload: Position = {
+            const payload: PositionsForm = {
                 symbol,
                 leverage,
                 quantity,
@@ -126,14 +126,14 @@ const positionSlice = createSlice({
     name: 'position',
     initialState,
     reducers: {
-        setAdd(state: PositionState, action: PayloadAction<Position>) {
+        setAdd(state: PositionState, action: PayloadAction<PositionsForm>) {
             state.result.push(action.payload)
         },
     },
     extraReducers(builder) {
         builder.addCase(
             positionAsync.fulfilled,
-            (state: PositionState, action: PayloadAction<Position[]>) => {
+            (state: PositionState, action: PayloadAction<PositionsForm[]>) => {
                 state.result = action.payload
                 state.isError = false
                 state.isPending = false

@@ -6,4 +6,5 @@ export const keys = {
     resetPass: 'reset pass',
     sendOtp: 'sent-otp',
     usdt: 'usdt/display',
+    position:'position'
 }

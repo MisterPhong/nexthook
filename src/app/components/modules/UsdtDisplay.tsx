@@ -1,5 +1,6 @@
 'use client'
 
+import { IoMdKey } from 'react-icons/io'
 import { routers } from '@/app/common/constant/path'
 import { useUsdtDisplay } from '@/app/common/hooks/useUsdtDisplay'
 import { Box, Typography, Skeleton, Button } from '@mui/material'
@@ -10,7 +11,6 @@ type Props = {}
 
 export default function UsdtDisplay({}: Props) {
     const { data, isPending } = useUsdtDisplay()
-
     return (
         <Fragment>
             {isPending ? (
@@ -34,14 +34,33 @@ export default function UsdtDisplay({}: Props) {
                     </Typography>
                 </Box>
             ) : (
-                <Button
-                    variant='contained'
-                    LinkComponent={Link}
-                    href={routers.profile}
-                    size='small'
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                    }}
                 >
-                    ADD API Key
-                </Button>
+                    <Button
+                        variant='contained'
+                        LinkComponent={Link}
+                        href={routers.profile}
+                        size='small'
+                        startIcon={<IoMdKey style={{ marginRight: -4 }} />}
+                        sx={{
+                            p: 1.5,
+                            height: {
+                                xs: 32,
+                            },
+                            fontSize: {
+                                xs: 12,
+                                sm: 14,
+                                md: 16,
+                            },
+                        }}
+                    >
+                       Add API Key
+                    </Button>
+                </Box>
             )}
         </Fragment>
     )

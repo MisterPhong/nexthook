@@ -11,6 +11,7 @@ import {
     positionSelector,
 } from '@/app/common/store/slices/positionSlicen'
 import { useSelector } from 'react-redux'
+import PositionDescSm from './PositionDescSm'
 
 type Props = {}
 
@@ -40,7 +41,10 @@ export default function Tabpanel({}: Props) {
             </Box>
 
             <CustomTabPanel value={activeTab} index={0}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', display:{
+                    xs:'none',
+                    sm:'block'
+                } }}>
                     <Grid
                         container
                         direction='row'
@@ -73,7 +77,18 @@ export default function Tabpanel({}: Props) {
                         ))}
                     </Grid>
                 </Box>
-                <PositionDesc />
+                <Box sx={{
+                    display:{
+                        xs: 'none',
+                        sm: 'block'
+                    },
+                    // sm:'block'
+                }}>
+                    <PositionDesc />
+                </Box>
+                <Box>
+                    <PositionDescSm />
+                </Box>
             </CustomTabPanel>
             <CustomTabPanel value={activeTab} index={1}>
                 <PositionOpen />

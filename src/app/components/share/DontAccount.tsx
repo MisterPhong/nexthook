@@ -6,7 +6,19 @@ type Props = {}
 
 export function DontAccount({}: Props) {
     return (
-        <Card elevation={3} className='w-96 p-3 flex justify-center gap-x-2'>
+        <Card
+            elevation={3}
+            sx={{
+                width: {
+                    xs: 350,
+                    sm: 450,
+                },
+                display: 'flex',
+                justifyContent: 'center',
+                p: 1,
+                gap: 2
+            }}
+        >
             <Typography fontWeight={400}>
                 Don&apos;t have an account?
             </Typography>

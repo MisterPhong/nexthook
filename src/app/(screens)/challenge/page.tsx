@@ -25,7 +25,15 @@ export default function page({}: Props) {
                 minHeight: '100vh',
             }}
         >
-            <Card className='w-96 px-5'>
+            <Card 
+                sx={{
+                    width: {
+                        xs: 350,
+                        sm: 450,
+                    },
+                }}
+            // className='w-96 px-5'
+            >
                 <CardContent>
                     <Logo
                         alt='forgot-icon'

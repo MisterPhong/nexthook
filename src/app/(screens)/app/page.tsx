@@ -27,7 +27,8 @@ export default async function page({}: Props) {
                 sx={{
                     display: {
                         xs: 'none',
-                        sm: 'block',
+                        sm: 'none',
+                        lg: 'block',
                     },
                     position: 'absolute',
                     zIndex: -1,
@@ -37,16 +38,7 @@ export default async function page({}: Props) {
             >
                 <Image alt='landing' src='/blob.svg' width={200} height={200} />
             </Box>
-            <Box
-                sx={{
-                    display: {
-                        xs: 'none',
-                        sm: 'block',
-                    },
-                }}
-            >
-                <BgAnimation />
-            </Box>
+            <BgAnimation />
             <Box
                 sx={{
                     mt: 1,
@@ -56,16 +48,18 @@ export default async function page({}: Props) {
             >
                 <Grid
                     container
-                    spacing={2}
                     direction={{ xs: 'column', md: 'row' }}
+                    sx={{mx: 'auto'}}
                 >
                     <Grid item xs={12} md={6}>
                         <Stack
                             spacing={2}
                             direction={'column'}
                             sx={{
+                                height: '100%',
                                 justifyContent: 'center',
                                 mx: 2,
+                                mt: 2,
                             }}
                         >
                             <TextTypewriter />
@@ -89,13 +83,27 @@ export default async function page({}: Props) {
                         </Stack>
                     </Grid>
 
-                    <Grid item xs={12} md={6}>
+                    <Grid
+                        item
+                        xs={12}
+                        md={6}
+                        sx={{
+                            mx: {
+                                sm: 'auto',
+                                md: 0,
+                            },
+                        }}
+                    >
                         <Card
                             elevation={3}
                             sx={{
-                                // backgroundColor: 'white',
                                 backgroundColor: 'rgba(255, 255, 255, 0.8)', // สีขาวที่มีความทึบ 50%
-                                mx: 2,
+                                mx: 3,
+                                width: {
+                                    sm: 550,
+                                    lg: 400,
+                                },
+                                mt: 3,
                             }}
                         >
                             <CardContent>
@@ -115,7 +123,11 @@ export default async function page({}: Props) {
                                     </Typography>
                                     <Typography
                                         fontWeight={600}
-                                        sx={{ flex: 1, textAlign: 'center' }}
+                                        sx={{
+                                            flex: 1,
+                                            textAlign: 'end',
+                                            mx: 5,
+                                        }}
                                         color='secondary.main'
                                     >
                                         price

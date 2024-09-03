@@ -12,10 +12,10 @@ import {
     Skeleton,
 } from '@mui/material'
 import React, { Fragment, useState } from 'react'
-import { FaKeycdn } from 'react-icons/fa'
 import ApiKeyForm from '../form/ApiKeyForm'
 import { useQueryClient } from '@tanstack/react-query'
 import { keys } from '@/app/common/constant/key'
+import { IoMdKey } from 'react-icons/io'
 
 type Props = {}
 
@@ -73,8 +73,11 @@ export default function TabProfile({}: Props) {
                         {isPending ? (
                             <Skeleton
                                 variant='text'
-                                width={422}
-                                sx={{ fontSize: 18 }}
+                                // width={422}
+                                sx={{ fontSize: 18 ,width:{
+                                    xs: 200,
+                                    sm: 400
+                                }}}
                             />
                         ) : (
                             data?.apiKey && (
@@ -84,7 +87,7 @@ export default function TabProfile({}: Props) {
                                     fontSize={17}
                                     sx={{ width: 'fit-content' }}
                                 >
-                                    {data.apiKey.replace(/./g, '*')}
+                                    {data.apiKey.replace(/./g, '*').substring(0, 20)}
                                 </Typography>
                             )
                         )}
@@ -103,8 +106,10 @@ export default function TabProfile({}: Props) {
                         {isPending ? (
                             <Skeleton
                                 variant='text'
-                                width={422}
-                                sx={{ fontSize: 18 }}
+                                sx={{ fontSize: 18 ,width:{
+                                    xs: 200,
+                                    sm: 400
+                                }}}
                             />
                         ) : (
                             data?.secretKey && (
@@ -114,7 +119,7 @@ export default function TabProfile({}: Props) {
                                     fontSize={17}
                                     sx={{ width: 'fit-content' }}
                                 >
-                                    {data.secretKey.replace(/./g, '*')}
+                                    {data.secretKey.replace(/./g, '*').substring(0, 20)}
                                 </Typography>
                             )
                         )}
@@ -130,7 +135,6 @@ export default function TabProfile({}: Props) {
                                 height: '100%',
                             }}
                         >
-                            <FaKeycdn size={50} color='#6b6e78' />
                             <Typography
                                 variant='h6'
                                 fontWeight={600}
@@ -140,13 +144,25 @@ export default function TabProfile({}: Props) {
                                 yet.
                             </Typography>
                             <Button
-                                sx={{
-                                    width: 'max-content',
-                                }}
                                 variant='contained'
                                 onClick={handleOpen}
+                                size='small'
+                                startIcon={
+                                    <IoMdKey style={{ marginRight: -4 }} />
+                                }
+                                sx={{
+                                    p: 1.5,
+                                    height: {
+                                        xs: 32,
+                                    },
+                                    fontSize: {
+                                        xs: 12,
+                                        sm: 14,
+                                        md: 16,
+                                    },
+                                }}
                             >
-                                Add secret
+                                API Key
                             </Button>
                         </Stack>
                     )}
