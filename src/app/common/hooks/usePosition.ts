@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ErrorResponse } from '../types/error.type'
 import { keys } from '../constant/key'
 import { Positions } from '../types/position.type'
+import { useAppDispatch } from '../store/store'
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 
@@ -38,6 +39,7 @@ async function position(): Promise<Positions | null> {
                 msg !== null &&
                 msg !== 'load position.'
             ) {
+                console.log(msg)
                 resolve(msg)
             } else {
                 // resolve(msg)
@@ -51,10 +53,11 @@ async function position(): Promise<Positions | null> {
 }
 
 export function usePosition() {
+
     return useQuery<Positions | null, ErrorResponse>({
         queryKey: [keys.position],
         queryFn: position,
         refetchOnWindowFocus: false, // ไม่ refetch ข้อมูลเมื่อ window กลับมา active
-        refetchInterval: 1000, // อัปเดตข้อมูลทุก ๆ 1 วินาที (1000 มิลลิวินาที)
+        // refetchInterval: 1000, // อัปเดตข้อมูลทุก ๆ 1 วินาที (1000 มิลลิวินาที)
     })
 }

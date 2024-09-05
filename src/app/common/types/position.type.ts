@@ -6,9 +6,10 @@ export const PositionFormSchema = z.object({
     timeframe: z.string(),
     type: z.string(),
     leverage: z.number(),
-    ema: z.number(),
+    ema: z.number().nullable().optional(),
     id: z.string().nullable().optional(),
     created_at: z.string().datetime().nullable().optional(),
+    status: z.enum(['Long','Short']).nullable().optional()
 })
 export type PositionsForm = z.infer<typeof PositionFormSchema>
 
@@ -41,6 +42,10 @@ export const PositionSchema = z.object({
     stopLossPrice: z.number().optional(),
     takeProfitPrice: z.number().optional(),
     percentage: z.number().optional(),
+    type: z.string(),
+    timeframe: z.string().optional(),
+    ema: z.string().optional(),
+    orderId: z.string(),
 })
 
 // Types for TypeScript
@@ -52,42 +57,10 @@ const PositionsSchema = z.union([
         message: z.array(PositionSchema),
     }),
     z.string(),
+    z.object({
+        message: z.string(),
+    }),
 ])
 
 // Types for TypeScript
 export type Positions = z.infer<typeof PositionsSchema>
-
-// export interface Position {
-//     symbol: string;
-//     id?: any;
-//     info: any;
-//     timestamp?: number;
-//     datetime?: string;
-//     contracts?: number;
-//     contractSize?: number;
-//     side: any;
-//     notional?: number;
-//     leverage?: number;
-//     unrealizedPnl?: number;
-//     realizedPnl?: number;
-//     collateral?: number;
-//     entryPrice?: number;
-//     markPrice?: number;
-//     liquidationPrice?: number;
-//     marginMode?: any;
-//     hedged?: boolean;
-//     maintenanceMargin?: number;
-//     maintenanceMarginPercentage?: number;
-//     initialMargin?: number;
-//     initialMarginPercentage?: number;
-//     marginRatio?: number;
-//     lastUpdateTimestamp?: number;
-//     lastPrice?: number;
-//     stopLossPrice?: number;
-//     takeProfitPrice?: number;
-//     percentage?: number;
-// }
-
-// export type Positions = {
-//     message: Position
-// } | string

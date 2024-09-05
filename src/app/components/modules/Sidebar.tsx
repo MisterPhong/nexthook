@@ -13,12 +13,27 @@ import { Divide as Hamburger } from 'hamburger-react'
 import { useState } from 'react'
 import { Stack, Toolbar, Typography } from '@mui/material'
 import Image from 'next/image'
-import { pages } from '@/app/common/constant/page'
 import Link from 'next/link'
 import { routers } from '@/app/common/constant/path'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import { usePathname } from 'next/navigation'
 import HomeIcon from '@mui/icons-material/Home'
+
+import LeakAddIcon from '@mui/icons-material/LeakAdd'
+import WaterfallChartIcon from '@mui/icons-material/WaterfallChart'
+
+const pages = [
+    {
+        page: 'Predict',
+        path: routers.predict,
+        icon: <LeakAddIcon />,
+    },
+    {
+        page: 'Position',
+        path: routers.position,
+        icon: <WaterfallChartIcon />,
+    },
+]
 
 export default function Sidebar() {
     const [open, setOpen] = useState(false)

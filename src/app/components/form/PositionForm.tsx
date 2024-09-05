@@ -50,6 +50,7 @@ export default function PositionForm({}: Props) {
                     timeframe: data.timeframe,
                     ema: data.ema,
                     type,
+                    status: 'Short'
                 }
                 dispatch(positionAddAsync(payload))
             })}
@@ -108,7 +109,7 @@ export default function PositionForm({}: Props) {
                         helperText={
                             !!errors.quantity
                                 ? 'Please enter the size.'
-                                : watch('quantity') < 15
+                                : watch('quantity') < 10
                                 ? 'Must be at least 15'
                                 : ''
                         }
@@ -118,7 +119,7 @@ export default function PositionForm({}: Props) {
                         {...register('quantity', {
                             required: true,
                             valueAsNumber: true,
-                            min: 15,
+                            min: 10,
                         })}
                     />
                 </Box>
@@ -176,25 +177,27 @@ export default function PositionForm({}: Props) {
                     )}
                 />
             </Box>
-            <Box>
-                <InputLabel label='Adjust EMA' />
-                <Controller
-                    name='ema'
-                    control={control}
-                    defaultValue={20}
-                    render={({ field }) => (
-                        <CustomSlider
-                            {...field}
-                            aria-label='ema'
-                            valueLabelDisplay='auto'
-                            step={1}
-                            marks
-                            min={10}
-                            max={30}
-                        />
-                    )}
-                />
-            </Box>
+            {type === 'EMA' && (
+                <Box>
+                    <InputLabel label='Adjust EMA' />
+                    <Controller
+                        name='ema'
+                        control={control}
+                        defaultValue={20}
+                        render={({ field }) => (
+                            <CustomSlider
+                                {...field}
+                                aria-label='ema'
+                                valueLabelDisplay='auto'
+                                step={1}
+                                marks
+                                min={10}
+                                max={30}
+                            />
+                        )}
+                    />
+                </Box>
+            )}
             <Button
                 variant='contained'
                 sx={{

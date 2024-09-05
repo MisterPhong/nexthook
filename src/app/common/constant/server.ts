@@ -14,6 +14,7 @@ export const server = {
     predict: 'predict',
     createKey: 'key/create',
     key: 'key',
+    closePosition: 'orders/close-position'
 }
 
 export const social = {

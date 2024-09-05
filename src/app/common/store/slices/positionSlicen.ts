@@ -4,7 +4,7 @@ import axios from 'axios'
 import { server } from '../../constant/server'
 import { ErrorResponse, ErrorResponseSchema } from '../../types/error.type'
 import { httpClient } from '../../services/httpClient'
-import { Position, PositionsForm } from '../../types/position.type'
+import { PositionsForm } from '../../types/position.type'
 import { OK } from '../../types/auth.type'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -63,7 +63,7 @@ export const positionAddAsync = createAsyncThunk<
 >(
     'positionAdd/positionAddAsync',
     async (
-        { symbol, leverage, quantity, timeframe, ema, type },
+        { symbol, leverage, quantity, timeframe, ema, type, status },
         { rejectWithValue, dispatch }
     ) => {
         try {
@@ -74,6 +74,7 @@ export const positionAddAsync = createAsyncThunk<
                 timeframe,
                 ema,
                 type,
+                status,
                 id: uuidv4(),
                 created_at: new Date().toISOString(),
             }
@@ -85,6 +86,7 @@ export const positionAddAsync = createAsyncThunk<
                 timeframe,
                 ema,
                 type,
+                status,
             })
             if (response.data.message !== 'Success') {
                 // กำหนดข้อผิดพลาดแบบ custom และส่งไปยัง rejectWithValue

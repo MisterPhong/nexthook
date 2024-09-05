@@ -26,9 +26,9 @@ export default function Tabpanel({}: Props) {
 
     return (
         <Box>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider',mt: 1 }}>
                 {[
-                    `Positions(1)`,
+                    `Positions`,
                     `Open Orders(${positionReducer.result.length})`,
                 ].map((label, index) => (
                     <TabPanel
