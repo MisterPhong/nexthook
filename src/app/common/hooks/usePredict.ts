@@ -4,12 +4,11 @@ import { Predict } from '../types/predict.type'
 import axios from 'axios'
 import { httpClient } from '../services/httpClient'
 import { keys } from '../constant/key'
+import { server } from '../constant/server'
 
 export async function predict(): Promise<Predict> {
     try {
-        const response = await httpClient.get<Predict>(
-            'http://82.112.231.165/api/predict'
-        )
+        const response = await httpClient.get<Predict>(server.predict)
 
         return response.data
     } catch (error) {
