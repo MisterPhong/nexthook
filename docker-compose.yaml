@@ -91,7 +91,20 @@ services:
             MONGO_INITDB_ROOT_PASSWORD: example
         ports:
             - '27017:27017'
-
+                                         
+    go-service-cronjob:
+        platform: linux/amd64
+        image: taotoxicboy/go-order-cronjob-service:latest
+        container_name: go-cronjob
+        environment:
+            DB_HOST: postgres
+            DB_PORT: 5432
+            DB_USER: myuser
+            DB_PASSWORD: mypassword
+            DB_NAME: order-keeperhub
+            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+        restart: always
+        
     go-service-tx:
         platform: linux/amd64
         image: taotoxicboy/go-order-consumer-tx-service:latest

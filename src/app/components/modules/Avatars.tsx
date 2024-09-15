@@ -25,7 +25,7 @@ import {
     logoutAsync,
     profileAsync,
 } from '@/app/common/store/slices/profileSlice'
-import UsdtDisplay from './UsdtDisplay'
+// import UsdtDisplay from './UsdtDisplay'
 
 type Props = {}
 
@@ -67,7 +67,7 @@ export function Avatars({}: Props) {
             ) : profileReducer.result ? (
                 <Box sx={{ flexGrow: 0 }}>
                     <Stack spacing={2} direction={'row'}>
-                        <UsdtDisplay />
+                        {/* <UsdtDisplay /> */}
                         <Notification />
                         <Tooltip title='Open settings'>
                             <IconButton
@@ -83,7 +83,7 @@ export function Avatars({}: Props) {
                                 ) : (
                                     <Avatar sx={{ width: 30, height: 30 }} />
                                 )}
-                            </IconButton>
+                            </IconButton> 
                         </Tooltip>
                     </Stack>
                     <Menu
