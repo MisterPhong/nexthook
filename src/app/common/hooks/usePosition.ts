@@ -39,7 +39,7 @@ async function position(): Promise<Positions | null> {
                 msg !== null &&
                 msg !== 'load position.'
             ) {
-                console.log(msg)
+                // console.log(msg)
                 resolve(msg)
             } else {
                 // resolve(msg)
@@ -58,6 +58,6 @@ export function usePosition() {
         queryKey: [keys.position],
         queryFn: position,
         refetchOnWindowFocus: false, // ไม่ refetch ข้อมูลเมื่อ window กลับมา active
-        // refetchInterval: 1000, // อัปเดตข้อมูลทุก ๆ 1 วินาที (1000 มิลลิวินาที)
+        refetchInterval: 1000, // อัปเดตข้อมูลทุก ๆ 1 วินาที (1000 มิลลิวินาที)
     })
 }

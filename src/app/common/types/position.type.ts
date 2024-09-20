@@ -34,7 +34,7 @@ export const PositionSchema = z.object({
     hedged: z.boolean().optional(),
     maintenanceMargin: z.number().optional(),
     maintenanceMarginPercentage: z.number().optional(),
-    initialMargin: z.number().optional(),
+    initialMargin: z.number(),
     initialMarginPercentage: z.number().optional(),
     marginRatio: z.number().optional(),
     lastUpdateTimestamp: z.number().optional(),

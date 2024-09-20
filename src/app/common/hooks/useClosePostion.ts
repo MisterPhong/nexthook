@@ -10,6 +10,7 @@ async function closePosition(id: string) {
         const response = await httpClient.post(
             `${server.closePosition}?id=${id}`
         )
+        console.log(response.data)
         return response.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {

@@ -17,6 +17,7 @@ import { Position, PositionsForm } from '@/app/common/types/position.type'
 import { useAppDispatch } from '@/app/common/store/store'
 import { positionAddAsync } from '@/app/common/store/slices/positionSlicen'
 import { symbol as symbols } from '@/app/common/constant/symbols'
+import { usePredict } from '@/app/common/hooks/usePredict'
 type Props = {}
 
 export default function PositionForm({}: Props) {
@@ -24,6 +25,8 @@ export default function PositionForm({}: Props) {
     const [symbol, setSymbol] = useState('')
     const [timefram, setTimefram] = useState('')
     const [type, setType] = useState('AI')
+
+    const { data: predictData } = usePredict()
 
     const {
         register,
@@ -50,7 +53,10 @@ export default function PositionForm({}: Props) {
                     timeframe: data.timeframe,
                     ema: data.ema,
                     type,
-                    status: 'Short'
+                    status: predictData?.symbols.find(
+                        (s) => s.symbol === data.symbol,
+                    )?.position,
+                    // status: 'Short'
                 }
                 dispatch(positionAddAsync(payload))
             })}
@@ -59,11 +65,16 @@ export default function PositionForm({}: Props) {
                 {['AI', 'EMA'].map((item) => (
                     <Button
                         key={item}
-                        sx={{
+                        sx={(theme) => ({
                             width: 100,
-                        }}
+                            color:
+                                type !== item
+                                    ? 'gray'
+                                    : theme.palette.primary.main,
+                                    borderBottom: type === item ? 2 : 'none',
+                        })}
                         onClick={() => setType(item)}
-                        disabled={type === item}
+                        // disabled={type === item}
                     >
                         {item}
                     </Button>

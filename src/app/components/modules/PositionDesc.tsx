@@ -45,7 +45,7 @@ export default function PositionDesc({}: Props) {
             </Box>
 
             <Box className='flex justify-center'>
-              {(+item.info.isolatedWallet).toFixed(2)} USDT
+              {(+item.initialMargin).toFixed(2)} USDT
             </Box>
 
             <Box className='flex flex-col justify-center mx-auto'>
@@ -86,6 +86,7 @@ export default function PositionDesc({}: Props) {
                   color: theme.palette.primary.main,
                 })}
                 onClick={() => mutate(item.orderId)}
+                // onClick={()=>console.log(item.orderId)}
                 disabled={closePending}
               >
                 close position
