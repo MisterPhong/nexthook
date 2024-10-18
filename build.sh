@@ -1,1 +1,1 @@
-docker buildx build --platform linux/amd64 -t taotoxicboy/next-app --push .
+docker buildx build --platform linux/amd64 -t lindermand/next14-keeper --push .
