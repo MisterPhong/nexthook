@@ -35,6 +35,7 @@ async function notification(
 
     return new Promise((resolve, reject) => {
         const socket = io(SOCKET_URL, {
+            path: '/socket.io/',
             transportOptions: {
                 polling: {
                     extraHeaders: {

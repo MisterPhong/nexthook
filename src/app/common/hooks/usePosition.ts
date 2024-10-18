@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query'
 import { ErrorResponse } from '../types/error.type'
 import { keys } from '../constant/key'
 import { Positions } from '../types/position.type'
-import { useAppDispatch } from '../store/store'
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL as string
 
@@ -17,6 +16,8 @@ async function position(): Promise<Positions | null> {
 
     return new Promise((resolve, reject) => {
         const socket = io(SOCKET_URL, {
+            path:'/socket.io/',
+            transports: ['polling', 'websocket'], // รองรับทั้ง polling และ WebSocket
             transportOptions: {
                 polling: {
                     extraHeaders: {
@@ -53,7 +54,6 @@ async function position(): Promise<Positions | null> {
 }
 
 export function usePosition() {
-
     return useQuery<Positions | null, ErrorResponse>({
         queryKey: [keys.position],
         queryFn: position,
