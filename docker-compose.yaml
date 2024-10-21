@@ -1,184 +1,178 @@
 services:
-    gateway:
-        image: taotoxicboy/zookeeper-gateway-service:latest
-        platform: linux/amd64
-        environment:
-            RT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
-            AT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
-            PORT: 4000
-            AUTH_SERVICE_URL: auth-service:50022
-            KEY_SERVICE_URL: apikey-service:5005
-            CLIENT_URL: http://localhost:3000
-            EXCHANGE_SERVICE_URL: exchange:50052
-            KAFKA_URL: kafka:9092
-            WEB_SOCKET: 8031
-            PREDICT_SERVICE_URL: predict-service:50055
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-            RABBITMQ_QUEUE_TX: order_tx_queue
-            SOCIAL_REDIRECT: http://localhost:3000/app
-            NOTIFY_QUEUE: notification_queue
-            GOOGLE_CLIENT_ID: 1085551212854-qt83lqnnsut8ljv5soifk8a1tcsm1nm7.apps.googleusercontent.com
-            GOOGLE_CLIENT_SECRET: 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
-            GOOGLE_CALLBACK_URL: http://localhost:4000/api/auth/google/callback
-            ELASTICSEARCH_NODE: http://elasticsearch:9200
-        depends_on:
-            - redis
-            - rabbitmq
-            - elasticsearch
-        ports:
-            - '4000:4000'
-            - '8001:8001'
+  gateway:
+    image: taotoxicboy/zookeeper-gateway-service:latest
+    environment:
+      RT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
+      AT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
+      PORT: 4000
+      AUTH_SERVICE_URL: auth-service:50022
+      KEY_SERVICE_URL: apikey-service:5005
+      CLIENT_URL: http://localhost:3000
+      EXCHANGE_SERVICE_URL: exchange-service:50052
+      PREDICT_SERVICE_URL: prediction-service:50057
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+      RABBITMQ_QUEUE_TX: order_tx_queue
+      SOCIAL_REDIRECT: http://localhost:3000/app
+      NOTIFY_QUEUE: notification_queue
+      GOOGLE_CLIENT_ID: 1085551212854-qt83lqnnsut8ljv5soifk8a1tcsm1nm7.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
+      GOOGLE_CALLBACK_URL: http://localhost:4000/api/auth/google/callback
+      ELASTICSEARCH_NODE: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    ports:
+      - '4000:4000'
+    restart: always
 
-    postgres:
-        image: postgres:latest
-        container_name: postgres
-        environment:
-            POSTGRES_DB: order-keeperhub
-            POSTGRES_USER: myuser
-            POSTGRES_PASSWORD: mypassword
-        ports:
-            - '4040:5432'
-        restart: always
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - bootstrap.memory_lock=true
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - '9200:9200'
 
-    rabbitmq:
-        image: rabbitmq:management-alpine
-        environment:
-            RABBITMQ_DEFAULT_USER: mikelopster
-            RABBITMQ_DEFAULT_PASS: password
-        ports:
-            - '15672:15672'
-            - '5672:5672'
-        restart: always
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.9.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - '5601:5601'
+    depends_on:
+      - elasticsearch
 
-    redis:
-        image: redis:latest
-        ports:
-            - '6379:6379'
-        restart: always
+  auth-service:
+    platform: linux/amd64
+    image: taotoxicboy/zookeeper-auth-service:latest
+    container_name: auth-service
+    environment:
+      GRPC_URL: auth-service:50022
+      RT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
+      AT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
+      REDIS_URL: redis
+      REDIS_PORT: 6379
+      MONGODB_URI: mongodb://hubKeeperAdmin:secure0984672855@82.112.231.165:40025/keeperhub?authSource=admin
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+    ports: 
+      - '50022:50022'
+    restart: always
 
-    elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:8.9.0
-        container_name: elasticsearch
-        environment:
-            - discovery.type=single-node
-            - xpack.security.enabled=false
-            - xpack.security.http.ssl.enabled=false
-            - xpack.security.transport.ssl.enabled=false
-            - bootstrap.memory_lock=true
-            - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-        ports:
-            - '9200:9200'
+  mail-service:
+    platform: linux/amd64
+    image: taotoxicboy/zookeeper-mail-queue-service:latest
+    environment:
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+      USERNAME_EMAIL: lab.keeperhub@gmail.com
+      PASSWORD_EMAIL: gxqd khne mwbt rhyy
+      REDIS_URL: redis
+      REDIS_PORT: 6379
+      RESET_PASSWORD_URL: https://keeper.iaaaiksu/challenge
+    restart: always
 
-    kibana:
-        image: docker.elastic.co/kibana/kibana:8.9.0
-        container_name: kibana
-        environment:
-            ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-        ports:
-            - '5601:5601'
-        depends_on:
-            - elasticsearch
+  apikey-service:
+    container_name: apikey
+    platform: linux/amd64
+    image: taotoxicboy/zookeeper-key-service:latest
+    environment:
+      GRPC_URL: apikey-service:5005
+      MONGODB_URI: mongodb://hubKeeperAdmin:secure0984672855@82.112.231.165:40025/keeperhub?authSource=admin
+      EXCHANGE_SERVICE_URL: exchange-service:50052
+    restart: always
 
-    mongo:
-        image: mongo
-        restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
-        ports:
-            - '27017:27017'
-                                         
-    go-service-cronjob:
-        platform: linux/amd64
-        image: taotoxicboy/go-order-cronjob-service:latest
-        container_name: go-cronjob
-        environment:
-            DB_HOST: postgres
-            DB_PORT: 5432
-            DB_USER: myuser
-            DB_PASSWORD: mypassword
-            DB_NAME: order-keeperhub
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-        restart: always
-        
-    go-service-tx:
-        platform: linux/amd64
-        image: taotoxicboy/go-order-consumer-tx-service:latest
-        container_name: go-order-tx
-        environment:
-            DB_HOST: postgres
-            DB_PORT: 5432
-            DB_USER: myuser
-            DB_PASSWORD: mypassword
-            DB_NAME: order-keeperhub
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-        restart: always
-        
-    auth-service:
-        platform: linux/amd64
-        image: taotoxicboy/zookeeper-auth-service:latest
-        container_name: auth-service
-        environment:
-            GRPC_URL: auth-service:50022
-            RT_SECRET: JiZrdW9x2eYdPw3WXsmpbeL9ufCAcjig
-            AT_SECRET: VgmBOirkrV6x179MeyStIN8jr2xWQVWx
-            REDIS_URL: redis
-            REDIS_PORT: 6379
-            MONGODB_URI: mongodb://root:example@mongo:27017/zookeeper?authSource=admin
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-        ports:
-            - '50022:50022'
-        depends_on:
-            - redis
-            - rabbitmq
-        restart: always
+  exchange-service:
+    container_name: exchange
+    platform: linux/amd64
+    image: taotoxicboy/zookeeper-exchange:latest
+    environment:
+      GRPC_URL: exchange-service:50052
+      KEY_SERVICE_URL: apikey-service:5005
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+      RABBITMQ_QUEUE_TX: order_tx_queue
+    restart: always
 
-    mail-service:
-        platform: linux/amd64
-        image: taotoxicboy/zookeeper-mail-queue-service:latest
-        environment:
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-            USERNAME_EMAIL: themanpoolbot@gmail.com
-            PASSWORD_EMAIL: jvpp fujd ecvy pifo
-            REDIS_URL: redis
-            REDIS_PORT: 6379
-            RESET_PASSWORD_URL: http://localhost:3000/challenge
-        depends_on:
-            - rabbitmq
-        restart: always
+  go-tx-service:
+    container_name: go-tx
+    platform: linux/amd64
+    image: lindermand/go-order-consumer-tx-service:latest
+    environment:
+      DB_HOST: 82.112.231.165
+      DB_PORT: 5432
+      DB_USER: keeperzoo
+      DB_PASSWORD: zookeeperx222
+      DB_NAME: order_keeper
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+    restart: always
 
-    notification-service:
-        platform: linux/amd64
-        image: taotoxicboy/zookeeper-notification-service:latest
-        environment:
-            RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-            USERNAME_EMAIL: themanpoolbot@gmail.com
-            PASSWORD_EMAIL: jvpp fujd ecvy pifo
-            AUTH_SERVICE_URL: auth-service:50022
-            NOTIFY_QUEUE: notification_queue
-            MONGODB_URI: mongodb://root:example@mongo:27017/zookeeper?authSource=admin
-        restart: always
-        depends_on:
-            - rabbitmq
+  go-cron-service:
+    container_name: go-cron
+    platform: linux/amd64
+    image: lindermand/go-order-cronjob-service:latest
+    environment:
+      DB_HOST: 82.112.231.165
+      DB_PORT: 5432
+      DB_USER: keeperzoo
+      DB_PASSWORD: zookeeperx222
+      DB_NAME: order_keeper
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672 
+    restart: always
 
-    exchange-service:
-      image: taotoxicboy/zookeeper-exchange:latest
-      environment:
-        GRPC_URL: exchange-service:50052
-        KEY_SERVICE_URL: apikey-service:5005
-        RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
-        RABBITMQ_QUEUE_TX: order_tx_queue
-      restart: always
-    
-    apikey-service:
-      image: taotoxicboy/zookeeper-key-service:latest
-      environment:
-        GRPC_URL: apikey-service:5005
-        MONGODB_URI: mongodb://root:example@mongo:27017/zookeeper?authSource=admin
-        EXCHANGE_SERVICE_URL: exchange-service:50052
-      restart: always
-  
+  prediction-service:
+    container_name: prediction-service
+    image: lindermand/predict-service:1.9
+    command: python main.py
+    environment:
+      MONGO_URL: mongodb://hubKeeperAdmin:secure0984672855@82.112.231.165:40025/keeperhub?authSource=admin
+      HOST_REDIS: redis
+      PORT_REDIS: 6379
+      PORT: 50057
+      API_KEY: ZIIJYaRgR9WyJaKxq7zVehOtkfomjyX29NwNLWLlBgE3ikw5jtkMxVQD0IgewUxQ
+      SECRET_KEY: 7JmVNUuzOSyjzDnzGsewBIszScuj47sf1w7MRNDUaRj8pE49gAX4fsgP9RlDCi6S       
+    restart: always
+
+  notification-service:
+    container_name: notification-service
+    image: taotoxicboy/zookeeper-notification-service:latest
+    environment:
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+      USERNAME_EMAIL: themanpoolbot@gmail.com
+      PASSWORD_EMAIL: jvpp fujd ecvy pifo
+      AUTH_SERVICE_URL: auth-service:50022
+      NOTIFY_QUEUE: notification_queue
+      MONGODB_URI: mongodb://hubKeeperAdmin:secure0984672855@82.112.231.165:40025/keeperhub?authSource=admin
+    restart: always
+
+  order-queue-service:
+    container_name: order-queue
+    image: taotoxicboy/order-queue:latest
+    environment:
+      RABBITMQ_URL: amqp://mikelopster:password@rabbitmq:5672
+      EXCHANGE_SERVICE_URL: exchange-service:50052
+      NOTIFY_QUEUE: notification_queue
+      RABBITMQ_QUEUE_TX: order_tx_queue
+    restart: always
+
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: mikelopster
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    restart: always
