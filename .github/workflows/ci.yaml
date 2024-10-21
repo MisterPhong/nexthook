@@ -32,3 +32,21 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64 
           tags: lindermand/next14-keeper
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    steps:
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: 22
+          script: |
+            cd /root/keeper-production
+            docker compose down
+            docker rmi -f $(docker images -q)
+            docker compose up -d
