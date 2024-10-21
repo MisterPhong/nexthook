@@ -9,7 +9,6 @@ import { keys } from '../constant/key'
 
 async function addKey(payload: Apikey): Promise<OK> {
     try {
-        console.log('hello world')
         const response = await httpClient.post<OK>(server.createKey, payload)
         return response.data
     } catch (error) {

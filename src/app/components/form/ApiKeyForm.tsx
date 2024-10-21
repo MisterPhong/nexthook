@@ -58,7 +58,9 @@ export default function ApiKeyForm({ open, handleClose, refetch }: Props) {
         maxWidth='sm'
         component={'form'}
         onSubmit={handleSubmit((data) => {
-          mutate(data)
+          mutate(data,{
+            onSuccess:()=> handleCloseAndReset()
+          })
         })}
         PaperProps={{
           sx: {
@@ -144,7 +146,7 @@ function Form({
           />
           {isError && error && (
             <Typography variant='body2' color='error'>
-              {error.message}
+              API Key and secret key invalid
             </Typography>
           )}
         </Stack>
